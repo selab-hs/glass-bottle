@@ -5,7 +5,6 @@ import com.fasterxml.classmate.TypeResolver;
 import lombok.Data;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -83,8 +82,7 @@ public class SwaggerConfig {
                 ))
                 .produces(DEFAULT_PRODUCES_AND_CONSUMES)
                 .consumes(DEFAULT_PRODUCES_AND_CONSUMES)
-                 // .securityContexts(List.of(securityContext()))
-                // .securitySchemes(List.of(new ApiKey("JWT", "Authorization", "header")))
+                .securitySchemes(List.of(new ApiKey("JWT", "Authorization", "header")))
                 .select()
                 .paths(PathSelectors.regex("/api/.*"))
                 .build();
