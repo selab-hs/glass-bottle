@@ -42,10 +42,14 @@
 - 사용자 회원가입 정보에 대해 전일 정보를 제공한다.
 
 ### admin - 황인준
+
 - admin이 공통 문제를 작성 할 수 있다.
 - 공통 문제의 USER 답변을 MBTI 별로 확인 할 수 있다. 
+- mbti 문제를 생성할 수 있다.
+- mbti 문제를 수정, 삭제, 조회할 수 있다.
 
 ### DevOps - 손장미
+
 - Github Action CI/CD
 - docker
-- EC2, RDS
+- EC2, RDS, Redis(elastic cache)
