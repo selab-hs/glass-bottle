@@ -8,7 +8,7 @@ public enum ResponseMessage {
 
     SUCCESS(HttpStatus.OK,"SUCCESS");
 
-    private final static String SUCCESS_MESSAGE = "SUCCESS";
+    public final static String SUCCESS_MESSAGE = "SUCCESS";
     private final static String NOT_FOUND_MESSAGE = "NOT FOUND";
 
 
