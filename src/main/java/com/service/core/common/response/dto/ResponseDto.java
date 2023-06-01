@@ -21,8 +21,6 @@ public class ResponseDto<T> {
     public static  <T> ResponseEntity<ResponseDto> toResponseEntity(ResponseMessage message, T data) {
         return ResponseEntity
             .status(message.getStatus())
-            .body(
-                new ResponseDto<>(message, data)
-            );
+            .body(new ResponseDto<>(message, data));
     }
 }
