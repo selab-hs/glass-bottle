@@ -22,6 +22,8 @@ public class MbtiMetadata extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String type;
+
     private String name;
 
     private String description;
