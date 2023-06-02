@@ -3,21 +3,38 @@ package com.service.core.mbti.application;
 import com.service.core.mbti.dto.response.MbtiMetadataResponse;
 import com.service.core.mbti.infrastructure.MbtiMetadataRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@RestController
+@Slf4j
+@Service
 @RequiredArgsConstructor
 public class MbtiMetadataService {
     private final MbtiMetadataRepository mbtiMetadataRepository;
 
-    public MbtiMetadataResponse getAll() {
-        var models = mbtiMetadataRepository.findAll()
+    private Map<Long, MbtiMetadataResponse.MetadataModel> mbtiMetadataModels = new TreeMap<>();
+
+    @Scheduled(cron = "* */5 * * * *")
+    public void refreshMbtiMetadata() {
+        var refreshedMbtiModels = mbtiMetadataRepository.findAll()
                 .stream()
                 .map(MbtiMetadataResponse.MetadataModel::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(MbtiMetadataResponse.MetadataModel::getId, Function.identity()));
 
+        mbtiMetadataModels = new TreeMap<>(refreshedMbtiModels);
+
+        log.info("refresh Mbti Metadata success");
+    }
+
+    public MbtiMetadataResponse getAll() {
+        var models = new ArrayList<>(mbtiMetadataModels.values());
         return new MbtiMetadataResponse(models);
     }
 }
