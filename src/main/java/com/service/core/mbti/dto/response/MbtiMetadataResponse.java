@@ -15,11 +15,13 @@ public class MbtiMetadataResponse {
     @AllArgsConstructor
     public static class MetadataModel {
         private Long id;
+        private String type;
         private String name;
         private String description;
 
         public MetadataModel(MbtiMetadata metadata) {
             this.id = metadata.getId();
+            this.type = metadata.getType();
             this.name = metadata.getName();
             this.description = metadata.getDescription();
         }
