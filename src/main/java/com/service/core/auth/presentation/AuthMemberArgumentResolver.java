@@ -1,6 +1,6 @@
 package com.service.core.auth.presentation;
 
-import com.service.core.auth.filter.DefaultAuthenticationStrategy;
+import com.service.core.auth.infrastructure.authenticaionStrategy.DefaultAuthenticationStrategy;
 import com.service.core.auth.infrastructure.annotation.AuthMember;
 import com.service.core.member.convert.MemberConvert;
 import com.service.core.member.dto.response.UserInfo;
@@ -43,8 +43,8 @@ public class AuthMemberArgumentResolver implements HandlerMethodArgumentResolver
     }
 
     private Optional<UserInfo> userInfo(HttpServletRequest request){
-        String authentication = getAuthenticationStrategy.get(request).getName();
-        var users = userRepository.findById((long) Integer.parseInt(authentication));
+        Long authentication = getAuthenticationStrategy.get(request).getUserDetail().getId();
+        var users = userRepository.findById(authentication);
         return Optional.ofNullable(MemberConvert.toUserInfo(users.get()));
     }
 }

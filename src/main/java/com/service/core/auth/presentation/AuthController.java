@@ -1,6 +1,6 @@
 package com.service.core.auth.presentation;
 
-import com.service.core.auth.application.CustomUserService;
+import com.service.core.auth.application.AuthUserService;
 import com.service.core.common.response.dto.ResponseDto;
 import com.service.core.common.response.dto.ResponseMessage;
 import com.service.core.member.dto.request.JoinRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final CustomUserService customUserService;
+    private final AuthUserService customUserService;
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody JoinRequest joinRequest) {

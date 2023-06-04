@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -28,8 +28,8 @@ public class MemberController {
         return ResponseDto.toResponseEntity(ResponseMessage.SEARCH_SUCCESS_ME, user);
     }
 
-    @PostMapping
-    public ResponseEntity<ResponseDto> join(@RequestBody CreateMemberRequest createMemberRequest){
+    @PostMapping("/signup")
+    public ResponseEntity<ResponseDto> createUser(@RequestBody CreateMemberRequest createMemberRequest){
         memberService.createMember(createMemberRequest);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_MEMBER,"회원가입 완료");
     }

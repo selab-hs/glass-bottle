@@ -1,7 +1,7 @@
-package com.service.core.auth.filter;
+package com.service.core.auth.infrastructure.authenticaionStrategy;
 
+import com.service.core.auth.domain.Authentication;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.security.core.Authentication;
 
 public interface GetAuthenticationStrategy {
     Authentication get(HttpServletRequest request);

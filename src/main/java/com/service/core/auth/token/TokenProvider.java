@@ -1,7 +1,8 @@
 package com.service.core.auth.token;
 
-import com.service.core.auth.application.CustomUserService;
-import com.service.core.auth.domain.CustomUserDetails;
+import com.service.core.auth.application.AuthUserService;
+import com.service.core.auth.domain.Authentication;
+import com.service.core.auth.domain.UserDetail;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -11,8 +12,6 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,9 +24,9 @@ public class TokenProvider {
     private long tokenValidTime;
 
     private static final String AUTHORITIES_KEY = "roles";
-    private final CustomUserService customUserService;
+    private final AuthUserService customUserService;
 
-    protected TokenProvider(@Lazy CustomUserService customUserService){
+    protected TokenProvider(@Lazy AuthUserService customUserService){
         this.customUserService = customUserService;
     }
 
@@ -50,12 +49,16 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        CustomUserDetails userDetails = customUserService.loadUserByUsername(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        UserDetail userDetail = customUserService.loadUserByUsername(this.getUserPk(token));
+        return new Authentication(userDetail, userDetail.getRoleType());
     }
 
     public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser()
+            .setSigningKey(secretKey)
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
     }
 
     public boolean validateToken(String jwtToken) {
