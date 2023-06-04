@@ -1,23 +1,22 @@
 package com.service.core.auth.filter;
 
+import com.service.core.auth.domain.Authentication;
+import com.service.core.auth.infrastructure.LocalContextHolder;
 import com.service.core.auth.token.TokenProvider;
 import com.service.core.config.util.HeaderUtil;
 import java.io.IOException;
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter implements Filter {
 
     private final TokenProvider tokenProvider;
-
     @Override
     public void doFilter(
         ServletRequest request,
@@ -28,8 +27,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         if (token != null && tokenProvider.validateToken(token)) {
             Authentication authentication = tokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            LocalContextHolder.setContext(authentication);
         }
         chain.doFilter(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        LocalContextHolder.remove();
     }
 }
