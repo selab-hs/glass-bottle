@@ -5,6 +5,7 @@ import com.service.core.auth.infrastructure.LocalContextHolder;
 import com.service.core.auth.token.TokenProvider;
 import com.service.core.config.util.HeaderUtil;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -28,6 +29,10 @@ public class JwtAuthenticationFilter implements Filter {
         if (token != null && tokenProvider.validateToken(token)) {
             Authentication authentication = tokenProvider.getAuthentication(token);
             LocalContextHolder.setContext(authentication);
+        }
+        if(token == null){
+            Optional<String> noToken = null;
+            request.setAttribute("noToken", noToken);
         }
         chain.doFilter(request, response);
     }
