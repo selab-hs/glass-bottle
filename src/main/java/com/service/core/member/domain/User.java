@@ -24,17 +24,17 @@ import lombok.NoArgsConstructor;
 public class User extends BaseEntity {
 
     @Id
-    @Column(name = "user_seq")
+    @Column(name = "uid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_email")
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "user_mbti")
+    @Column(name = "mbti")
     @Enumerated(EnumType.STRING)
     private MbtiType mbti;
 
