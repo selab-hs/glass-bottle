@@ -51,6 +51,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // slack log
+    implementation 'com.github.maricn:logback-slack-appender:1.6.1'
+    implementation 'com.github.seratch:jslack:3.4.2'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly('io.netty:netty-resolver-dns-native-macos:4.1.93.Final:osx-aarch_64')
