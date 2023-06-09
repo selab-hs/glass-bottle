@@ -9,7 +9,8 @@ public enum ResponseMessage {
     SUCCESS(HttpStatus.OK,"SUCCESS"),
     CREATE_SUCCESS_MEMBER(HttpStatus.CREATED,"회원 가입 성공"),
     CREATE_SUCCESS_TOKEN(HttpStatus.CREATED,"로그인 성공"),
-    SEARCH_SUCCESS_ME(HttpStatus.OK,"내 정보 조회 성공");
+    SEARCH_SUCCESS_ME(HttpStatus.OK,"내 정보 조회 성공"),
+    CREATE_SUCCESS_MY_MBTI_SAVE(HttpStatus.CREATED, "내 mbti 결과 저장 성공");
 
     public final static String SUCCESS_MESSAGE = "SUCCESS";
     private final static String NOT_FOUND_MESSAGE = "NOT FOUND";
