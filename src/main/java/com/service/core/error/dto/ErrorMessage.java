@@ -16,8 +16,14 @@ public enum ErrorMessage {
     EMAIL_FORMAT_MISMATCH_ERROR(HttpStatus.BAD_REQUEST,"이메일 형식에 맞지 않습니다."),
     NOT_AUTHORIZED_ERROR(HttpStatus.BAD_REQUEST,"해당 권한이 없습니다."),
     NOT_EQUALS_MEMBER_INFO_ERROR(HttpStatus.BAD_REQUEST,"해당 멤버 정보가 일치하지 않습니다."),
-    DUPLICATED_MEMBER_INFO_ERROR(HttpStatus.BAD_REQUEST,"중복되는 회원입니다.")
-    ;
+    DUPLICATED_MEMBER_INFO_ERROR(HttpStatus.BAD_REQUEST,"중복되는 회원입니다."),
+
+    /**
+     * mbti quiz 오류
+     */
+    NOT_EQUAL_ROUNDS_SIZE_ERROR(HttpStatus.BAD_REQUEST, "quiz의 라운드 수가 맞지 않습니다."),
+    NOT_EQUAL_ROUND_SIZE_ERROR(HttpStatus.BAD_REQUEST, "라운드 내부의 문제 수 가 맞지 않습니다."),
+    UNACCEPTABLE_SCORE_FORM_ERROR(HttpStatus.BAD_REQUEST, "잘못된 스코어 형태 입력입니다");
 
     private final HttpStatus status;
     private final String message;
