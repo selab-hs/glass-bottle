@@ -1,12 +1,13 @@
-package com.service.core.letter.dto.request;
+package com.service.core.letter.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 @AllArgsConstructor
-public class SendLetterRequest {
-    private Long senderId;
+public class WriteLetterResponse {
     private String mbti;
     private String content;
     private String sendDate;

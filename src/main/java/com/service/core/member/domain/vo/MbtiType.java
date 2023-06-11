@@ -1,8 +1,9 @@
 package com.service.core.member.domain.vo;
 
-import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public enum MbtiType {
     MBTI_INTJ("INTJ"),
     MBTI_NULL("NULL");
 
-    public String mbit;
+    public String mbti;
 
     public MbtiType value(String mbti){
         return MbtiType.valueOf(mbti.toUpperCase());
@@ -33,7 +34,7 @@ public enum MbtiType {
 
     public static MbtiType of(String initMbtiType){
             return Arrays.stream(MbtiType.values())
-                .filter(r -> r.getMbit().equals(initMbtiType))
+                .filter(r -> r.getMbti().equals(initMbtiType))
                 .findAny()
                 .orElse(MBTI_NULL);
     }
