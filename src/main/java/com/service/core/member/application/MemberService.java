@@ -30,7 +30,7 @@ public class MemberService {
 
     public String getYesterdayJoinUsers() {
         LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(8,0,1));
-        LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,0));
+        LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,0,0));
 
         var joinUsers =  memberRepository.findAllByCreatedAtBetween(startDatetime, endDatetime);
         return usersToString(joinUsers);
