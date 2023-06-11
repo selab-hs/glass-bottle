@@ -27,9 +27,9 @@ public class MemberService {
         return memberRepository.findById(userId).get();
     }
 
-    public String getYesterdayUsers() {
+    public String getYesterdayJoinUsers() {
         LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(8,0,1));
-        LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,0,0));
+        LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,0));
         StringBuilder message = new StringBuilder();
 
         var users = memberRepository.findAllByCreatedAtBetween(startDatetime, endDatetime);
