@@ -1,16 +1,13 @@
 package com.service.core.slack.presentation;
 
+import com.service.core.common.resttemplate.RestTemplateService;
 import com.service.core.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -18,11 +15,16 @@ import java.util.Map;
 public class SlackSchedulerService {
     private final MemberService memberService;
 
+    private final RestTemplateService restTemplateService;
+
     @Value("${logging.slack.uri.slack-glass-bottle}")
     private String letterUri;
 
     @Value("${logging.slack.uri.slack-join-member}")
     private String memberUri;
+
+    @Value("${logging.slack.uri.slack-server-health}")
+    private String serverHealthUri;
 
 
 //    @Scheduled(cron = "0 0 8 * * *")
@@ -33,26 +35,14 @@ public class SlackSchedulerService {
 
     @Scheduled(cron = "0 0 8 * * *")
     private void schedulerYesterdayJoinMember() {
-        var response = postToSlack(memberUri, "Slack Message", memberService.getYesterdayJoinUsers());
-        log.info(response.toString());
-
+        var response = restTemplateService.postToSlack(memberUri, "Slack Message", memberService.getYesterdayJoinUsers());
+        log.info(String.valueOf(response));
     }
 
-    private ResponseEntity<String> postToSlack(String uri, String sender, Object data) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        Map<String, Object> request = new HashMap<>();
-        request.put("username", sender);
-        request.put("text", data);
-        request.put("icon_emoji", ":love_letter:");
-
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, httpHeaders);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
-
-        return response;
+    @Scheduled(cron = "0 0 */1 * * *")
+    private void schedulerServerStateCheck() {
+        var health = restTemplateService.getToUri("http://localhost:8080/actuator/health");
+        var response =restTemplateService.postToSlack(serverHealthUri, "Server Health", health);
+        log.info(String.valueOf(response));
     }
-
 }

@@ -7,6 +7,7 @@ import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +28,8 @@ public class MemberService {
     public User viewUser(Long userId){
         return memberRepository.findById(userId).get();
     }
+
+    @Transactional(readOnly = true)
 
     public String getYesterdayJoinUsers() {
         LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(8,0,1));
