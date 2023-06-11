@@ -53,7 +53,6 @@ dependencies {
 
     // slack log
     implementation 'com.github.maricn:logback-slack-appender:1.6.1'
-    implementation 'com.github.seratch:jslack:3.4.2'
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
