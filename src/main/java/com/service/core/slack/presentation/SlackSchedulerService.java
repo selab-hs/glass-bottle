@@ -31,7 +31,7 @@ public class SlackSchedulerService {
 //
 //    }
 
-    @Scheduled(cron = "0 0 8 * * *")
+    @Scheduled(cron = "0 */1 * * * *")
     private void schedulerYesterdayJoinMember() {
         var response = postToSlack(memberUri, "Slack Message", memberService.getYesterdayJoinUsers());
         log.info(response.toString());
