@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 public class LetterConvert {
     public static WriteLetterResponse toWriteLetterResponse(WriteLetterRequest writeLetterRequest){
         return WriteLetterResponse.builder()
-                .mbti(writeLetterRequest.getMbti())
+                .title(writeLetterRequest.getTitle())
                 .content(writeLetterRequest.getContent())
-                .sendDate(writeLetterRequest.getSendDate())
+                //.senderMbti(writeLetterRequest.getTargetMbti())
                 .build();
     }
 }
