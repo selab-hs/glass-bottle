@@ -16,3 +16,10 @@ values
     ('ESFJ','친선도모형','친절과 현실감을 바탕으로 타인에게 봉사하는 사람들'),
     ('ENFJ','언변능숙형','타인의 성장을 도모하고 협동하는 사람들'),
     ('ENTJ','지도자형','비전을 가지고 사람들을 활력적으로 이끌어가는 사람들');
+
+insert into mbti_round (round, description)
+values
+    ('E_I_ROUND', 'E는 Extraversion 외향형, I는 Introversion 내향형'),
+    ('S_T_ROUND', 'S는 sensing 감각형, N는 iNtuition 직관형'),
+    ('T_F_ROUND','T는 thinking 생각형, F는 feeling 감정형'),
+    ('J_P_ROUND','j는 judging 판단형, p는 perceiving 인식형');
