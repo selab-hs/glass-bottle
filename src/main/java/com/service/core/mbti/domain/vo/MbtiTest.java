@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Getter
-public class MbtiQuiz {
+public class MbtiTest {
     private final static int E_I_ROUND_SIZE = 8;
     private final static int S_N_ROUND_SIZE = 8;
     private final static int T_F_ROUND_SIZE = 8;
@@ -36,8 +36,7 @@ public class MbtiQuiz {
         for(int i=0; i<answer.length;i++){
                 int sum = mbtiRoundSum(answer[i]);
                 mbtiResult =
-                    sum / mbtiProblemsLengths[i] > 4 ?
-                        mbtiResult+ mbtiTypes[i][0] : mbtiResult+ mbtiTypes[i][1];
+                    (sum / mbtiProblemsLengths[i] > 4) ? mbtiResult+ mbtiTypes[i][0] : mbtiResult+ mbtiTypes[i][1];
         }
         return mbtiResult.substring(4);
     }
