@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class MbtiMetadataResponse {
+public class ReadMbtiMetadataResponse {
     private final List<MetadataModel> metadataModels;
 
     @Data
