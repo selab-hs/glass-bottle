@@ -8,7 +8,8 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class WriteLetterResponse {
-    //private String senderMbti;
     private String title;
     private String content;
+    private String senderMbti;
+    private String targetMbti;
 }

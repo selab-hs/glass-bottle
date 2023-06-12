@@ -22,10 +22,11 @@ public class LetterService {
         SendLetter sendLetter = SendLetter.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-                //.mbti(user)
+                .senderId(user.getId())
+                .senderMbti(user.getMbti().name())
                 .build();
+
         letterRepository.save(sendLetter);
-        System.out.println(user.getMbti());
-        return LetterConvert.toWriteLetterResponse(request);
+        return LetterConvert.toWriteLetterResponse(request, user);
     }
 }

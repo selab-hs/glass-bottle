@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WriteLetterRequest {
+    private Long senderId;
     private String title;
     private String content;
-    //private String targetMbti;
+    private String senderMbti;
+    private String targetMbti;
 }

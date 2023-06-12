@@ -10,10 +10,7 @@ import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/letters")
@@ -22,7 +19,7 @@ public class LetterController {
     private final LetterService letterService;
     private final MemberService memberService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<WriteLetterResponse> writeLetter(
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo){
