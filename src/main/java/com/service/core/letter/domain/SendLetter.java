@@ -21,6 +21,8 @@ public class SendLetter extends BaseEntity {
 
     private String senderMbti;
 
+    private String receiverMbti;
+
     @Column(nullable = false)
     private String title;
 

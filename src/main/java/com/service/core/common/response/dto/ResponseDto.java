@@ -31,4 +31,8 @@ public class ResponseDto<T> {
                 .status(HttpStatus.CREATED)
                 .body(data);
     }
+
+    public static <T>ResponseEntity<T> ok(T data) {
+        return ResponseEntity.ok(data);
+    }
 }
