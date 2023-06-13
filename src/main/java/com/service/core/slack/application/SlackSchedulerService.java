@@ -27,14 +27,14 @@ public class SlackSchedulerService {
 
     @Scheduled(cron = "0 0 8 * * *")
     private void schedulerYesterdayJoinMember() {
-        var response = restTemplateService.postToSlack(slackProperties.slackJoinMember(), "Slack Message", memberService.getYesterdayJoinUsers());
+        var response = restTemplateService.postRequestToSlack(slackProperties.slackJoinMember(), "Slack Message", memberService.getYesterdayJoinUsers());
         log.info(String.valueOf(response));
     }
 
     @Scheduled(cron = "0 0 */1 * * *")
     private void schedulerServerStateCheck() {
         var health = restTemplateService.getToUri("http://localhost:8080/actuator/health");
-        var response =restTemplateService.postToSlack(slackProperties.slackServerHealth(), "Server Health", health);
+        var response =restTemplateService.postRequestToSlack(slackProperties.slackServerHealth(), "Server Health", health);
         log.info(String.valueOf(response));
     }
 }
