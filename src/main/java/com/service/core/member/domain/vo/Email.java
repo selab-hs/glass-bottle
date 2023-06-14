@@ -6,29 +6,25 @@ import lombok.Getter;
 
 @Getter
 public class Email {
-    private String email;
+    private final String email;
 
     private static final String[] EMAIL_FILTERS = {
         "naver.com",
         "gmail.com",
         "daum.net",
         "kakao.com"};
-    Email(String email){
-        this.email = email;
-    }
 
-    public static Email of(String email){
+    public Email(String email){
         validate(email);
-        return new Email(email);
+        this.email = email;
     }
 
     private static void validate(String email){
         String[] emails = email.split("@");
         for(String validateEmailForm : EMAIL_FILTERS){
-            if(validateEmailForm.equals(emails[1])){
-                return;
+            if(!validateEmailForm.equals(emails[1])){
+                throw new EmailFormatMismatchException(ErrorMessage.EMAIL_FORMAT_MISMATCH_ERROR);
             }
         }
-        throw new EmailFormatMismatchException(ErrorMessage.EMAIL_FORMAT_MISMATCH_ERROR);
     }
 }
