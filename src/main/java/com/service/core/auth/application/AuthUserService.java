@@ -2,6 +2,8 @@ package com.service.core.auth.application;
 
 import com.service.core.auth.domain.UserDetail;
 import com.service.core.auth.token.TokenProvider;
+import com.service.core.error.dto.ErrorMessage;
+import com.service.core.error.exception.member.NotEqualsMemberInfoException;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.request.JoinRequest;
 import com.service.core.member.infrastructure.MemberRepository;
@@ -21,7 +23,11 @@ public class AuthUserService {
     }
 
     public String userLogin(JoinRequest joinRequest){
-        User member = memberRepository.findByEmail(joinRequest.getEmail());
+        User member = memberRepository.findByEmailAndPassword(
+            joinRequest.getEmail(),
+            joinRequest.getPassword()).orElseThrow(
+            () -> new NotEqualsMemberInfoException(ErrorMessage.NOT_EQUALS_MEMBER_INFO_ERROR)
+        );
         return tokenProvider.createToken(member.getId(), member.getRoleType().getKey());
     }
 }
