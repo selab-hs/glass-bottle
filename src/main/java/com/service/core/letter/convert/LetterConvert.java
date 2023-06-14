@@ -1,17 +1,19 @@
 package com.service.core.letter.convert;
 
+import com.service.core.letter.domain.Letter;
 import com.service.core.letter.dto.request.WriteLetterRequest;
-import com.service.core.letter.dto.response.WriteLetterResponse;
-import com.service.core.member.domain.User;
+import com.service.core.member.dto.response.UserInfo;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LetterConvert {
-    public static WriteLetterResponse toWriteLetterResponse(WriteLetterRequest writeLetterRequest, User user){
-        return WriteLetterResponse.builder()
-                .title(writeLetterRequest.getTitle())
-                .content(writeLetterRequest.getContent())
-                .senderMbti(user.getMbti().name())
+
+    public static Letter toSendLetterEntity(WriteLetterRequest request, UserInfo senderUser){
+       return Letter.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .senderMbti(senderUser.getMbti())
+                .receiverMbti(request.getReceiverMbti())
                 .build();
     }
 }

@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WriteLetterRequest {
+public class LetterRequest {
+    private Long letterId;
     private String title;
     private String content;
     private String senderMbti;

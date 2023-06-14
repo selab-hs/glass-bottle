@@ -2,19 +2,18 @@ package com.service.core.letter.presentation;
 
 import com.service.core.auth.infrastructure.annotation.AuthMember;
 import com.service.core.common.response.dto.ResponseDto;
+import com.service.core.common.response.dto.ResponseMessage;
 import com.service.core.letter.application.LetterService;
-import com.service.core.letter.domain.SendLetter;
+import com.service.core.letter.application.RandomSend;
 import com.service.core.letter.dto.request.WriteLetterRequest;
-import com.service.core.letter.dto.response.LetterResponse;
-import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.member.application.MemberService;
-import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/letters")
@@ -22,17 +21,18 @@ import java.util.List;
 public class LetterController {
     private final LetterService letterService;
     private final MemberService memberService;
+    private final RandomSend randomSend;
 
+    //편지 저장
     @PostMapping
-    public ResponseEntity<WriteLetterResponse> writeLetter(
+    public ResponseEntity<ResponseDto> writeLetter(
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo){
-        User user = memberService.viewUser(userInfo.getId());
-        WriteLetterResponse letter = letterService.writeLetter(request, user);
-        return ResponseDto.created(letter);
+        letterService.writeLetter(request, userInfo);
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 작성 성공");
     }
 
-    @GetMapping
+/*    @GetMapping
     public ResponseEntity<List<SendLetter>> findAllLetters() {
         var letters = letterService.findAllLetters();
         return ResponseDto.ok(letters);
@@ -42,5 +42,5 @@ public class LetterController {
     public ResponseEntity<LetterResponse> findLetterById(@PathVariable("id") Long id) {
         LetterResponse letter = letterService.findLetterById(id);
         return ResponseDto.ok(letter);
-    }
+    }*/
 }
