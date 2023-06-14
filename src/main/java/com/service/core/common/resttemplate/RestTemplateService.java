@@ -1,34 +1,38 @@
 package com.service.core.common.resttemplate;
 
+import com.service.core.common.properties.SlackProperties;
+import com.service.core.common.resttemplate.vo.SlackPostRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class RestTemplateService {
 
-    public ResponseEntity<String> postToSlack(String uri, String sender, Object data) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    private final SlackProperties slackProperties;
 
-        Map<String, Object> request = new HashMap<>();
-        request.put("username", sender);
-        request.put("text", data);
-        request.put("icon_emoji", ":love_letter:");
+    public String postRequestToSlack(String uri, String sender, Object data) {
+        SlackPostRequest request = new SlackPostRequest(sender, data, ":love_letter:");
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, httpHeaders);
+        return sendPost(uri, request);
+    }
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, entity, String.class);
+    public void postExceptionToSlack(String message) {
+        SlackPostRequest request = new SlackPostRequest("EXCEPTION-ALARM", message, ":hot_face:");
 
-        return response;
+        sendPost(slackProperties.slackError(), request);
     }
 
     public String getToUri(String uri) {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(uri, String.class);
+        return new RestTemplate().getForObject(uri, String.class);
+    }
+
+    private String sendPost(String uri, SlackPostRequest request) {
+        return String.valueOf(
+                new RestTemplate().exchange(uri, HttpMethod.POST, request.toEntity(), String.class).toString()
+        );
     }
 }
