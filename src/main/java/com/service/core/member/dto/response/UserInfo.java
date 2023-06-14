@@ -13,6 +13,6 @@ import lombok.RequiredArgsConstructor;
 public class UserInfo {
     private Long id;
     private String email;
-    private String mbti;
+    private Long mbtiId;
     private String roleType;
 }

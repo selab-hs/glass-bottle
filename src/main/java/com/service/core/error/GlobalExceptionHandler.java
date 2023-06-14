@@ -1,7 +1,6 @@
 package com.service.core.error;
 
 
-import com.service.core.common.resttemplate.RestTemplateService;
 import com.service.core.error.dto.ErrorMessage;
 import com.service.core.error.dto.ErrorResponseDto;
 import com.service.core.error.exception.BusinessException;
@@ -17,13 +16,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    private final RestTemplateService restTemplateService;
-
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException e) {
         var errorMessage = e.getErrorMessage();
 
-        restTemplateService.postExceptionToSlack(e.getMessage());
         log.error("[ERROR] BusinessException -> {}", errorMessage.getMessage());
 
         return ErrorResponseDto.of(errorMessage);

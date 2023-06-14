@@ -1,7 +1,6 @@
 package com.service.core.member.domain;
 
 import com.service.core.common.domain.BaseEntity;
-import com.service.core.member.domain.vo.MbtiType;
 import com.service.core.member.domain.vo.RoleType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
+@Table(name = "member")
 public class User extends BaseEntity {
 
     @Id
@@ -35,8 +36,7 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(name = "mbti")
-    @Enumerated(EnumType.STRING)
-    private MbtiType mbti;
+    private Long mbtiId;
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
