@@ -4,10 +4,8 @@ import com.service.core.auth.infrastructure.annotation.AuthMember;
 import com.service.core.common.response.dto.ResponseDto;
 import com.service.core.common.response.dto.ResponseMessage;
 import com.service.core.letter.application.LetterService;
-import com.service.core.letter.application.RandomSend;
 import com.service.core.letter.dto.request.WriteLetterRequest;
 import com.service.core.letter.dto.response.WriteLetterResponse;
-import com.service.core.member.application.MemberService;
 import com.service.core.member.dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LetterController {
     private final LetterService letterService;
-    private final MemberService memberService;
-    private final RandomSend randomSend;
 
-    //편지 저장
     @PostMapping
     public ResponseEntity<ResponseDto> writeLetter(
             @RequestBody WriteLetterRequest request,
