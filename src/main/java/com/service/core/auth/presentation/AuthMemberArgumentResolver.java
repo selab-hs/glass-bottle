@@ -33,7 +33,7 @@ public class AuthMemberArgumentResolver implements HandlerMethodArgumentResolver
         MethodParameter parameter,
         ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest,
-        WebDataBinderFactory binderFactory) throws Exception {
+        WebDataBinderFactory binderFactory){
         var httpServletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
         var userData = userInfo(httpServletRequest);
         if (parameter.getParameterType() == Optional.class) {

@@ -1,7 +1,6 @@
 package com.service.core.member.domain;
 
 import com.service.core.common.domain.BaseEntity;
-import com.service.core.member.domain.vo.MbtiType;
 import com.service.core.member.domain.vo.RoleType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,8 +34,7 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(name = "mbti")
-    @Enumerated(EnumType.STRING)
-    private MbtiType mbti;
+    private Long mbtiId;
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;

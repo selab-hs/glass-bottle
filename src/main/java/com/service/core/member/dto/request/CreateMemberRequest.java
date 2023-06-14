@@ -8,5 +8,5 @@ import lombok.Setter;
 public class CreateMemberRequest {
     private String email;
     private String password;
-    private String mbti;
+    private Long mbti;
 }
