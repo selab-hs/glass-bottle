@@ -22,9 +22,10 @@ public class Email {
     private static void validate(String email){
         String[] emails = email.split("@");
         for(String validateEmailForm : EMAIL_FILTERS){
-            if(!validateEmailForm.equals(emails[1])){
-                throw new EmailFormatMismatchException(ErrorMessage.EMAIL_FORMAT_MISMATCH_ERROR);
+            if(validateEmailForm.equals(emails[1])){
+                return;
             }
         }
+        throw new EmailFormatMismatchException(ErrorMessage.EMAIL_FORMAT_MISMATCH_ERROR);
     }
 }

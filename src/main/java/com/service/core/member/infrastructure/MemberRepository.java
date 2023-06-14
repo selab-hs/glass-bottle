@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
     Optional<User> findByEmailAndPassword(String email, String password);
 
     List<User> findAllByCreatedAtBetween(LocalDateTime startTime, LocalDateTime endTime);

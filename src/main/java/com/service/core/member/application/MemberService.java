@@ -25,13 +25,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public void createMember(CreateMemberRequest createMemberRequest) {
-        User user = memberRepository.findByEmail(createMemberRequest.getEmail());
-        if (user == null) {
+        memberRepository.findByEmail(createMemberRequest.getEmail())
+            .ifPresent(a -> {
+                throw new DuplicatedMemberException(ErrorMessage.DUPLICATED_MEMBER_INFO_ERROR);
+            });
             memberRepository.save(
                 memberRepository.save(MemberConvert.toEntity(createMemberRequest)));
-        } else {
-            throw new DuplicatedMemberException(ErrorMessage.DUPLICATED_MEMBER_INFO_ERROR);
-        }
     }
 
     public User viewUser(Long userId){
