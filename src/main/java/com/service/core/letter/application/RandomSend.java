@@ -40,7 +40,6 @@ public class RandomSend {
     }
 
     private void validateExistMbtiUser(List<User> targetUsers) {
-        //이건 exception이 아니라, 유저에게 안내 후 다시 대상을 선택하는 식으로 변경하고 싶음... 근데 어떻게 해야 하는지 모르겠음 ^^...
         if (targetUsers.isEmpty()) {
             throw new NotExistMbtiTargetException();
         }
