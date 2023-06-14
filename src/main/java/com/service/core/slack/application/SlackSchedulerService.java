@@ -21,8 +21,8 @@ public class SlackSchedulerService {
 
 //    @Scheduled(cron = "0 0 8 * * *")
 //    private void schedulerYesterdayLetter() {
-//        로직 생성 이후 추가 예정
-//
+//        var response = restTemplateService.postRequestToSlack(slackProperties.slackGlassBottle(), "Slack Message", //편지-발송 서비스 String 값 받아올 예정);
+//        log.info(String.valueOf(response));
 //    }
 
     @Scheduled(cron = "0 0 8 * * *")
