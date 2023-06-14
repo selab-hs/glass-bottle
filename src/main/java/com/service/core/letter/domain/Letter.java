@@ -16,8 +16,8 @@ public class Letter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String senderMbti;
-    private String receiverMbti;
+    private Long senderMbtiId;
+    private Long receiverMbtiId;
     private String title;
     private String content;
     private boolean replyPossible;

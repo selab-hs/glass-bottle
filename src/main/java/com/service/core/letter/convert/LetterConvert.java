@@ -2,6 +2,7 @@ package com.service.core.letter.convert;
 
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.dto.request.WriteLetterRequest;
+import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.member.dto.response.UserInfo;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,14 @@ public class LetterConvert {
        return Letter.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .senderMbti(senderUser.getMbti())
-                .receiverMbti(request.getReceiverMbti())
+                .senderMbtiId(senderUser.getMbtiId())
+                .receiverMbtiId(request.getReceiverMbtiId())
+                .build();
+    }
+
+    public static WriteLetterResponse toSendLetterResponse(Letter letter){
+        return WriteLetterResponse.builder()
+                .letterId(letter.getId())
                 .build();
     }
 }

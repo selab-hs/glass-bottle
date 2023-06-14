@@ -4,6 +4,7 @@ import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
 import com.service.core.letter.dto.request.WriteLetterRequest;
+import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.letter.infrastructure.LetterInvoiceRepository;
 import com.service.core.letter.infrastructure.LetterRepository;
 import com.service.core.member.domain.User;
@@ -27,31 +28,35 @@ public class LetterService {
     public Letter writeLetter(WriteLetterRequest request, UserInfo senderUser) {
         Letter letter = LetterConvert.toSendLetterEntity(request, senderUser);
         letterRepository.save(letter);
+
+        WriteLetterResponse response = LetterConvert.toSendLetterResponse(letter);
+        appointTargetMbti(request, response, senderUser);
+
         return letter;
     }
 
     @Transactional
-    public void appointTargetMbti(WriteLetterRequest request, UserInfo user) {
-        List<User> targets = randomSend.randomizeTarget(request.getReceiverMbti());
-        for (User member : targets) {
+    public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo user) {
+        List<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
+        for (User target : targets) {
             letterInvoiceRepository.save(
                     LetterInvoice.builder()
                             .senderUserId(user.getId())
-                            .receiverUserId(member.getId())
-                            //.letterId(request.getLetterId())
+                            .receiverUserId(target.getId())
+                            .letterId(response.getLetterId())
                             .build()
             );
         }
     }
 
-//    @Transactional
-//    public List<SendLetter> findAllLetters() {
-//        return letterRepository.findAll();
-//    }
-//
-//    @Transactional
-//    public LetterResponse findLetterById(Long id) {
-//        var letter = letterRepository.findById(id).orElseThrow(NotExistLetterException::new);
-//        return LetterResponse.of(letter);
-//    }
+/*    @Transactional
+    public List<LetterInvoice> findAllLetters() {
+        return letterInvoiceRepository.findAll();
+    }
+
+    @Transactional
+    public LetterResponse findLetterById(Long id) {
+        var letter = letterRepository.findById(id).orElseThrow(NotExistLetterException::new);
+        return LetterResponse.of(letter);
+    }*/
 }

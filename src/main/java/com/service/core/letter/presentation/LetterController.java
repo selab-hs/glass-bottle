@@ -29,7 +29,6 @@ public class LetterController {
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.writeLetter(request, userInfo);
-        letterService.appointTargetMbti(request, userInfo);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 작성 성공");
     }
 

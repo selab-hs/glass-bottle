@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class WriteLetterRequest {
     private String title;
     private String content;
-    private String senderMbti;
-    private String receiverMbti;
+    private Long senderMbtiId;
+    private Long receiverMbtiId;
 }
