@@ -1,8 +1,10 @@
 package com.service.core.letter.convert;
 
 import com.service.core.letter.domain.Letter;
+import com.service.core.letter.domain.LetterInvoice;
 import com.service.core.letter.dto.request.WriteLetterRequest;
 import com.service.core.letter.dto.response.WriteLetterResponse;
+import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +24,16 @@ public class LetterConvert {
         return WriteLetterResponse.builder()
                 .letterId(letter.getId())
                 .build();
+    }
+
+    public static LetterInvoice toSendLetterLetterInvoice(
+            WriteLetterResponse response,
+            UserInfo senderUser,
+            User target) {
+        return LetterInvoice.builder()
+                        .senderUserId(senderUser.getId())
+                        .receiverUserId(target.getId())
+                        .letterId(response.getLetterId())
+                        .build();
     }
 }

@@ -3,7 +3,6 @@ package com.service.core.letter.application;
 import com.service.core.error.exception.letter.NotExistLetterException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
-import com.service.core.letter.domain.LetterInvoice;
 import com.service.core.letter.dto.request.WriteLetterRequest;
 import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.letter.infrastructure.LetterInvoiceRepository;
@@ -36,25 +35,29 @@ public class LetterService {
     }
 
     @Transactional
-    public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo user) {
+    public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo senderUser) {
         List<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
+
         for (User target : targets) {
-            letterInvoiceRepository.save(
-                    LetterInvoice.builder()
-                            .senderUserId(user.getId())
-                            .receiverUserId(target.getId())
-                            .letterId(response.getLetterId())
-                            .build()
-            );
+            if (validateOneself(senderUser, target)) continue;
+            letterInvoiceRepository.save(LetterConvert.toSendLetterLetterInvoice(response, senderUser, target));
         }
+    }
+
+    private boolean validateOneself(UserInfo user, User target) {
+        if (target.getId().equals(user.getId())) {
+            return true;
+        }
+        return false;
     }
 
     @Transactional
     public List<WriteLetterResponse> findAllLetters() {
-        return letterRepository.findAll()
+        List<WriteLetterResponse> letters = letterRepository.findAll()
                 .stream()
                 .map(WriteLetterResponse::of)
                 .collect(Collectors.toList());
+        return letters;
     }
 
     @Transactional
