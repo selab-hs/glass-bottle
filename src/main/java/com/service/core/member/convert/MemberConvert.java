@@ -12,7 +12,7 @@ public class MemberConvert {
 
     public static User toEntity(CreateMemberRequest createMemberRequest){
         return User.builder()
-            .email(Email.of(createMemberRequest.getEmail()).getEmail())
+            .email(new Email(createMemberRequest.getEmail()).getEmail())
             .password(createMemberRequest.getPassword())
             .mbtiId(createMemberRequest.getMbti())
             .roleType(RoleType.USER)
