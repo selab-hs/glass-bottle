@@ -1,15 +1,15 @@
 package com.service.core.letter.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class WriteLetterResponse {
     private String title;
     private String content;
     private String senderMbti;
-    private String targetMbti;
+    private String receiverMbti;
+    private Long letterId;
 }

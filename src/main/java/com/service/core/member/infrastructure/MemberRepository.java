@@ -9,6 +9,5 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     List<User> findByMbti(String mbti);
-
     List<User> findAllByCreatedAtBetween(LocalDateTime startTime, LocalDateTime endTime);
 }

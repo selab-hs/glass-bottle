@@ -19,10 +19,11 @@ public class RandomSend {
     List<Queue<User>> queues = new ArrayList<>();
     List<User> resultUsers = new ArrayList<>();
 
-    public List<User> randomSendMbtiLetter(String targetMbti) {
+    //보내는 사람이 지정한 MBTI 중 랜덤으로 대상 선정
+    public List<User> randomizeTarget(String targetMbti) {
         List<User> targetUsers = memberRepository.findByMbti(targetMbti);
 
-        for(int i = 0; i < TOTAL_SIZE; i++){
+        for (int i = 0; i < TOTAL_SIZE; i++){
             Queue<User> userQueue = new LinkedList<>();
             queues.add(userQueue);
         }

@@ -27,10 +27,19 @@ public class LetterController {
     @PostMapping
     public ResponseEntity<ResponseDto> writeLetter(
             @RequestBody WriteLetterRequest request,
-            @AuthMember UserInfo userInfo){
+            @AuthMember UserInfo userInfo) {
         letterService.writeLetter(request, userInfo);
+        letterService.appointTargetMbti(request, userInfo);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 작성 성공");
     }
+
+/*    @PostMapping("/send")
+    public ResponseEntity<ResponseDto> sendLetter(
+            @RequestBody WriteLetterResponse response,
+            @AuthMember UserInfo userInfo) {
+        letterService.appointTargetMbti(response, userInfo);
+        return ResponseDto.toResponseEntity(ResponseMessage.SEND_SUCCESS_LETTER,"편지 전송 성공");
+    }*/
 
 /*    @GetMapping
     public ResponseEntity<List<SendLetter>> findAllLetters() {

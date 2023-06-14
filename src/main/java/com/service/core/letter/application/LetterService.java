@@ -3,7 +3,6 @@ package com.service.core.letter.application;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
-import com.service.core.letter.dto.request.LetterRequest;
 import com.service.core.letter.dto.request.WriteLetterRequest;
 import com.service.core.letter.infrastructure.LetterInvoiceRepository;
 import com.service.core.letter.infrastructure.LetterRepository;
@@ -32,17 +31,17 @@ public class LetterService {
     }
 
     @Transactional
-    public void sendRandomLetter(LetterRequest request, UserInfo user){
-      List<User> targets = randomSend.randomSendMbtiLetter(request.getReceiverMbti());
-      for(User member : targets) {
-        letterInvoiceRepository.save(
-                LetterInvoice.builder()
-                        .senderUserId(user.getId())
-                        .receiverUserId(member.getId())
-                        .letterId(request.getLetterId())
-                        .build()
-        );
-      }
+    public void appointTargetMbti(WriteLetterRequest request, UserInfo user) {
+        List<User> targets = randomSend.randomizeTarget(request.getReceiverMbti());
+        for (User member : targets) {
+            letterInvoiceRepository.save(
+                    LetterInvoice.builder()
+                            .senderUserId(user.getId())
+                            .receiverUserId(member.getId())
+                            //.letterId(request.getLetterId())
+                            .build()
+            );
+        }
     }
 
 //    @Transactional
