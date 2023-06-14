@@ -1,5 +1,6 @@
 package com.service.core.letter.application;
 
+import com.service.core.error.exception.letter.NotExistLetterException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
@@ -9,17 +10,16 @@ import com.service.core.letter.infrastructure.LetterInvoiceRepository;
 import com.service.core.letter.infrastructure.LetterRepository;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
-import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LetterService {
-    private final MemberRepository memberRepository;
     private final LetterInvoiceRepository letterInvoiceRepository;
     private final LetterRepository letterRepository;
     private final RandomSend randomSend;
@@ -49,14 +49,17 @@ public class LetterService {
         }
     }
 
-/*    @Transactional
-    public List<LetterInvoice> findAllLetters() {
-        return letterInvoiceRepository.findAll();
+    @Transactional
+    public List<WriteLetterResponse> findAllLetters() {
+        return letterRepository.findAll()
+                .stream()
+                .map(WriteLetterResponse::of)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public LetterResponse findLetterById(Long id) {
+    public WriteLetterResponse findLetterById(Long id) {
         var letter = letterRepository.findById(id).orElseThrow(NotExistLetterException::new);
-        return LetterResponse.of(letter);
-    }*/
+        return WriteLetterResponse.of(letter);
+    }
 }
