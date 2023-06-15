@@ -1,7 +1,10 @@
 package com.service.core.mbti.application;
 
+import com.service.core.error.dto.ErrorMessage;
+import com.service.core.error.exception.mbti.EmptySearchResultException;
+import com.service.core.error.exception.member.NotAuthorizedException;
 import com.service.core.mbti.domain.converter.MbtiResultConverter;
-import com.service.core.mbti.dto.request.CreateMyMbtiRequest;
+import com.service.core.mbti.dto.request.MyMbtiRequest;
 import com.service.core.mbti.dto.request.CreateQuizRequest;
 import com.service.core.mbti.dto.request.CreateQuizRoundRequest;
 import com.service.core.mbti.dto.request.CreateMbtiQuizRoundAnswerRequest;
@@ -30,33 +33,36 @@ public class MbtiService {
     private final MbtiResultConverter converter;
 
     @Transactional
-    public String mbtiQuizResultSave(UserInfo user, CreateMyMbtiRequest request) {
+    public String mbtiQuizResultSave(UserInfo user, MyMbtiRequest request) {
             String mbtiName = converter.convertToMbtiQuizResult(request.getMbtiRequest());
             memberMbtiRepository
                 .save(
                     converter.convertToMemberMbti(
                         user.getId(),
-                        mbtiMetadataRepository.findByType(mbtiName).get()
-                    ));
+                        mbtiMetadataRepository.findByType(mbtiName).orElseThrow(
+                            ()-> new EmptySearchResultException(ErrorMessage.EMPTY_SEARCH_RESULT_ERROR)
+                        )
+                    )
+                );
             return mbtiName;
     }
 
     @Transactional
     public void createQuiz(UserInfo user, List<CreateQuizRequest> request){
-        if(user.getRoleType().equals(RoleType.ADMIN)){
+        if(user.getRoleType().equals(RoleType.ADMIN.getKey())){
            mbtiQuizRepository.saveAll(converter.convertToMbtiQuizzes(request));
         }else{
-            System.out.println("권한이 알맞지 않습니다.");
+            throw new NotAuthorizedException(ErrorMessage.NOT_AUTHORIZED_ERROR);
         }
     }
 
     //질문 round 생성
     @Transactional
     public void createQuizRound(UserInfo user, CreateQuizRoundRequest request){
-        if(user.getRoleType().equals(RoleType.ADMIN)){
+        if(user.getRoleType().equals(RoleType.ADMIN.getKey())){
             mbtiQuizRoundRepository.save(converter.convertToMbtiQuizRoundEntity(request));
         }else{
-            System.out.println("권한이 알맞지 않습니다.");
+            throw new NotAuthorizedException(ErrorMessage.NOT_AUTHORIZED_ERROR);
         }
     }
 

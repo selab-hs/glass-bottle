@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateMyMbtiRequest {
-    private String round;
+public class MyMbtiRequest {
     private int[][] mbtiRequest;
 }
