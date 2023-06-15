@@ -35,4 +35,12 @@ public class Letter extends BaseEntity {
     public void updateLetterState(LetterState state) {
         this.state = state;
     }
+
+    public Letter(Long senderMbtiId, Long receiverMbtiId, String title, String content, LetterState state) {
+        this.senderMbtiId = senderMbtiId;
+        this.receiverMbtiId = receiverMbtiId;
+        this.title = title;
+        this.content = content;
+        this.state = state;
+    }
 }
