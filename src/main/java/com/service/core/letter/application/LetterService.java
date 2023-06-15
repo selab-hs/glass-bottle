@@ -139,39 +139,36 @@ public class LetterService {
 
     @Transactional(readOnly = true)
     public String getYesterdayLetters() {
-        var letters = letterRepository
-                .findAllByCreatedAtBetween(
-                        LocalDateTimeUtil
-                                .getYesterdayEightClock()
-                        , LocalDateTimeUtil
-                                .getTodayEightClock());
+        var letters =  letterRepository.findAllByCreatedAtBetween(LocalDateTimeUtil.getYesterdayEightClock()
+                , LocalDateTimeUtil.getTodayEightClock());
         return lettersToString(letters);
     }
 
     private String lettersToString(List<Letter> letters) {
-        if (letters == null || letters.isEmpty()) {
+        if(letters == null || letters.isEmpty()) {
             return "전날 작성된 편지는 존재하지 않습니다.";
         }
 
         StringBuilder message = new StringBuilder();
-        for (Letter letter : letters) {
-            message.append("[ CreateTime : ").append(letter.getCreatedAt()).append(", letterId : ").append(letter.getId()).append(", letterState : ").append(letter.getState()).append(" ] \n");
+        for(Letter letter : letters) {
+            message.append("[ CreateTime : " + letter.getCreatedAt() + ", letterId : " + letter.getId() + ", letterState : " + letter.getState() + " ] \n");
         }
 
         return message.toString();
     }
 
-    public void startReplyLetter(UserInfo userInfo, Long letterId) {
+
+    public void startReplyLetter(UserInfo userInfo, Long letterId){
         var id = validateReplyLetterRequest(userInfo, letterId);
         var letter = letterRepository.findById(id).get();
-
         letter.updateLetterState(LetterState.RECEIVE_WAITING);
-        saveLetter(letter);
+        letterRepository.save(letter);
+
         replyLetterTimeTask(letter.getId());
     }
 
     private void validateReplyLetterState(Letter letter) {
-        if (!LetterState.RECEIVE_WAITING.equals(letter.getState())) {
+        if(!LetterState.RECEIVE_WAITING.equals(letter.getState())) {
             throw new InvalidLetterStateException();
         }
     }
@@ -179,8 +176,9 @@ public class LetterService {
     @Transactional(readOnly = true)
     public Long validateReplyLetterRequest(UserInfo userInfo, Long letterId) {
         return letterInvoiceRepository.findByReceiverUserIdAndLetterId(userInfo.getId(), letterId)
-                .map(LetterInvoice::getLetterId)
+                .map(a -> a.getLetterId())
                 .orElseThrow(InvalidReplyLetterRequestException::new);
+
     }
 
     private void replyLetterTimeTask(Long letterId) {
@@ -189,13 +187,14 @@ public class LetterService {
             @Override
             public void run() {
                 Letter letter = letterRepository.findById(letterId).get();
-                if (LetterState.RECEIVE_WAITING.equals(letter.getState())) {
+                if(LetterState.RECEIVE_WAITING.equals(letter.getState())) {
                     letter.updateLetterState(LetterState.EXPIRATION);
-                    saveLetter(letter);
+                    letterRepository.save(letter);
                     log.info("letter Id : " + letter.getId() + " , 해당 답변은 만료되었습니다");
                 }
             }
         };
-        timer.schedule(timerTask, 1000 * 60 * 30);
+
+        timer.schedule(timerTask, 1000*60*30);
     }
 }
