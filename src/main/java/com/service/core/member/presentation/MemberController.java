@@ -28,6 +28,12 @@ public class MemberController {
         return ResponseDto.toResponseEntity(ResponseMessage.SEARCH_SUCCESS_ME, user);
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<ResponseDto> getUserInfo(){
+        User admin = memberService.createAdminMember();
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_ADMIN, admin);
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> createUser(@RequestBody CreateMemberRequest createMemberRequest){
         memberService.createMember(createMemberRequest);
