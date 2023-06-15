@@ -6,15 +6,12 @@ import com.service.core.auth.token.TokenProvider;
 import com.service.core.config.util.HeaderUtil;
 import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 @RequiredArgsConstructor
