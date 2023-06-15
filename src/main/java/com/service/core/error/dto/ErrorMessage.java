@@ -16,7 +16,12 @@ public enum ErrorMessage {
     EMAIL_FORMAT_MISMATCH_ERROR(HttpStatus.BAD_REQUEST,"이메일 형식에 맞지 않습니다."),
     NOT_AUTHORIZED_ERROR(HttpStatus.BAD_REQUEST,"해당 권한이 없습니다."),
     NOT_EQUALS_MEMBER_INFO_ERROR(HttpStatus.BAD_REQUEST,"해당 멤버 정보가 일치하지 않습니다."),
-    DUPLICATED_MEMBER_INFO_ERROR(HttpStatus.BAD_REQUEST,"중복되는 회원입니다.")
+    DUPLICATED_MEMBER_INFO_ERROR(HttpStatus.BAD_REQUEST,"중복되는 회원입니다."),
+
+    /**
+     * letter 관련 오류입니다.
+     */
+    NOT_EXIST_LETTER(HttpStatus.BAD_REQUEST,"존재하지 않는 편지입니다.")
     ;
 
     private final HttpStatus status;
