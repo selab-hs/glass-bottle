@@ -4,6 +4,8 @@ import com.service.core.common.domain.BaseEntity;
 import com.service.core.mbti.domain.converter.MbtiResultConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "mbti_quiz_history")
@@ -26,16 +29,19 @@ public class MbtiQuizHistory extends BaseEntity {
     @Column(name = "round_id")
     private Long roundId;
 
-
     @Convert(converter = MbtiResultConverter.class)
     private MbtiQuizHistory.MbtiResult result;
 
-    private Long createdBy;
+    private Long userId;
 
+    @Getter
     public static class MbtiResult {
         private Integer seg;
-        private String answer;
+        private Integer answer;
+
+        public MbtiResult(Integer seq, Integer answer) {
+            this.seg = seq;
+            this.answer = answer;
+        }
     }
 }
-
-

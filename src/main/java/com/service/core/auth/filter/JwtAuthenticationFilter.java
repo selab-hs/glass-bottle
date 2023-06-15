@@ -6,18 +6,19 @@ import com.service.core.auth.token.TokenProvider;
 import com.service.core.config.util.HeaderUtil;
 import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.filter.GenericFilterBean;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter implements Filter {
+public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final TokenProvider tokenProvider;
+
     @Override
     public void doFilter(
         ServletRequest request,

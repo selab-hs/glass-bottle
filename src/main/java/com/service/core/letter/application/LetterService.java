@@ -1,5 +1,6 @@
 package com.service.core.letter.application;
 
+import com.service.core.common.utis.LocalDateTimeUtil;
 import com.service.core.error.exception.letter.NotExistLetterException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
@@ -10,6 +11,7 @@ import com.service.core.letter.dto.response.ReplyLetterResponse;
 import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.letter.infrastructure.LetterInvoiceRepository;
 import com.service.core.letter.infrastructure.LetterRepository;
+import com.service.core.letter.vo.LetterState;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
 import com.service.core.member.infrastructure.MemberRepository;
@@ -91,5 +93,30 @@ public class LetterService {
     public WriteLetterResponse findLetterById(Long id) {
         var letter = letterRepository.findById(id).orElseThrow(NotExistLetterException::new);
         return WriteLetterResponse.of(letter);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Letter> findLetterState(LetterState state) {
+        return letterRepository.findAllByState(state);
+    }
+
+    @Transactional(readOnly = true)
+    public String getYesterdayLetters() {
+        var letters =  letterRepository.findAllByCreatedAtBetween(LocalDateTimeUtil.getYesterdayEightClock()
+                , LocalDateTimeUtil.getTodayEightClock());
+        return lettersToString(letters);
+    }
+
+    private String lettersToString(List<Letter> letters) {
+        if(letters == null || letters.isEmpty()) {
+            return "전날 작성된 편지는 존재하지 않습니다.";
+        }
+
+        StringBuilder message = new StringBuilder();
+        for(Letter letter : letters) {
+            message.append("[ CreateTime : " + letter.getCreatedAt() + ", letterId : " + letter.getId() + ", letterState : " + letter.getState() + " ] \n");
+        }
+
+        return message.toString();
     }
 }

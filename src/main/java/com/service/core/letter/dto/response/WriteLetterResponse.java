@@ -1,6 +1,7 @@
 package com.service.core.letter.dto.response;
 
 import com.service.core.letter.domain.Letter;
+import com.service.core.letter.vo.LetterState;
 import lombok.*;
 
 @Getter
@@ -13,7 +14,7 @@ public class WriteLetterResponse {
     private Long senderMbtiId;
     private Long receiverMbtiId;
     private Long letterId;
-    private boolean replyPossible;
+    private LetterState state;
 
     public static WriteLetterResponse of(Letter letter) {
         return WriteLetterResponse.builder()
@@ -22,7 +23,7 @@ public class WriteLetterResponse {
                 .senderMbtiId(letter.getSenderMbtiId())
                 .receiverMbtiId(letter.getReceiverMbtiId())
                 .letterId(letter.getId())
-                .replyPossible(letter.isReplyPossible())
+                .state(letter.getState())
                 .build();
     }
 }
