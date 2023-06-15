@@ -1,9 +1,11 @@
 package com.service.core.letter.domain;
 
-import com.service.core.letter.vo.LetterState;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter

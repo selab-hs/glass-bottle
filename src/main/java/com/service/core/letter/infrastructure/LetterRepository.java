@@ -14,4 +14,6 @@ public interface LetterRepository extends JpaRepository<Letter, Long> {
     List<Letter> findAllByState(LetterState state);
 
     List<Letter> findAllByCreatedAtBetween(LocalDateTime startTime, LocalDateTime endTime);
+
+    List<Letter> findAllById(Long letterId);
 }

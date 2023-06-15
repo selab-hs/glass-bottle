@@ -1,9 +1,12 @@
 package com.service.core.letter.dto.request;
 
+import com.service.core.letter.vo.LetterState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -16,9 +19,10 @@ public class WriteLetterRequest {
     @NotBlank
     private String content;
 
-    @NotBlank
     private Long senderMbtiId;
 
-    @NotBlank
     private Long receiverMbtiId;
+
+    @Enumerated(EnumType.STRING)
+    private LetterState state;
 }
