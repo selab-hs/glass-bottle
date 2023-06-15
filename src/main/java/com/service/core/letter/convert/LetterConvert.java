@@ -6,6 +6,7 @@ import com.service.core.letter.dto.request.ReplyLetterRequest;
 import com.service.core.letter.dto.request.WriteLetterRequest;
 import com.service.core.letter.dto.response.ReplyLetterResponse;
 import com.service.core.letter.dto.response.WriteLetterResponse;
+import com.service.core.letter.vo.LetterState;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class LetterConvert {
                 .content(request.getContent())
                 .senderMbtiId(sender.getMbtiId())
                 .receiverMbtiId(request.getReceiverMbtiId())
-                .replyPossible(true)
+                .state(LetterState.ACTIVE)
                 .build();
     }
 
@@ -29,6 +30,7 @@ public class LetterConvert {
                 .content(request.getContent())
                 .senderMbtiId(sender.getMbtiId())
                 .receiverMbtiId(receiverMbtiId)
+                .state(LetterState.RECEIVE_COMPLETE)
                 .build();
     }
 

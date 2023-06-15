@@ -1,5 +1,6 @@
 package com.service.core.member.application;
 
+import com.service.core.common.utis.LocalDateTimeUtil;
 import com.service.core.error.dto.ErrorMessage;
 import com.service.core.error.exception.member.DuplicatedMemberException;
 import com.service.core.error.exception.member.NotEqualsMemberInfoException;
@@ -41,12 +42,9 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-
     public String getYesterdayJoinUsers() {
-        LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(8,0,1));
-        LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(8,0,0));
-
-        var joinUsers =  memberRepository.findAllByCreatedAtBetween(startDatetime, endDatetime);
+        var joinUsers =  memberRepository.findAllByCreatedAtBetween(LocalDateTimeUtil.getYesterdayEightClock()
+                , LocalDateTimeUtil.getTodayEightClock());
         return usersToString(joinUsers);
     }
 

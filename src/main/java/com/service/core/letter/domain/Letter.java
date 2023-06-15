@@ -1,5 +1,7 @@
 package com.service.core.letter.domain;
 
+import com.service.core.common.domain.BaseEntity;
+import com.service.core.letter.vo.LetterState;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Letter {
+public class Letter extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,5 +19,11 @@ public class Letter {
     private Long receiverMbtiId;
     private String title;
     private String content;
-    private boolean replyPossible;
+
+    @Enumerated(EnumType.STRING)
+    private LetterState state;
+
+    public void updateLetterState(LetterState state) {
+        this.state = state;
+    }
 }
