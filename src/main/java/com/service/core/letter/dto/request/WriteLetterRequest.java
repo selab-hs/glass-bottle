@@ -12,5 +12,4 @@ public class WriteLetterRequest {
     private String content;
     private Long senderMbtiId;
     private Long receiverMbtiId;
-    private boolean replyPossible;
 }
