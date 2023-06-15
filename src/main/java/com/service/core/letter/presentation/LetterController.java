@@ -4,6 +4,7 @@ import com.service.core.auth.infrastructure.annotation.AuthMember;
 import com.service.core.common.response.dto.ResponseDto;
 import com.service.core.common.response.dto.ResponseMessage;
 import com.service.core.letter.application.LetterService;
+import com.service.core.letter.dto.request.ReplyLetterRequest;
 import com.service.core.letter.dto.request.WriteLetterRequest;
 import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.member.dto.response.UserInfo;
@@ -24,6 +25,15 @@ public class LetterController {
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.writeLetter(request, userInfo);
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 작성 성공");
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<ResponseDto> replyLetter(
+            @PathVariable("id") Long id,
+            @RequestBody ReplyLetterRequest request,
+            @AuthMember UserInfo userInfo) {
+        letterService.replyLetter(request, userInfo, id);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 작성 성공");
     }
 

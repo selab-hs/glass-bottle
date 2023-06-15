@@ -3,17 +3,22 @@ package com.service.core.letter.application;
 import com.service.core.error.exception.letter.NotExistLetterException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
+import com.service.core.letter.domain.LetterInvoice;
+import com.service.core.letter.dto.request.ReplyLetterRequest;
 import com.service.core.letter.dto.request.WriteLetterRequest;
+import com.service.core.letter.dto.response.ReplyLetterResponse;
 import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.letter.infrastructure.LetterInvoiceRepository;
 import com.service.core.letter.infrastructure.LetterRepository;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
+import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,16 +27,15 @@ public class LetterService {
     private final LetterInvoiceRepository letterInvoiceRepository;
     private final LetterRepository letterRepository;
     private final RandomSend randomSend;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public Letter writeLetter(WriteLetterRequest request, UserInfo senderUser) {
-        Letter letter = LetterConvert.toSendLetterEntity(request, senderUser);
+    public void writeLetter(WriteLetterRequest request, UserInfo senderUser) {
+        Letter letter = LetterConvert.toLetterEntity(request, senderUser);
         letterRepository.save(letter);
 
-        WriteLetterResponse response = LetterConvert.toSendLetterResponse(letter);
+        WriteLetterResponse response = LetterConvert.toWriteLetterResponse(letter);
         appointTargetMbti(request, response, senderUser);
-
-        return letter;
     }
 
     @Transactional
@@ -40,7 +44,7 @@ public class LetterService {
 
         for (User target : targets) {
             if (validateOneself(senderUser, target)) continue;
-            letterInvoiceRepository.save(LetterConvert.toSendLetterLetterInvoice(response, senderUser, target));
+            letterInvoiceRepository.save(LetterConvert.toLetterInvoice(response, senderUser, target));
         }
     }
 
@@ -49,6 +53,29 @@ public class LetterService {
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public void replyLetter(ReplyLetterRequest request, UserInfo sender, Long letterId) {
+        Long targetUserId = Long.valueOf(0);
+
+        Optional<Letter> targetLetter = letterRepository.findById(letterId);
+        Long receiverMbtiId = targetLetter.get().getReceiverMbtiId();
+
+        List<LetterInvoice> targetLetterInvoice = letterInvoiceRepository.findByLetterId(targetLetter.get().getId());
+
+        for (int i = 0; i < targetLetterInvoice.size(); i++) {
+            targetUserId = targetLetterInvoice.get(i).getSenderUserId();
+            if (targetUserId.equals(sender.getId())) {
+                break;
+            }
+        }
+
+        Letter letter = LetterConvert.toReplyLetterEntity(request, sender, receiverMbtiId);
+        letterRepository.save(letter);
+
+        ReplyLetterResponse response = LetterConvert.toReplyLetterResponse(letter);
+        letterInvoiceRepository.save(LetterConvert.toReplyLetterInvoice(response, sender, targetUserId));
     }
 
     @Transactional

@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WriteLetterRequest {
+public class ReplyLetterRequest {
     private String title;
     private String content;
-    private Long senderMbtiId;
-    private Long receiverMbtiId;
-    private boolean replyPossible;
 }
