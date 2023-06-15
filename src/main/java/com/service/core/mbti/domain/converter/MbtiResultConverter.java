@@ -13,6 +13,7 @@ import com.service.core.mbti.domain.vo.MbtiTest;
 import com.service.core.mbti.dto.request.CreateMbtiQuizRoundAnswerRequest;
 import com.service.core.mbti.dto.request.CreateQuizRequest;
 import com.service.core.mbti.dto.request.CreateQuizRoundRequest;
+import com.service.core.mbti.dto.response.ReadMbtiMetadataIdResponse;
 import com.service.core.mbti.dto.response.ReadMbtiQuizRoundResponse;
 import com.service.core.mbti.dto.response.ReadMbtiQuizzesResponse;
 import java.util.ArrayList;
@@ -28,6 +29,15 @@ public class MbtiResultConverter implements AttributeConverter<MbtiQuizHistory.M
 
     public MbtiQuizRound convertToMbtiQuizRoundEntity(CreateQuizRoundRequest request){
         return new MbtiQuizRound(request.getRound(), request.getDescription());
+    }
+
+    public ReadMbtiMetadataIdResponse convertToMbtiMetadataIdResponse(MbtiMetadata mbtiMetadata){
+        return ReadMbtiMetadataIdResponse.builder()
+            .id(mbtiMetadata.getId())
+            .type(mbtiMetadata.getType())
+            .name(mbtiMetadata.getName())
+            .description(mbtiMetadata.getDescription())
+            .build();
     }
 
     public List<MbtiQuiz> convertToMbtiQuizzes(List<CreateQuizRequest> requests){

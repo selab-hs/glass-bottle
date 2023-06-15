@@ -4,9 +4,7 @@ import com.service.core.auth.infrastructure.annotation.AuthMember;
 import com.service.core.common.response.dto.ResponseDto;
 import com.service.core.common.response.dto.ResponseMessage;
 import com.service.core.mbti.application.MbtiService;
-import com.service.core.mbti.domain.MbtiQuiz;
-import com.service.core.mbti.domain.MbtiQuizRound;
-import com.service.core.mbti.dto.request.CreateMyMbtiRequest;
+import com.service.core.mbti.dto.request.MyMbtiRequest;
 import com.service.core.mbti.dto.request.CreateQuizRequest;
 import com.service.core.mbti.dto.request.CreateMbtiQuizRoundAnswerRequest;
 import com.service.core.mbti.dto.request.CreateQuizRoundRequest;
@@ -32,7 +30,7 @@ public class MbtiController {
 
     //mbti 결과 확인
     @PostMapping
-    public ResponseEntity<ResponseDto> createMyMbtiMetadata(@AuthMember UserInfo user, @RequestBody CreateMyMbtiRequest request){
+    public ResponseEntity<ResponseDto> createMyMbtiMetadata(@AuthMember UserInfo user, @RequestBody MyMbtiRequest request){
         String mbti = mbtiService.mbtiQuizResultSave(user, request);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_MY_MBTI_SAVE,"내 mbti 생성 성공: "+mbti);
     }

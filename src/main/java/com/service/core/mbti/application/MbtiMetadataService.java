@@ -1,5 +1,9 @@
 package com.service.core.mbti.application;
 
+import com.service.core.error.dto.ErrorMessage;
+import com.service.core.error.exception.mbti.EmptySearchResultException;
+import com.service.core.mbti.domain.converter.MbtiResultConverter;
+import com.service.core.mbti.dto.response.ReadMbtiMetadataIdResponse;
 import com.service.core.mbti.dto.response.ReadMbtiMetadataResponse;
 import com.service.core.mbti.infrastructure.MbtiMetadataRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MbtiMetadataService {
     private final MbtiMetadataRepository mbtiMetadataRepository;
+    private final MbtiResultConverter converter;
 
     private Map<Long, ReadMbtiMetadataResponse.MetadataModel> mbtiMetadataModels = new TreeMap<>();
 
@@ -31,6 +36,14 @@ public class MbtiMetadataService {
         mbtiMetadataModels = new TreeMap<>(refreshedMbtiModels);
 
         log.info("refresh Mbti Metadata success");
+    }
+
+    public ReadMbtiMetadataIdResponse getIdMbtiMetadata(Long id){
+        return converter.convertToMbtiMetadataIdResponse(
+          mbtiMetadataRepository.findById(id).orElseThrow(
+              ()-> new EmptySearchResultException(ErrorMessage.EMPTY_SEARCH_RESULT_ERROR,"검색한 id가 존재하지 않습니다.")
+          )
+        );
     }
 
     public ReadMbtiMetadataResponse getAll() {
