@@ -25,6 +25,14 @@ public enum ErrorMessage {
     NOT_EQUAL_ROUND_SIZE_ERROR(HttpStatus.BAD_REQUEST, "라운드 내부의 문제 수 가 맞지 않습니다."),
     UNACCEPTABLE_SCORE_FORM_ERROR(HttpStatus.BAD_REQUEST, "잘못된 스코어 형태 입력입니다"),
     EMPTY_SEARCH_RESULT_ERROR(HttpStatus.BAD_REQUEST,"검색결과가 비어있습니다.");
+    DUPLICATED_MEMBER_INFO_ERROR(HttpStatus.BAD_REQUEST,"중복되는 회원입니다."),
+
+    /**
+     * letter 관련 오류입니다.
+     */
+    NOT_EXIST_LETTER(HttpStatus.BAD_REQUEST,"편지가 존재하지 않습니다."),
+    NOT_EXIST_MBTI_TARGET(HttpStatus.BAD_REQUEST,"해당 MBTI를 가진 회원이 없습니다.")
+    ;
 
     private final HttpStatus status;
     private final String message;

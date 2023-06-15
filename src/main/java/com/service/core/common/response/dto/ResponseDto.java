@@ -1,9 +1,11 @@
 package com.service.core.common.response.dto;
 
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import lombok.Getter;
-import org.springframework.http.ResponseEntity;
 
 @Getter
 public class ResponseDto<T> {
@@ -22,5 +24,15 @@ public class ResponseDto<T> {
         return ResponseEntity
             .status(message.getStatus())
             .body(new ResponseDto<>(message, data));
+    }
+
+    public static <T> ResponseEntity<T> created(T data) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(data);
+    }
+
+    public static <T>ResponseEntity<T> ok(T data) {
+        return ResponseEntity.ok(data);
     }
 }
