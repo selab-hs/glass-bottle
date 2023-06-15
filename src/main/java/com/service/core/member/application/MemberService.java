@@ -30,11 +30,18 @@ public class MemberService {
         memberRepository.save(MemberConvert.toEntity(createMemberRequest));
     }
 
+    @Transactional
     public User createAdminMember(){
         User admin = MemberConvert.toAdmin();
         memberRepository.save(admin);
         return admin;
     }
+
+    @Transactional
+    public void deleteMember(Long uid){
+        memberRepository.deleteById(uid);
+    }
+
     @Transactional(readOnly = true)
     public User viewUser(Long userId){
             return memberRepository.findById(userId)
