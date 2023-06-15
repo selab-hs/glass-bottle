@@ -21,7 +21,8 @@ public enum ErrorMessage {
     /**
      * letter 관련 오류입니다.
      */
-    NOT_EXIST_LETTER(HttpStatus.BAD_REQUEST,"존재하지 않는 편지입니다.")
+    NOT_EXIST_LETTER(HttpStatus.BAD_REQUEST,"편지가 존재하지 않습니다."),
+    NOT_EXIST_MBTI_TARGET(HttpStatus.BAD_REQUEST,"해당 MBTI를 가진 회원이 없습니다.")
     ;
 
     private final HttpStatus status;
