@@ -49,23 +49,20 @@ public class LetterService {
     }
 
     private boolean validateOneself(UserInfo user, User target) {
-        if (target.getId().equals(user.getId())) {
-            return true;
-        }
-        return false;
+        return target.getId().equals(user.getId());
     }
 
     @Transactional
     public void replyLetter(ReplyLetterRequest request, UserInfo sender, Long letterId) {
-        Long targetUserId = Long.valueOf(0);
+        Long targetUserId = 0L;
 
         Optional<Letter> targetLetter = letterRepository.findById(letterId);
         Long receiverMbtiId = targetLetter.get().getReceiverMbtiId();
 
         List<LetterInvoice> targetLetterInvoice = letterInvoiceRepository.findByLetterId(targetLetter.get().getId());
 
-        for (int i = 0; i < targetLetterInvoice.size(); i++) {
-            targetUserId = targetLetterInvoice.get(i).getSenderUserId();
+        for (LetterInvoice letterInvoice : targetLetterInvoice) {
+            targetUserId = letterInvoice.getSenderUserId();
             if (targetUserId.equals(sender.getId())) {
                 break;
             }
@@ -80,11 +77,10 @@ public class LetterService {
 
     @Transactional
     public List<WriteLetterResponse> findAllLetters() {
-        List<WriteLetterResponse> letters = letterRepository.findAll()
+        return letterRepository.findAll()
                 .stream()
                 .map(WriteLetterResponse::of)
                 .collect(Collectors.toList());
-        return letters;
     }
 
     @Transactional
@@ -116,7 +112,7 @@ public class LetterService {
 
         StringBuilder message = new StringBuilder();
         for(Letter letter : letters) {
-            message.append("[ CreateTime : " + letter.getCreatedAt() + ", letterId : " + letter.getId() + ", letterState : " + letter.getState() + " ] \n");
+            message.append("[ CreateTime : ").append(letter.getCreatedAt()).append(", letterId : ").append(letter.getId()).append(", letterState : ").append(letter.getState()).append(" ] \n");
         }
 
         return message.toString();
