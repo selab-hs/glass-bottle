@@ -13,6 +13,7 @@ public class WriteLetterResponse {
     private Long senderMbtiId;
     private Long receiverMbtiId;
     private Long letterId;
+    private boolean replyPossible;
 
     public static WriteLetterResponse of(Letter letter) {
         return WriteLetterResponse.builder()
@@ -21,6 +22,7 @@ public class WriteLetterResponse {
                 .senderMbtiId(letter.getSenderMbtiId())
                 .receiverMbtiId(letter.getReceiverMbtiId())
                 .letterId(letter.getId())
+                .replyPossible(letter.isReplyPossible())
                 .build();
     }
 }
