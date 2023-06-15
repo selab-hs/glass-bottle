@@ -1,4 +1,4 @@
-package com.service.core.mbti.dto.request;
+package com.service.core.mbti.dto.request.create;
 
 import lombok.Getter;
 import lombok.Setter;

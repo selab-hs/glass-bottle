@@ -31,4 +31,9 @@ public class MbtiQuizRound extends BaseEntity {
         this.round = round;
         this.description = description;
     }
+
+    public void update(String round,String description){
+        this.round = round;
+        this.description = description;
+    }
 }
