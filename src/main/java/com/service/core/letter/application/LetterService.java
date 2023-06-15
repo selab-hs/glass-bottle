@@ -17,6 +17,7 @@ import com.service.core.letter.infrastructure.LetterRepository;
 import com.service.core.letter.vo.LetterState;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
+import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

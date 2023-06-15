@@ -1,6 +1,5 @@
 package com.service.core.letter.dto.request;
 
-import com.service.core.letter.vo.LetterState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
