@@ -14,7 +14,6 @@ import com.service.core.letter.infrastructure.LetterRepository;
 import com.service.core.letter.vo.LetterState;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
-import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,6 @@ public class LetterService {
     private final LetterInvoiceRepository letterInvoiceRepository;
     private final LetterRepository letterRepository;
     private final RandomSend randomSend;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public void writeLetter(WriteLetterRequest request, UserInfo senderUser) {
@@ -102,8 +100,12 @@ public class LetterService {
 
     @Transactional(readOnly = true)
     public String getYesterdayLetters() {
-        var letters =  letterRepository.findAllByCreatedAtBetween(LocalDateTimeUtil.getYesterdayEightClock()
-                , LocalDateTimeUtil.getTodayEightClock());
+        var letters =  letterRepository
+                .findAllByCreatedAtBetween(
+                        LocalDateTimeUtil
+                                .getYesterdayEightClock()
+                        , LocalDateTimeUtil
+                                .getTodayEightClock());
         return lettersToString(letters);
     }
 
