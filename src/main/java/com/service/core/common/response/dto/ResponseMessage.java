@@ -12,6 +12,8 @@ public enum ResponseMessage {
      * 유저 성공 message
      */
     CREATE_SUCCESS_MEMBER(HttpStatus.CREATED,"회원 가입 성공"),
+    DELETE_SUCCESS_MEMBER(HttpStatus.OK,"회원 탈퇴 성공"),
+    CREATE_SUCCESS_ADMIN(HttpStatus.CREATED,"admin 회원 가입 성공"),
     CREATE_SUCCESS_TOKEN(HttpStatus.CREATED,"로그인 성공"),
     SEARCH_SUCCESS_ME(HttpStatus.OK,"내 정보 조회 성공"),
     CREATE_SUCCESS_MY_MBTI_SAVE(HttpStatus.CREATED, "내 mbti 결과 저장 성공"),
