@@ -33,4 +33,11 @@ public class MbtiQuiz extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    public void update(Long roundId,Integer seq,String title,String content){
+        this.roundId = roundId;
+        this.seq = seq;
+        this.title = title;
+        this.content = content;
+    }
 }
