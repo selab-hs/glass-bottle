@@ -1,6 +1,8 @@
 package com.service.core.letter.application;
 
 import com.service.core.common.utis.LocalDateTimeUtil;
+import com.service.core.error.exception.letter.InvalidLetterStateException;
+import com.service.core.error.exception.letter.InvalidReplyLetterRequestException;
 import com.service.core.error.exception.letter.NotExistLetterException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
@@ -15,15 +17,19 @@ import com.service.core.letter.vo.LetterState;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LetterService {
     private final LetterInvoiceRepository letterInvoiceRepository;
     private final LetterRepository letterRepository;
@@ -57,6 +63,10 @@ public class LetterService {
         Long targetUserId = 0L;
 
         Optional<Letter> targetLetter = letterRepository.findById(letterId);
+
+        validateReplyLetterState(targetLetter.get());
+        validateReplyLetterRequest(sender, letterId);
+
         Long receiverMbtiId = targetLetter.get().getReceiverMbtiId();
 
         List<LetterInvoice> targetLetterInvoice = letterInvoiceRepository.findByLetterId(targetLetter.get().getId());
@@ -70,6 +80,8 @@ public class LetterService {
 
         Letter letter = LetterConvert.toReplyLetterEntity(request, sender, receiverMbtiId);
         letterRepository.save(letter);
+        targetLetter.get().updateLetterState(LetterState.RECEIVE_COMPLETE);
+        letterRepository.save(targetLetter.get());
 
         ReplyLetterResponse response = LetterConvert.toReplyLetterResponse(letter);
         letterInvoiceRepository.save(LetterConvert.toReplyLetterInvoice(response, sender, targetUserId));
@@ -94,6 +106,11 @@ public class LetterService {
         return letterRepository.findAllByState(state);
     }
 
+    @Transactional
+    public void saveLetter(Letter letter) {
+        letterRepository.save(letter);
+    }
+
     @Transactional(readOnly = true)
     public String getYesterdayLetters() {
         var letters =  letterRepository
@@ -116,5 +133,46 @@ public class LetterService {
         }
 
         return message.toString();
+    }
+
+
+    public void startReplyLetter(UserInfo userInfo, Long letterId){
+        var id = validateReplyLetterRequest(userInfo, letterId);
+        var letter = letterRepository.findById(id).get();
+        letter.updateLetterState(LetterState.RECEIVE_WAITING);
+        letterRepository.save(letter);
+
+        replyLetterTimeTask(letter.getId());
+    }
+
+    private void validateReplyLetterState(Letter letter) {
+        if(!LetterState.RECEIVE_WAITING.equals(letter.getState())) {
+            throw new InvalidLetterStateException();
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Long validateReplyLetterRequest(UserInfo userInfo, Long letterId) {
+        return letterInvoiceRepository.findByReceiverUserIdAndLetterId(userInfo.getId(), letterId)
+                .map(a -> a.getLetterId())
+                .orElseThrow(InvalidReplyLetterRequestException::new);
+
+    }
+
+    private void replyLetterTimeTask(Long letterId) {
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Letter letter = letterRepository.findById(letterId).get();
+                if(LetterState.RECEIVE_WAITING.equals(letter.getState())) {
+                    letter.updateLetterState(LetterState.EXPIRATION);
+                    letterRepository.save(letter);
+                    log.info("letter Id : " + letter.getId() + " , 해당 답변은 만료되었습니다");
+                }
+            }
+        };
+
+        timer.schedule(timerTask, 1000*60*30);
     }
 }

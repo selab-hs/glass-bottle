@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class LetterSchedulerService {
     private final LetterService letterService;
 
-    private final LetterRepository letterRepository;
 
     @Scheduled(cron = "0 */1 * * * *")
     private void schedulerYesterdayLetter() {
@@ -29,7 +28,7 @@ public class LetterSchedulerService {
                 .filter(letter -> LocalDateTimeUtil.getNow().isAfter(letter.getCreatedAt().plusDays(1)))
                 .forEach(letter -> {
                     letter.updateLetterState(LetterState.EXPIRATION);
-                    letterRepository.save(letter);
+                    letterService.saveLetter(letter);
                     log.info("해당 편지 만료 : " + letter.getId());
                 });
     }

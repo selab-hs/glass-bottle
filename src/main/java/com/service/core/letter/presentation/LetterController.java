@@ -51,4 +51,10 @@ public class LetterController {
         WriteLetterResponse letter = letterService.findLetterById(id);
         return ResponseDto.ok(letter);
     }
+
+    @GetMapping("/reply/{id}")
+    public ResponseEntity<String> startReplyLetter(@AuthMember UserInfo userInfo, @PathVariable Long id){
+        letterService.startReplyLetter(userInfo, id);
+        return ResponseDto.ok("Reply Timer : 30:00");
+    }
 }
