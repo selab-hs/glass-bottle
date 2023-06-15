@@ -3,8 +3,6 @@ package com.service.core.mbti.domain.converter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.service.core.common.utis.MapperUtil;
-import com.service.core.mbti.domain.MbtiMetadata;
-import com.service.core.mbti.domain.MbtiQuiz;
 import com.service.core.mbti.domain.MbtiQuizHistory;
 import com.service.core.mbti.domain.MbtiQuizHistory.MbtiResult;
 import com.service.core.mbti.domain.MbtiQuizRound;
