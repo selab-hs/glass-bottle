@@ -27,7 +27,7 @@ public class LetterController {
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.writeLetter(request, userInfo);
-        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 작성 성공");
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "편지 작성 성공");
     }
 
     @PostMapping("/{id}")
@@ -37,7 +37,7 @@ public class LetterController {
             @RequestBody ReplyLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.replyLetter(request, userInfo, id);
-        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 답장 성공");
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "편지 답장 성공");
     }
 
     @GetMapping
@@ -53,8 +53,14 @@ public class LetterController {
     }
 
     @GetMapping("/reply/{id}")
-    public ResponseEntity<String> startReplyLetter(@AuthMember UserInfo userInfo, @PathVariable Long id){
+    public ResponseEntity<String> startReplyLetter(@AuthMember UserInfo userInfo, @PathVariable Long id) {
         letterService.startReplyLetter(userInfo, id);
         return ResponseDto.ok("Reply Timer : 30:00");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteLetter(@AuthMember UserInfo userInfo, @PathVariable Long id) {
+        letterService.deleteLetter(id, userInfo);
+        return ResponseDto.ok("Letter Delete Success");
     }
 }
