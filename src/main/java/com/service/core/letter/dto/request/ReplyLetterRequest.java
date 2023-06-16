@@ -1,6 +1,5 @@
 package com.service.core.letter.dto.request;
 
-import com.service.core.letter.domain.Letter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +10,10 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReplyLetterRequest {
-    @NotBlank
+    @NotBlank(message = "제목을 입력해 주세요.")
     private String title;
 
-    @NotBlank
+    @NotBlank(message = "내용을 입력해 주세요.")
     private String content;
 
     private Long letterId;
@@ -22,8 +21,4 @@ public class ReplyLetterRequest {
     private Long senderMbtiId;
 
     private Long receiverMbtiId;
-
-    public ReplyLetterRequest(Letter letter) {
-        this.letterId = letter.getId();
-    }
 }

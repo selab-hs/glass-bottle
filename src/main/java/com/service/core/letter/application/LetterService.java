@@ -4,6 +4,7 @@ import com.service.core.common.utis.LocalDateTimeUtil;
 import com.service.core.error.exception.letter.InvalidLetterStateException;
 import com.service.core.error.exception.letter.InvalidReplyLetterRequestException;
 import com.service.core.error.exception.letter.NotExistLetterException;
+import com.service.core.error.exception.letter.NotExistMbtiTargetException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
@@ -21,10 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,8 +45,10 @@ public class LetterService {
     @Transactional
     public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo senderUser) {
         List<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
-
         for (User target : targets) {
+            if (targets.size() == 1 && validateOneself(senderUser, target)) {
+                throw new NotExistMbtiTargetException();
+            }
             if (validateOneself(senderUser, target)) continue;
             letterInvoiceRepository.save(LetterConvert.toLetterInvoice(response, senderUser, target));
         }
@@ -80,6 +80,7 @@ public class LetterService {
 
         Letter letter = LetterConvert.toReplyLetterEntity(request, sender, receiverMbtiId);
         letterRepository.save(letter);
+
         targetLetter.get().updateLetterState(LetterState.RECEIVE_COMPLETE);
         letterRepository.save(targetLetter.get());
 
@@ -135,7 +136,6 @@ public class LetterService {
         return message.toString();
     }
 
-
     public void startReplyLetter(UserInfo userInfo, Long letterId){
         var id = validateReplyLetterRequest(userInfo, letterId);
         var letter = letterRepository.findById(id).get();
@@ -154,9 +154,8 @@ public class LetterService {
     @Transactional(readOnly = true)
     public Long validateReplyLetterRequest(UserInfo userInfo, Long letterId) {
         return letterInvoiceRepository.findByReceiverUserIdAndLetterId(userInfo.getId(), letterId)
-                .map(a -> a.getLetterId())
+                .map(LetterInvoice::getLetterId)
                 .orElseThrow(InvalidReplyLetterRequestException::new);
-
     }
 
     private void replyLetterTimeTask(Long letterId) {
@@ -172,7 +171,6 @@ public class LetterService {
                 }
             }
         };
-
         timer.schedule(timerTask, 1000*60*30);
     }
 }
