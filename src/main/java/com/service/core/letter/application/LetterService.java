@@ -4,6 +4,7 @@ import com.service.core.common.utis.LocalDateTimeUtil;
 import com.service.core.error.exception.letter.InvalidLetterStateException;
 import com.service.core.error.exception.letter.InvalidReplyLetterRequestException;
 import com.service.core.error.exception.letter.NotExistLetterException;
+import com.service.core.error.exception.letter.NotExistMbtiTargetException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
@@ -16,16 +17,12 @@ import com.service.core.letter.infrastructure.LetterRepository;
 import com.service.core.letter.vo.LetterState;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.response.UserInfo;
-import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +32,6 @@ public class LetterService {
     private final LetterInvoiceRepository letterInvoiceRepository;
     private final LetterRepository letterRepository;
     private final RandomSend randomSend;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public void writeLetter(WriteLetterRequest request, UserInfo senderUser) {
@@ -49,23 +45,22 @@ public class LetterService {
     @Transactional
     public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo senderUser) {
         List<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
-
         for (User target : targets) {
+            if (targets.size() == 1 && validateOneself(senderUser, target)) {
+                throw new NotExistMbtiTargetException();
+            }
             if (validateOneself(senderUser, target)) continue;
             letterInvoiceRepository.save(LetterConvert.toLetterInvoice(response, senderUser, target));
         }
     }
 
     private boolean validateOneself(UserInfo user, User target) {
-        if (target.getId().equals(user.getId())) {
-            return true;
-        }
-        return false;
+        return target.getId().equals(user.getId());
     }
 
     @Transactional
     public void replyLetter(ReplyLetterRequest request, UserInfo sender, Long letterId) {
-        Long targetUserId = Long.valueOf(0);
+        Long targetUserId = 0L;
 
         Optional<Letter> targetLetter = letterRepository.findById(letterId);
 
@@ -76,8 +71,8 @@ public class LetterService {
 
         List<LetterInvoice> targetLetterInvoice = letterInvoiceRepository.findByLetterId(targetLetter.get().getId());
 
-        for (int i = 0; i < targetLetterInvoice.size(); i++) {
-            targetUserId = targetLetterInvoice.get(i).getSenderUserId();
+        for (LetterInvoice letterInvoice : targetLetterInvoice) {
+            targetUserId = letterInvoice.getSenderUserId();
             if (targetUserId.equals(sender.getId())) {
                 break;
             }
@@ -85,6 +80,7 @@ public class LetterService {
 
         Letter letter = LetterConvert.toReplyLetterEntity(request, sender, receiverMbtiId);
         letterRepository.save(letter);
+
         targetLetter.get().updateLetterState(LetterState.RECEIVE_COMPLETE);
         letterRepository.save(targetLetter.get());
 
@@ -94,11 +90,10 @@ public class LetterService {
 
     @Transactional
     public List<WriteLetterResponse> findAllLetters() {
-        List<WriteLetterResponse> letters = letterRepository.findAll()
+        return letterRepository.findAll()
                 .stream()
                 .map(WriteLetterResponse::of)
                 .collect(Collectors.toList());
-        return letters;
     }
 
     @Transactional
@@ -119,8 +114,12 @@ public class LetterService {
 
     @Transactional(readOnly = true)
     public String getYesterdayLetters() {
-        var letters =  letterRepository.findAllByCreatedAtBetween(LocalDateTimeUtil.getYesterdayEightClock()
-                , LocalDateTimeUtil.getTodayEightClock());
+        var letters =  letterRepository
+                .findAllByCreatedAtBetween(
+                        LocalDateTimeUtil
+                                .getYesterdayEightClock()
+                        , LocalDateTimeUtil
+                                .getTodayEightClock());
         return lettersToString(letters);
     }
 
@@ -131,12 +130,11 @@ public class LetterService {
 
         StringBuilder message = new StringBuilder();
         for(Letter letter : letters) {
-            message.append("[ CreateTime : " + letter.getCreatedAt() + ", letterId : " + letter.getId() + ", letterState : " + letter.getState() + " ] \n");
+            message.append("[ CreateTime : ").append(letter.getCreatedAt()).append(", letterId : ").append(letter.getId()).append(", letterState : ").append(letter.getState()).append(" ] \n");
         }
 
         return message.toString();
     }
-
 
     public void startReplyLetter(UserInfo userInfo, Long letterId){
         var id = validateReplyLetterRequest(userInfo, letterId);
@@ -156,9 +154,8 @@ public class LetterService {
     @Transactional(readOnly = true)
     public Long validateReplyLetterRequest(UserInfo userInfo, Long letterId) {
         return letterInvoiceRepository.findByReceiverUserIdAndLetterId(userInfo.getId(), letterId)
-                .map(a -> a.getLetterId())
+                .map(LetterInvoice::getLetterId)
                 .orElseThrow(InvalidReplyLetterRequestException::new);
-
     }
 
     private void replyLetterTimeTask(Long letterId) {
@@ -174,7 +171,6 @@ public class LetterService {
                 }
             }
         };
-
         timer.schedule(timerTask, 1000*60*30);
     }
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,7 @@ public class LetterController {
 
     @PostMapping
     public ResponseEntity<ResponseDto> writeLetter(
+            @Valid
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.writeLetter(request, userInfo);
@@ -30,11 +32,12 @@ public class LetterController {
 
     @PostMapping("/{id}")
     public ResponseEntity<ResponseDto> replyLetter(
+            @Valid
             @PathVariable("id") Long id,
             @RequestBody ReplyLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.replyLetter(request, userInfo, id);
-        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 작성 성공");
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER,"편지 답장 성공");
     }
 
     @GetMapping

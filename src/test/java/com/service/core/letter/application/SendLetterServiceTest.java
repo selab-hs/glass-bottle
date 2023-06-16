@@ -21,13 +21,12 @@ class SendLetterServiceTest {
     @Autowired
     LetterRepository letterRepository;
 
-
     @Test
-    public void senderIdMappingTest() throws Exception {
+    public void senderIdMappingTest() {
         CreateMemberRequest createMemberRequest = new CreateMemberRequest();
         createMemberRequest.setEmail("test@naver.com");
         createMemberRequest.setPassword("password");
-        createMemberRequest.setMbti("ENFP");
+        createMemberRequest.setMbti(1L);
         User user = memberRepository.save(memberRepository.save(MemberConvert.toEntity(createMemberRequest)));
     }
 }
