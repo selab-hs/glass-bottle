@@ -1,10 +1,8 @@
 package com.service.core.letter.application;
 
 import com.service.core.common.utis.LocalDateTimeUtil;
-import com.service.core.error.exception.letter.InvalidLetterStateException;
-import com.service.core.error.exception.letter.InvalidReplyLetterRequestException;
-import com.service.core.error.exception.letter.NotExistLetterException;
-import com.service.core.error.exception.letter.NotExistMbtiTargetException;
+import com.service.core.error.dto.ErrorMessage;
+import com.service.core.error.exception.letter.*;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
@@ -22,7 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +37,7 @@ public class LetterService {
     @Transactional
     public void writeLetter(WriteLetterRequest request, UserInfo senderUser) {
         Letter letter = LetterConvert.toLetterEntity(request, senderUser);
-        letterRepository.save(letter);
+        saveLetter(letter);
 
         WriteLetterResponse response = LetterConvert.toWriteLetterResponse(letter);
         appointTargetMbti(request, response, senderUser);
@@ -54,8 +55,8 @@ public class LetterService {
         }
     }
 
-    private boolean validateOneself(UserInfo user, User target) {
-        return target.getId().equals(user.getId());
+    private boolean validateOneself(UserInfo userInfo, User user) {
+        return validateEqualsId(user.getId(), userInfo.getId());
     }
 
     @Transactional
@@ -73,19 +74,40 @@ public class LetterService {
 
         for (LetterInvoice letterInvoice : targetLetterInvoice) {
             targetUserId = letterInvoice.getSenderUserId();
-            if (targetUserId.equals(sender.getId())) {
+            if (validateEqualsId(sender.getId(), targetUserId)) {
                 break;
             }
         }
 
         Letter letter = LetterConvert.toReplyLetterEntity(request, sender, receiverMbtiId);
-        letterRepository.save(letter);
+        saveLetter(letter);
 
         targetLetter.get().updateLetterState(LetterState.RECEIVE_COMPLETE);
-        letterRepository.save(targetLetter.get());
+        saveLetter(targetLetter.get());
 
         ReplyLetterResponse response = LetterConvert.toReplyLetterResponse(letter);
         letterInvoiceRepository.save(LetterConvert.toReplyLetterInvoice(response, sender, targetUserId));
+    }
+
+    @Transactional
+    public void deleteLetter(Long letterId, UserInfo user) {
+        Letter targetLetter = letterRepository.findById(letterId).orElseThrow(NotExistLetterException::new);
+        var letters =  letterInvoiceRepository.findBySenderUserIdAndLetterId(user.getId(), letterId);
+
+        if (letters.isEmpty()) {
+            throw new InvalidDeleteRequestException(ErrorMessage.INVALID_DELETE_REQUEST);
+        }
+
+        for (var letter : letters) {
+            if (validateEqualsId(user.getId(), letter.getSenderUserId())
+                    && validateEqualsId(letterId, letter.getLetterId())) {
+                letterRepository.delete(targetLetter);
+            }
+        }
+    }
+
+    private boolean validateEqualsId(Long criterion, Long target) {
+        return criterion.equals(target);
     }
 
     @Transactional
@@ -139,9 +161,9 @@ public class LetterService {
     public void startReplyLetter(UserInfo userInfo, Long letterId){
         var id = validateReplyLetterRequest(userInfo, letterId);
         var letter = letterRepository.findById(id).get();
-        letter.updateLetterState(LetterState.RECEIVE_WAITING);
-        letterRepository.save(letter);
 
+        letter.updateLetterState(LetterState.RECEIVE_WAITING);
+        saveLetter(letter);
         replyLetterTimeTask(letter.getId());
     }
 
@@ -166,7 +188,7 @@ public class LetterService {
                 Letter letter = letterRepository.findById(letterId).get();
                 if(LetterState.RECEIVE_WAITING.equals(letter.getState())) {
                     letter.updateLetterState(LetterState.EXPIRATION);
-                    letterRepository.save(letter);
+                    saveLetter(letter);
                     log.info("letter Id : " + letter.getId() + " , 해당 답변은 만료되었습니다");
                 }
             }
