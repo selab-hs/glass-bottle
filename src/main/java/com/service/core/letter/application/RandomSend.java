@@ -18,6 +18,7 @@ public class RandomSend {
     List<User> result = new ArrayList<>();
 
     public List<User> randomizeTarget(Long targetMbtiId) {
+        result.clear();
         List<User> targetUsers = memberRepository.findByMbtiId(targetMbtiId);
         validateExistMbtiUser(targetUsers);
 
