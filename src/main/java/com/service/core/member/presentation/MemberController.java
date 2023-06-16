@@ -9,6 +9,7 @@ import com.service.core.member.dto.request.CreateMemberRequest;
 import com.service.core.member.dto.response.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +29,21 @@ public class MemberController {
         return ResponseDto.toResponseEntity(ResponseMessage.SEARCH_SUCCESS_ME, user);
     }
 
+    @GetMapping("/admin")
+    public ResponseEntity<ResponseDto> getUserInfo(){
+        User admin = memberService.createAdminMember();
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_ADMIN, admin);
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<ResponseDto> createUser(@RequestBody CreateMemberRequest createMemberRequest){
         memberService.createMember(createMemberRequest);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_MEMBER,"회원가입 완료");
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ResponseDto> deleteUser(@AuthMember UserInfo user){
+        memberService.deleteMember(user.getId());
+        return ResponseDto.toResponseEntity(ResponseMessage.DELETE_SUCCESS_MEMBER,"회원가입 틸퇴 완료");
     }
 }

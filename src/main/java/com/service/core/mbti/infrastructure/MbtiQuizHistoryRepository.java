@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MbtiQuizHistoryRepository extends JpaRepository<MbtiQuizHistory, Long> {
+    void deleteByRoundId(Long id);
 }

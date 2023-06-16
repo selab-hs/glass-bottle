@@ -12,10 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -25,15 +21,28 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public void createMember(CreateMemberRequest createMemberRequest) {
         memberRepository.findByEmail(createMemberRequest.getEmail())
             .ifPresent(a -> {
                 throw new DuplicatedMemberException(ErrorMessage.DUPLICATED_MEMBER_INFO_ERROR);
             });
-            memberRepository.save(
-                memberRepository.save(MemberConvert.toEntity(createMemberRequest)));
+        memberRepository.save(MemberConvert.toEntity(createMemberRequest));
     }
 
+    @Transactional
+    public User createAdminMember(){
+        User admin = MemberConvert.toAdmin();
+        memberRepository.save(admin);
+        return admin;
+    }
+
+    @Transactional
+    public void deleteMember(Long uid){
+        memberRepository.deleteById(uid);
+    }
+
+    @Transactional(readOnly = true)
     public User viewUser(Long userId){
             return memberRepository.findById(userId)
                 .orElseThrow(
