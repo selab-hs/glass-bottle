@@ -11,6 +11,7 @@ import com.service.core.mbti.dto.request.create.CreateQuizRoundRequest;
 import com.service.core.mbti.dto.request.update.UpdateMbtiQuizRoundRequest;
 import com.service.core.mbti.dto.request.update.UpdateQuizRequest;
 import com.service.core.mbti.dto.response.ReadMbtiQuizRoundResponse;
+import com.service.core.mbti.dto.response.ReadMbtiQuizRoundResultResponse;
 import com.service.core.mbti.dto.response.ReadMbtiQuizzesResponse;
 import com.service.core.member.dto.response.UserInfo;
 import java.util.List;
@@ -103,6 +104,13 @@ public class MbtiController {
         @RequestBody List<CreateMbtiQuizRoundAnswerRequest> answers){
         mbtiService.quizRoundAnswer(answers, user);
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS_QIZE_ANSWER,"퀴즈 답변에 성공했습니다.");
+    }
+
+    //라운드 별 mbti 결과 출력
+    @GetMapping("/quizzes/rounds/answers")
+    public ResponseEntity<ResponseDto> getQuizRoundResult(){
+        List<ReadMbtiQuizRoundResultResponse> quizs = mbtiService.getAllMbtiQuizRoundResult();
+        return ResponseDto.toResponseEntity(ResponseMessage.READ_SUCCESS_QIZE_ROUND_RESULT, quizs);
     }
 
     //해당 퀴즈 라운드 종류 전부 출력

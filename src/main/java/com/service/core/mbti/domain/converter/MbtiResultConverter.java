@@ -12,6 +12,7 @@ import com.service.core.mbti.dto.request.create.CreateQuizRoundRequest;
 import com.service.core.mbti.dto.response.ReadMbtiMetadataIdResponse;
 import com.service.core.mbti.dto.response.ReadMbtiQuizRoundResponse;
 import com.service.core.mbti.dto.response.ReadMbtiQuizzesResponse;
+import com.service.core.member.dto.response.UserInfo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.AttributeConverter;
@@ -85,14 +86,15 @@ public class MbtiResultConverter implements AttributeConverter<MbtiQuizHistory.M
         return rounds;
     }
 
-    public List<MbtiQuizHistory> convertToMbtiQuizHistory(List<CreateMbtiQuizRoundAnswerRequest> answers, Long userId){
+    public List<MbtiQuizHistory> convertToMbtiQuizHistory(List<CreateMbtiQuizRoundAnswerRequest> answers, UserInfo user){
         List<MbtiQuizHistory> roundAnswers = new ArrayList<>();
         for (CreateMbtiQuizRoundAnswerRequest request: answers) {
           roundAnswers.add(
             MbtiQuizHistory.builder()
                 .roundId(request.getMbtiQuizRoundId())
                 .result(new MbtiResult(request.getSeq(),request.getSeq()))
-                .userId(userId)
+                .mbtiMetadataId(user.getMbtiId())
+                .userId(user.getId())
                 .build()
           );
         }
