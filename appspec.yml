@@ -6,7 +6,6 @@ files:
     destination: /home/ec2-user
 permissions:
   - object: /home/ec2-user
-    group: "glass-bottle-group"
     mode: 775
 
 hooks:
