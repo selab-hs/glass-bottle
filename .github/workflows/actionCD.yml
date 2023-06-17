@@ -29,7 +29,6 @@ jobs:
    cd:
     name: CD with Gradle
     runs-on: ubuntu-latest
-    shell: bash
 
     steps:
       - name: Checkout
@@ -46,7 +45,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build행
         shell: bash
 
       - name: Run a one-line script
