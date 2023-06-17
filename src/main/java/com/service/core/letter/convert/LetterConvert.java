@@ -24,6 +24,16 @@ public class LetterConvert {
                 .build();
     }
 
+    public static Letter toLetterEntity2(WriteLetterRequest request, UserInfo sender){
+        return Letter.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .senderMbtiId(sender.getMbtiId())
+                .receiverMbtiId(0L)
+                .state(LetterState.ACTIVE)
+                .build();
+    }
+
     public static Letter toReplyLetterEntity(ReplyLetterRequest request, UserInfo sender, Long receiverMbtiId) {
         return Letter.builder()
                 .title(request.getTitle())
@@ -38,6 +48,14 @@ public class LetterConvert {
         return WriteLetterResponse.builder()
                 .senderMbtiId(letter.getSenderMbtiId())
                 .receiverMbtiId(letter.getReceiverMbtiId())
+                .letterId(letter.getId())
+                .build();
+    }
+
+    public static WriteLetterResponse toWriteLetterResponse2(Letter letter){
+        return WriteLetterResponse.builder()
+                .senderMbtiId(letter.getSenderMbtiId())
+                .receiverMbtiId(0L)
                 .letterId(letter.getId())
                 .build();
     }

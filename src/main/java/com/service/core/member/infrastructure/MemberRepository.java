@@ -10,8 +10,6 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Optional<User> findByEmailAndPassword(String email, String password);
-
     List<User> findByMbtiId(Long mbtiId);
-
     List<User> findAllByCreatedAtBetween(LocalDateTime startTime, LocalDateTime endTime);
 }

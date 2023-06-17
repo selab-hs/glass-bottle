@@ -61,6 +61,10 @@ dependencies {
     // spring actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+    //자바 역직렬화 문제 해결 패키지
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly('io.netty:netty-resolver-dns-native-macos:4.1.93.Final:osx-aarch_64')
