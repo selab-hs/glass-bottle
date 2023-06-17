@@ -2,17 +2,14 @@ package com.service.core.member.domain.vo;
 
 import com.service.core.error.dto.ErrorMessage;
 import com.service.core.error.exception.member.EmailFormatMismatchException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.Getter;
 
 @Getter
 public class Email {
     private final String email;
-
-    private static final String[] EMAIL_FILTERS = {
-        "naver.com",
-        "gmail.com",
-        "daum.net",
-        "kakao.com"};
+    private static final String regex = "^[a-zA-Z0-9_!#$%&amp;'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
     public Email(String email){
         validate(email);
@@ -20,12 +17,10 @@ public class Email {
     }
 
     private static void validate(String email){
-        String[] emails = email.split("@");
-        for(String validateEmailForm : EMAIL_FILTERS){
-            if(validateEmailForm.equals(emails[1])){
-                return;
-            }
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if(!matcher.matches()){
+            throw new EmailFormatMismatchException(ErrorMessage.EMAIL_FORMAT_MISMATCH_ERROR);
         }
-        throw new EmailFormatMismatchException(ErrorMessage.EMAIL_FORMAT_MISMATCH_ERROR);
     }
 }
