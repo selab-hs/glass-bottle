@@ -14,22 +14,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class LetterConvert {
 
-    public static Letter toLetterEntity(WriteLetterRequest request, UserInfo sender){
+    public static Letter toLetterEntity(WriteLetterRequest request, UserInfo sender) {
+        if (request.getReceiverMbtiId() == null) {
+            return Letter.builder()
+                    .title(request.getTitle())
+                    .content(request.getContent())
+                    .senderMbtiId(sender.getMbtiId())
+                    .receiverMbtiId(0L)
+                    .state(LetterState.ACTIVE)
+                    .build();
+        }
         return Letter.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .senderMbtiId(sender.getMbtiId())
                 .receiverMbtiId(request.getReceiverMbtiId())
-                .state(LetterState.ACTIVE)
-                .build();
-    }
-
-    public static Letter toLetterEntity2(WriteLetterRequest request, UserInfo sender){
-        return Letter.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .senderMbtiId(sender.getMbtiId())
-                .receiverMbtiId(0L)
                 .state(LetterState.ACTIVE)
                 .build();
     }
@@ -44,7 +43,7 @@ public class LetterConvert {
                 .build();
     }
 
-    public static WriteLetterResponse toWriteLetterResponse(Letter letter){
+    public static WriteLetterResponse toWriteLetterResponse(Letter letter) {
         return WriteLetterResponse.builder()
                 .senderMbtiId(letter.getSenderMbtiId())
                 .receiverMbtiId(letter.getReceiverMbtiId())
@@ -52,15 +51,7 @@ public class LetterConvert {
                 .build();
     }
 
-    public static WriteLetterResponse toWriteLetterResponse2(Letter letter){
-        return WriteLetterResponse.builder()
-                .senderMbtiId(letter.getSenderMbtiId())
-                .receiverMbtiId(0L)
-                .letterId(letter.getId())
-                .build();
-    }
-
-    public static ReplyLetterResponse toReplyLetterResponse(Letter letter){
+    public static ReplyLetterResponse toReplyLetterResponse(Letter letter) {
         return ReplyLetterResponse.builder()
                 .letterId(letter.getId())
                 .build();
@@ -71,10 +62,10 @@ public class LetterConvert {
             UserInfo senderUser,
             User target) {
         return LetterInvoice.builder()
-                        .senderUserId(senderUser.getId())
-                        .receiverUserId(target.getId())
-                        .letterId(response.getLetterId())
-                        .build();
+                .senderUserId(senderUser.getId())
+                .receiverUserId(target.getId())
+                .letterId(response.getLetterId())
+                .build();
     }
 
     public static LetterInvoice toReplyLetterInvoice(
