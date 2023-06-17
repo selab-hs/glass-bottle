@@ -8,7 +8,7 @@ permissions:
   - object: /home/ec2-user
     owner: "glass-bottle-code-deploy"
     group: "glass-bottle-group"
-    mode: 755
+    mode: 775
 
 hooks:
   AfterInstall:
