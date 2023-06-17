@@ -51,7 +51,7 @@ jobs:
         run: git update-index --add --chmod=+x gradlew
         shell: bash
 
-      - name: Setup jdk 17설치
+      - name: Setup jdk 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'

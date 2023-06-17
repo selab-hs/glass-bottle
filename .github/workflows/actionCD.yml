@@ -45,7 +45,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew clean build행
+        run: ./gradlew clean build
         shell: bash
 
       - name: Run a one-line script
