@@ -6,10 +6,11 @@ files:
     destination: /home/ec2-user/action
 permissions:
   - object: /home/ec2-user/action
+    owner: "ec2-user"
     mode: 755
 
 hooks:
   AfterInstall:
     - location: /home/ec2-user/glass-bottle/scripts/deploy.sh
-      timeout: 300
-      runas: ec2-user
+      timeout: 60
+      runas: root
