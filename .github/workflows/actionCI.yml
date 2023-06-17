@@ -48,7 +48,7 @@ jobs:
 
       # 작업에서 엑세스할 수 있도록 권한 부여
       - name: Grant execute permission for gradle
-        run: chmod -x ./gradlew
+        run: git update-index --add --chmod=+x gradlew
         shell: bash
 
       - name: Setup jdk 17설치
@@ -58,7 +58,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build
         shell: bash
 
       # 여기서 실행되는 커맨드에 대한 설명으로, Workflow에 표시됩니다.
