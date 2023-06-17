@@ -20,10 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +32,7 @@ public class LetterService {
     private final RandomSend randomSend;
 
     @Transactional
-    public void writeLetter(WriteLetterRequest request, UserInfo senderUser) {
+    public void writeLetterToAppointTargetUsers(WriteLetterRequest request, UserInfo senderUser) {
         Letter letter = LetterConvert.toLetterEntity(request, senderUser);
         saveLetter(letter);
 
@@ -44,8 +41,29 @@ public class LetterService {
     }
 
     @Transactional
+    public void writeLetterToAllUsers(WriteLetterRequest request, UserInfo senderUser) {
+        Letter letter = LetterConvert.toLetterEntity2(request, senderUser);
+        saveLetter(letter);
+
+        WriteLetterResponse response = LetterConvert.toWriteLetterResponse2(letter);
+        appointAllUsers(request, response, senderUser);
+    }
+
+    @Transactional
     public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo senderUser) {
-        List<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
+        Set<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
+        for (User target : targets) {
+            if (targets.size() == 1 && validateOneself(senderUser, target)) {
+                throw new NotExistMbtiTargetException();
+            }
+            if (validateOneself(senderUser, target)) continue;
+            letterInvoiceRepository.save(LetterConvert.toLetterInvoice(response, senderUser, target));
+        }
+    }
+
+    @Transactional
+    public void appointAllUsers(WriteLetterRequest request, WriteLetterResponse response, UserInfo senderUser) {
+        Set<User> targets = randomSend.randomizeTarget();
         for (User target : targets) {
             if (targets.size() == 1 && validateOneself(senderUser, target)) {
                 throw new NotExistMbtiTargetException();
