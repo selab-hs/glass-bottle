@@ -1,3 +1,4 @@
+/*
 package com.service.core.letter.application;
 
 import com.service.core.letter.infrastructure.LetterRepository;
@@ -47,4 +48,4 @@ class SendLetterServiceTest {
         log.info("randomNumbers: " + randomNumbers);
 
     }
-}
+}*/

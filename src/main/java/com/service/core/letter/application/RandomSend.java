@@ -21,7 +21,7 @@ public class RandomSend {
     public Set<User> randomizeTarget(Long targetMbtiId) {
         result.clear();
 
-        List<User> targetUsers = targeting(targetMbtiId);
+        List<User> targetUsers = findUsers(targetMbtiId);
         validateExistMbtiUser(targetUsers);
 
         return getUsers(targetUsers);
@@ -30,12 +30,7 @@ public class RandomSend {
     public Set<User> randomizeTarget() {
         result.clear();
 
-        List<User> targetUsers = targeting();
-
-        for (User target : targetUsers) {
-            log.info("target.getMbtiId(): " + target.getMbtiId());
-        }
-
+        List<User> targetUsers = findUsers();
         return getUsers(targetUsers);
     }
 
@@ -54,14 +49,14 @@ public class RandomSend {
         return result;
     }
 
-    @Cacheable(value = "target", key = "#targetMbti")
-    public List<User> targeting(Long targetMbti) {
+    @Cacheable(cacheNames = "users")
+    public List<User> findUsers(Long targetMbti) {
         log.info("DB 조회");
         return memberRepository.findByMbtiId(targetMbti);
     }
 
     @Cacheable(value = "allUser")
-    public List<User> targeting() {
+    public List<User> findUsers() {
         log.info("DB 조회");
         return memberRepository.findAll();
     }
