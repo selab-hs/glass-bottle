@@ -20,9 +20,6 @@ else
   sleep 5
 fi
 
-echo "> DEPLOY_JAR 애플리케이션 배포"
-JAR_NAME=$(ls -tr $REPOSITORY/*.jar | grep jar | tail -n 1)
-
 echo "> $JAR_NAME 에 실행권한 추가"
 chmod +x $JAR_NAME
 
