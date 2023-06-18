@@ -27,7 +27,7 @@ public class LetterController {
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.writeLetterToAppointTargetUsers(request, userInfo);
-        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "편지 작성 성공");
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "해당 MBTI 유저에게 편지 전송 성공");
     }
 
     @PostMapping("/all")
@@ -36,7 +36,7 @@ public class LetterController {
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo) {
         letterService.writeLetterToAllUsers(request, userInfo);
-        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "편지 작성 성공");
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "전체 랜덤 유저에게 편지 전송 성공");
     }
 
     @PostMapping("/{id}")

@@ -53,7 +53,7 @@ public class RedisConfig {
         var redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(stringSerializationPair)
                 .serializeValuesWith(objectSerializationPair)
-                .entryTtl(CachingDuration.HOUR.duration);
+                .entryTtl(CachingDuration.MINUTE.duration);
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory())
@@ -65,6 +65,7 @@ public class RedisConfig {
     enum CachingDuration {
         DAY(Duration.ofDays(1L)),
         HOUR(Duration.ofHours(1L)),
+        MINUTE(Duration.ofMinutes(5L)),
         ;
 
         private final Duration duration;
