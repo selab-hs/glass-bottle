@@ -1,7 +1,5 @@
 package com.service.core.letter.application;
 
-import com.service.core.common.properties.SlackProperties;
-import com.service.core.common.resttemplate.RestTemplateService;
 import com.service.core.common.utis.LocalDateTimeUtil;
 import com.service.core.letter.infrastructure.LetterRepository;
 import com.service.core.letter.vo.LetterState;
@@ -9,13 +7,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class LetterSchedulerService {
     private final LetterService letterService;
+    private final LetterRepository letterRepository;
 
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
+    public void autoDeleteLetters() {
+        letterRepository.deleteAllInBatchByCreatedAtLessThanEqual(LocalDateTime.now().minusDays(30));
+    }
 
     @Scheduled(cron = "0 */1 * * * *")
     private void schedulerYesterdayLetter() {
