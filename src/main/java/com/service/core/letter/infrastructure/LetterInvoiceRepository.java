@@ -10,6 +10,4 @@ public interface LetterInvoiceRepository extends JpaRepository<LetterInvoice, Lo
     List<LetterInvoice> findByLetterId(Long letterId);
 
     Optional<LetterInvoice> findByReceiverUserIdAndLetterId(Long ReceiverUserid, Long letterId);
-
-    List<LetterInvoice> findBySenderUserIdAndLetterId(Long senderUserId, Long letterId);
 }
