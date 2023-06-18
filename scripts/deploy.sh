@@ -1,9 +1,9 @@
 #!/bin/bash
 BUILD_JAR=$(ls /home/ec2-user/glass-bottle/build/libs/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
-echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/action/deploy.log
-
 DEPLOY_LOG=/home/ec2-user/action/deploy.log
+echo "> build 파일명: $JAR_NAME" >> $DEPLOY_LOG
+
 echo "> build 파일 복사" >> $DEPLOY_LOG
 DEPLOY_PATH=/home/ec2-user/glass-bottle/
 cp $BUILD_JAR $DEPLOY_PATH
@@ -23,5 +23,6 @@ fi
 echo "> $JAR_NAME 에 실행권한 추가"
 chmod +x $JAR_NAME
 
+DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> $DEPLOY_LOG
-nohup java -jar $DEPLOY_PATH$JAR_NAME >> $DEPLOY_LOG 2>/home/ec2-user/action/deploy_err.log &
+nohup java -jar $DEPLOY_JAR >> $DEPLOY_LOG 2>/home/ec2-user/action/deploy_err.log &
