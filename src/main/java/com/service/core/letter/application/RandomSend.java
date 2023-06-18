@@ -49,7 +49,7 @@ public class RandomSend {
         return result;
     }
 
-    @Cacheable(cacheNames = "users")
+    @Cacheable(value = "users", key = "#targetMbti")
     public List<User> findUsers(Long targetMbti) {
         log.info("DB 조회");
         return memberRepository.findByMbtiId(targetMbti);
