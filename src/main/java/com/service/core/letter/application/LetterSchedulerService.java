@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -19,8 +18,7 @@ public class LetterSchedulerService {
     private final LetterRepository letterRepository;
 
     @Scheduled(cron = "0 0 0 * * *")
-    @Transactional
-    public void autoDeleteLetters() {
+    private void autoDeleteLetters() {
         letterRepository.deleteAllInBatchByCreatedAtLessThanEqual(LocalDateTime.now().minusDays(30));
     }
 

@@ -66,10 +66,4 @@ public class LetterController {
         letterService.startReplyLetter(userInfo, id);
         return ResponseDto.ok("Reply Timer : 30:00");
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLetter(@AuthMember UserInfo userInfo, @PathVariable Long id) {
-        letterService.deleteLetter(id, userInfo);
-        return ResponseDto.ok("Letter Delete Success");
-    }
 }

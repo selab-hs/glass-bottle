@@ -1,8 +1,10 @@
 package com.service.core.letter.application;
 
 import com.service.core.common.utis.LocalDateTimeUtil;
-import com.service.core.error.dto.ErrorMessage;
-import com.service.core.error.exception.letter.*;
+import com.service.core.error.exception.letter.InvalidLetterStateException;
+import com.service.core.error.exception.letter.InvalidReplyLetterRequestException;
+import com.service.core.error.exception.letter.NotExistLetterException;
+import com.service.core.error.exception.letter.NotExistMbtiTargetException;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
@@ -104,23 +106,6 @@ public class LetterService {
 
         ReplyLetterResponse response = LetterConvert.toReplyLetterResponse(letter);
         letterInvoiceRepository.save(LetterConvert.toReplyLetterInvoice(response, sender, targetUserId));
-    }
-
-    @Transactional
-    public void deleteLetter(Long letterId, UserInfo user) {
-        Letter targetLetter = letterRepository.findById(letterId).orElseThrow(NotExistLetterException::new);
-        var letters = letterInvoiceRepository.findBySenderUserIdAndLetterId(user.getId(), letterId);
-
-        if (letters.isEmpty()) {
-            throw new InvalidDeleteRequestException(ErrorMessage.INVALID_DELETE_REQUEST);
-        }
-
-        for (var letter : letters) {
-            if (validateEqualsId(user.getId(), letter.getSenderUserId())
-                    && validateEqualsId(letterId, letter.getLetterId())) {
-                letterRepository.delete(targetLetter);
-            }
-        }
     }
 
     private boolean validateEqualsId(Long criterion, Long target) {
