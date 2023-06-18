@@ -1,4 +1,4 @@
-name: glass-bottle CD
+name: glass-bottle CI/CD
 
 # S3 Upload를 위한 환경설정
 env:
