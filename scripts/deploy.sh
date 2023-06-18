@@ -23,8 +23,8 @@ fi
 echo "> DEPLOY_JAR 애플리케이션 배포"
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar|grep jar|tail -n 1)
 
-echo "> $JAR_NAME에 실행권한 추가"
+echo "> $JAR_NAME 에 실행권한 추가"
 chmod +x $JAR_NAME
 
 echo "> DEPLOY_JAR 배포"    >> $DEPLOY_LOG
-nohup java -jar $BUILD_JAR >> $DEPLOY_LOG 2>/home/ec2-user/action/deploy_err.log &
+nohup java -jar $JAR_NAME >> $DEPLOY_LOG 2>/home/ec2-user/action/deploy_err.log &
