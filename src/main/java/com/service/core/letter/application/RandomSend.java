@@ -5,7 +5,6 @@ import com.service.core.member.domain.User;
 import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -49,15 +48,13 @@ public class RandomSend {
         return result;
     }
 
-    @Cacheable(value = "users", key = "#targetMbti")
     public List<User> findUsers(Long targetMbti) {
-        log.info("DB 조회");
+        log.info("대상 MBTI 유저 목록 조회");
         return memberRepository.findByMbtiId(targetMbti);
     }
 
-    @Cacheable(value = "allUser")
     public List<User> findUsers() {
-        log.info("DB 조회");
+        log.info("전체 유저 목록 조회");
         return memberRepository.findAll();
     }
 
