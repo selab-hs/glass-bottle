@@ -20,10 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,17 +32,37 @@ public class LetterService {
     private final RandomSend randomSend;
 
     @Transactional
-    public void writeLetter(WriteLetterRequest request, UserInfo senderUser) {
-        Letter letter = LetterConvert.toLetterEntity(request, senderUser);
-        saveLetter(letter);
-
-        WriteLetterResponse response = LetterConvert.toWriteLetterResponse(letter);
+    public void writeLetterToAppointTargetUsers(WriteLetterRequest request, UserInfo senderUser) {
+        WriteLetterResponse response = getWriteLetterResponse(request, senderUser);
         appointTargetMbti(request, response, senderUser);
     }
 
     @Transactional
+    public void writeLetterToAllUsers(WriteLetterRequest request, UserInfo senderUser) {
+        WriteLetterResponse response = getWriteLetterResponse(request, senderUser);
+        appointAllUsers(response, senderUser);
+    }
+
+    private WriteLetterResponse getWriteLetterResponse(WriteLetterRequest request, UserInfo senderUser) {
+        Letter letter = LetterConvert.toLetterEntity(request, senderUser);
+        saveLetter(letter);
+
+        return LetterConvert.toWriteLetterResponse(letter);
+    }
+
+    @Transactional
     public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo senderUser) {
-        List<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
+        Set<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
+        saveTargetsToLetterInvoice(response, senderUser, targets);
+    }
+
+    @Transactional
+    public void appointAllUsers(WriteLetterResponse response, UserInfo senderUser) {
+        Set<User> targets = randomSend.randomizeTarget();
+        saveTargetsToLetterInvoice(response, senderUser, targets);
+    }
+
+    private void saveTargetsToLetterInvoice(WriteLetterResponse response, UserInfo senderUser, Set<User> targets) {
         for (User target : targets) {
             if (targets.size() == 1 && validateOneself(senderUser, target)) {
                 throw new NotExistMbtiTargetException();
@@ -68,7 +85,7 @@ public class LetterService {
         validateReplyLetterState(targetLetter.get());
         validateReplyLetterRequest(sender, letterId);
 
-        Long receiverMbtiId = targetLetter.get().getReceiverMbtiId();
+        Long receiverMbtiId = targetLetter.get().getSenderMbtiId();
 
         List<LetterInvoice> targetLetterInvoice = letterInvoiceRepository.findByLetterId(targetLetter.get().getId());
 
@@ -92,7 +109,7 @@ public class LetterService {
     @Transactional
     public void deleteLetter(Long letterId, UserInfo user) {
         Letter targetLetter = letterRepository.findById(letterId).orElseThrow(NotExistLetterException::new);
-        var letters =  letterInvoiceRepository.findBySenderUserIdAndLetterId(user.getId(), letterId);
+        var letters = letterInvoiceRepository.findBySenderUserIdAndLetterId(user.getId(), letterId);
 
         if (letters.isEmpty()) {
             throw new InvalidDeleteRequestException(ErrorMessage.INVALID_DELETE_REQUEST);
@@ -136,7 +153,7 @@ public class LetterService {
 
     @Transactional(readOnly = true)
     public String getYesterdayLetters() {
-        var letters =  letterRepository
+        var letters = letterRepository
                 .findAllByCreatedAtBetween(
                         LocalDateTimeUtil
                                 .getYesterdayEightClock()
@@ -146,19 +163,19 @@ public class LetterService {
     }
 
     private String lettersToString(List<Letter> letters) {
-        if(letters == null || letters.isEmpty()) {
+        if (letters == null || letters.isEmpty()) {
             return "전날 작성된 편지는 존재하지 않습니다.";
         }
 
         StringBuilder message = new StringBuilder();
-        for(Letter letter : letters) {
+        for (Letter letter : letters) {
             message.append("[ CreateTime : ").append(letter.getCreatedAt()).append(", letterId : ").append(letter.getId()).append(", letterState : ").append(letter.getState()).append(" ] \n");
         }
 
         return message.toString();
     }
 
-    public void startReplyLetter(UserInfo userInfo, Long letterId){
+    public void startReplyLetter(UserInfo userInfo, Long letterId) {
         var id = validateReplyLetterRequest(userInfo, letterId);
         var letter = letterRepository.findById(id).get();
 
@@ -168,7 +185,7 @@ public class LetterService {
     }
 
     private void validateReplyLetterState(Letter letter) {
-        if(!LetterState.RECEIVE_WAITING.equals(letter.getState())) {
+        if (!LetterState.RECEIVE_WAITING.equals(letter.getState())) {
             throw new InvalidLetterStateException();
         }
     }
@@ -186,13 +203,13 @@ public class LetterService {
             @Override
             public void run() {
                 Letter letter = letterRepository.findById(letterId).get();
-                if(LetterState.RECEIVE_WAITING.equals(letter.getState())) {
+                if (LetterState.RECEIVE_WAITING.equals(letter.getState())) {
                     letter.updateLetterState(LetterState.EXPIRATION);
                     saveLetter(letter);
                     log.info("letter Id : " + letter.getId() + " , 해당 답변은 만료되었습니다");
                 }
             }
         };
-        timer.schedule(timerTask, 1000*60*30);
+        timer.schedule(timerTask, 1000 * 60 * 30);
     }
 }

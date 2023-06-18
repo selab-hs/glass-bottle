@@ -22,11 +22,20 @@ public class LetterController {
     private final LetterService letterService;
 
     @PostMapping
-    public ResponseEntity<ResponseDto> writeLetter(
+    public ResponseEntity<ResponseDto> writeLetterToAppointTargetUsers(
             @Valid
             @RequestBody WriteLetterRequest request,
             @AuthMember UserInfo userInfo) {
-        letterService.writeLetter(request, userInfo);
+        letterService.writeLetterToAppointTargetUsers(request, userInfo);
+        return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "편지 작성 성공");
+    }
+
+    @PostMapping("/all")
+    public ResponseEntity<ResponseDto> writeLetterToAllUsers(
+            @Valid
+            @RequestBody WriteLetterRequest request,
+            @AuthMember UserInfo userInfo) {
+        letterService.writeLetterToAllUsers(request, userInfo);
         return ResponseDto.toResponseEntity(ResponseMessage.CREATE_SUCCESS_LETTER, "편지 작성 성공");
     }
 
