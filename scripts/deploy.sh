@@ -1,14 +1,6 @@
 #!/bin/bash
 BUILD_JAR=$(ls /home/ec2-user/glass-bottle/build/libs/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
-
-echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/glass-bottle/deploy.log
-
-echo "> build 파일 복사" >> /home/ec2-user/glass-bottle/deploy.log
-DEPLOY_PATH=/home/ec2-user/glass-bottle/
-cp $BUILD_JAR $DEPLOY_PATH
-
-echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ec2-user/glass-bottle/deploy.log
 DEPLOY_LOG=/home/ec2-user/action/deploy.log
 echo "> build 파일명: $JAR_NAME" >> $DEPLOY_LOG
 
@@ -27,16 +19,6 @@ else
   kill -15 $CURRENT_PID
   sleep 5
 fi
-
-echo "> DEPLOY_JAR 애플리케이션 배포"
-JAR_NAME=$(ls -tr $REPOSITORY/*.jar|grep jar|tail -n 1)
-
-echo "> $JAR_NAME에 실행권한 추가"
-chmod +x $JAR_NAME
-
-DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
-echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/glass-bottle/deploy.log
-nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/glass-bottle/deploy_err.log &
 
 echo "> $JAR_NAME 에 실행권한 추가"
 chmod +x $JAR_NAME
