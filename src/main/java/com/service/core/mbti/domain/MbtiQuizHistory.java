@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "mbti_quiz_history")
@@ -33,6 +34,8 @@ public class MbtiQuizHistory extends BaseEntity {
     private MbtiQuizHistory.MbtiResult result;
 
     private Long userId;
+
+    private Long mbtiMetadataId;
 
     @Getter
     public static class MbtiResult {
