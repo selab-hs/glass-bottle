@@ -1,60 +1,40 @@
-# 🌊 glass-bottle 🍶
+# 🌊 Glass Bottle Project 🍶
 
-> mbti를 기반으로 한 유리병 편지 전송 서비스
->
-> 나의 고민을 유리병에 적어 원하는 mbti의 사용자에게 조언을 구하자!
+### 우리 프로젝트는❓
+> mbti를 기반으로 한 유리병 편지 전송 서비스입니다.  
+> 나의 고민을 유리병 편지에 적어 원하는 mbti의 사용자에게 조언을 구할 수 있습니다.
 
-# 일정
-~ 6월 15일
+## Glass Bottle Web Application v1.0
+- 개발 참여 인원: 김동건, 손장미, 황인준, 황하림
+- 개발 기간: 2023-05-30 ~ 2023-06-19
 
-# 요구사항
+### 🔗 배포 주소(Back-End Server)
+(링크 첨부 예정)
 
-> 아래의 요구사항을 구현한다.
+### 💁🏻 인원 소개
+(사진과 함께 각자 맡은 주요 기능 작성 예정)
 
-### Branch 규칙
+## 사용 방법
+(이미지 첨부 예정)
 
-- main : 실제 서버 배포
-- staging : 개발용 브랜치
-- feature... 여기는 각자 알아서.. fix, refac 등등 알아서 브랜치 정하기
+## 기술 스택
+### ⚙️ Environment
+<img src="https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/git-F68D2E?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 
-### 사용자 도매인 - 황하림
+### - Config
+(미정)
 
-- ID(이메일)로 인증 후 로그인(V2)
-- 사용자는 로그인을 할 수 있다.
-- 사용자는 회원가입을 할 수 있다.
-- 사용자는 로그아웃을 할 수 있다.
-- 사용자는 회원 정보를 조회할 수 있다.
-- 사용자는 회원 정보를 수정할 수 있다.
+### 💻 Development
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 
-### mbti - 김동건
+### 💬 Communication
+<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 
-- user는 mbti를 갖고 있다.
-- mbti를 파악할 수 있다.
+### 🛜 Server
+<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
 
-### noti - 손장미
+### 💿 DB
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
 
-- 특정 mbti를 가진 사람들에게 mbti 편지를 보낼 수 있다.
-- 편지, 답장 조회 가능
-- 편지의 답장 기간이 있다.
-- mbti 설정 후 해당 mbti user 전체로 발송 할 수 있다.
-- mbti 설정 없이 전체 user 한테 발송 할 수 있다.
-- 선택한 답장을 url로 공유 할 수 있다.(단일 공유)
-
-### Slack - 황인준
-
-- mbti 편지 발송 히스토리 기록에 대해 전일 정보를 제공한다.
-- mbti 문제 풀이를 진행한 기록에 대해 매일 오전 8시마다 전일 정보를 제공한다.
-- 사용자 회원가입 정보에 대해 전일 정보를 제공한다.
-
-### admin - 황인준
-
-- admin이 공통 문제를 작성 할 수 있다.
-- 공통 문제의 USER 답변을 MBTI 별로 확인 할 수 있다. 
-- mbti 문제를 생성할 수 있다.
-- mbti 문제를 수정, 삭제, 조회할 수 있다.
-
-### DevOps - 손장미
-
-- Github Action CI/CD
-- docker
-- EC2, RDS, Redis(elastic cache)
+## 업데이트 내역
+버전 업데이트 시 추가됩니다.
