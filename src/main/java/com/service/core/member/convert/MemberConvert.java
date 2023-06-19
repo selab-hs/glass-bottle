@@ -2,6 +2,7 @@ package com.service.core.member.convert;
 
 import com.service.core.member.domain.User;
 import com.service.core.member.domain.vo.Email;
+import com.service.core.member.domain.vo.Password;
 import com.service.core.member.domain.vo.RoleType;
 import com.service.core.member.dto.request.CreateMemberRequest;
 import com.service.core.member.dto.response.UserInfo;
@@ -13,7 +14,7 @@ public class MemberConvert {
     public static User toEntity(CreateMemberRequest createMemberRequest){
         return User.builder()
             .email(new Email(createMemberRequest.getEmail()).getEmail())
-            .password(createMemberRequest.getPassword())
+            .password(new Password(createMemberRequest.getPassword()).getPassword())
             .mbtiId(createMemberRequest.getMbti())
             .roleType(RoleType.USER)
             .build();
