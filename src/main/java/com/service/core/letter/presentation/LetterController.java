@@ -62,7 +62,7 @@ public class LetterController {
     }
 
     @GetMapping("/reply/{id}")
-    public ResponseEntity<String> startReplyLetter(@AuthMember UserInfo userInfo, @PathVariable Long id){
+    public ResponseEntity<String> startReplyLetter(@AuthMember UserInfo userInfo, @PathVariable Long id) {
         letterService.startReplyLetter(userInfo, id);
         return ResponseDto.ok("Reply Timer : 30:00");
     }
