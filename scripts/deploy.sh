@@ -5,7 +5,7 @@ DEPLOY_LOG=/home/ec2-user/action/deploy.log
 echo "> build 파일명: $JAR_NAME" >> $DEPLOY_LOG
 
 echo "> build 파일 복사" >> $DEPLOY_LOG
-DEPLOY_PATH=/home/ec2-user/glass-bottle/
+DEPLOY_PATH=/home/ec2-user/action/
 cp $BUILD_JAR $DEPLOY_PATH
 
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> $DEPLOY_LOG
