@@ -26,6 +26,5 @@ JAR_NAME=$(ls -tr $DEPLOY_PATH | grep *.jar | tail -n 1)
 echo "> $JAR_NAME 에 실행권한 추가"
 chmod +x $JAR_NAME
 
-DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 실행 : $JAR_NAME"    >> $DEPLOY_LOG
-nohup java -jar $DEPLOY_JAR >> $DEPLOY_LOG 2>/home/ec2-user/action/deploy_err.log &
+nohup java -jar $JAR_NAME >> $DEPLOY_LOG 2>/home/ec2-user/action/deploy_err.log &
