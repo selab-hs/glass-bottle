@@ -9,7 +9,8 @@
 - 개발 기간: 2023-05-30 ~ 2023-06-19
 
 ### Architecture 구조
-(인준님이 추가 예정)
+![아키텍처 구성도](https://github.com/selab-hs/glass-bottle/assets/76032947/afcf112b-4639-483e-ac75-b8d1f7406c82)
+
 
 ### ERD
 (추가 예정)
