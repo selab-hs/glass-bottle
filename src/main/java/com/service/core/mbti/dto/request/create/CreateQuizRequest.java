@@ -8,6 +8,5 @@ import lombok.Setter;
 public class CreateQuizRequest {
     private Long roundId;
     private String title;
-    private Long seq;
     private String content;
 }

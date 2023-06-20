@@ -30,12 +30,13 @@ public class MbtiQuizHistory extends BaseEntity {
     @Column(name = "round_id")
     private Long roundId;
 
-    @Convert(converter = MbtiResultConverter.class)
-    private MbtiQuizHistory.MbtiResult result;
-
     private Long userId;
 
+    @Column(name = "mbti_metadata_id")
     private Long mbtiMetadataId;
+
+    private Integer seg;
+    private Integer answer;
 
     @Getter
     public static class MbtiResult {

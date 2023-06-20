@@ -122,7 +122,7 @@ public class MbtiService {
     // 유저 답변 저장
     @Transactional
     public void quizRoundAnswer(List<CreateMbtiQuizRoundAnswerRequest> answer, UserInfo user){
-        mbtiQuizHistoryRepository.saveAll(converter.convertToMbtiQuizHistory(answer, user));
+        mbtiQuizHistoryRepository.saveAllAndFlush(converter.convertToMbtiQuizHistory(answer, user));
     }
 
     //해당 문제 리스트 별로 출력
@@ -140,7 +140,6 @@ public class MbtiService {
     @Transactional
     public List<ReadMbtiQuizRoundResultResponse> getAllMbtiQuizRoundResult(){
         List<MbtiQuizRound> rang = mbtiQuizRoundRepository.findAll();
-
         HashMap<Long, Integer> result = new HashMap<>();
         List<ReadMbtiQuizRoundResultResponse> results = new ArrayList<>();
 
@@ -148,22 +147,20 @@ public class MbtiService {
             result.put(mbti.getId(), result.getOrDefault(mbti.getId(),0));
         }
 
-        for(int i =4;i<rang.size(); i++){
+        for(int i =5;i<=rang.size(); i++){
             List<MbtiQuizHistory> answers = mbtiQuizHistoryRepository.findByRoundId((long) i);
             for(MbtiQuizHistory answer : answers){
-                result.put(answer.getMbtiMetadataId(), result.getOrDefault(answer.getMbtiMetadataId(),0)+answer.getResult().getAnswer());
+                result.put(answer.getMbtiMetadataId(), result.getOrDefault(answer.getMbtiMetadataId(),0)+answer.getAnswer());
             }
-            for(var mbtiMetadataSum : result.keySet()){
-               results.add( ReadMbtiQuizRoundResultResponse.builder()
-                    .roundId(i)
-                    .mbtiMetaId(mbtiMetadataSum)
-                    .result(
-                        (result.get(mbtiMetadataSum)/mbtiQuizHistoryRepository.findByRoundIdAndMbtiMetadataId((long) i,mbtiMetadataSum).size())*100
-                    )
-                    .build()
+            for(Long mbtiMetadataSum : result.keySet()){
+               results.add(
+                   converter.convertToMbtiQuizRoundResultResponse(
+                       i,
+                       mbtiMetadataSum,
+                       result.get(mbtiMetadataSum).longValue(),
+                       mbtiQuizHistoryRepository.findByRoundIdAndMbtiMetadataId((long) i,mbtiMetadataSum).size())
                );
             }
-
         }
         return results;
     }

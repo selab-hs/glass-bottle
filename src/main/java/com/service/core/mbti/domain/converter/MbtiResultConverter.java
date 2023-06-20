@@ -4,13 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.service.core.common.utis.MapperUtil;
 import com.service.core.mbti.domain.*;
-import com.service.core.mbti.domain.MbtiQuizHistory.MbtiResult;
 import com.service.core.mbti.domain.vo.MbtiTest;
 import com.service.core.mbti.dto.request.create.CreateMbtiQuizRoundAnswerRequest;
 import com.service.core.mbti.dto.request.create.CreateQuizRequest;
 import com.service.core.mbti.dto.request.create.CreateQuizRoundRequest;
 import com.service.core.mbti.dto.response.ReadMbtiMetadataIdResponse;
 import com.service.core.mbti.dto.response.ReadMbtiQuizRoundResponse;
+import com.service.core.mbti.dto.response.ReadMbtiQuizRoundResultResponse;
 import com.service.core.mbti.dto.response.ReadMbtiQuizzesResponse;
 import com.service.core.member.dto.response.UserInfo;
 import java.util.ArrayList;
@@ -35,6 +35,22 @@ public class MbtiResultConverter implements AttributeConverter<MbtiQuizHistory.M
             .name(mbtiMetadata.getName())
             .description(mbtiMetadata.getDescription())
             .build();
+    }
+
+    public ReadMbtiQuizRoundResultResponse convertToMbtiQuizRoundResultResponse(int i, long mbtiMetadataSum, Long top, int down){
+        return ReadMbtiQuizRoundResultResponse.builder()
+            .roundId(i)
+            .mbtiMetaId(mbtiMetadataSum)
+            .result((convertResultAverage(top, down)))
+            .build();
+    }
+
+    private int convertResultAverage(Long top, int down){
+        if(top==0||down==0){
+            return 0;
+        }
+        double sum = ((double)top/((double) down*7))*100;
+        return (int) sum ;
     }
 
     public List<MbtiQuiz> convertToMbtiQuizzes(List<CreateQuizRequest> requests){
@@ -92,7 +108,8 @@ public class MbtiResultConverter implements AttributeConverter<MbtiQuizHistory.M
           roundAnswers.add(
             MbtiQuizHistory.builder()
                 .roundId(request.getMbtiQuizRoundId())
-                .result(new MbtiResult(request.getSeq(),request.getSeq()))
+                .seg(request.getSeq())
+                .answer(request.getRoundAnswer())
                 .mbtiMetadataId(user.getMbtiId())
                 .userId(user.getId())
                 .build()
