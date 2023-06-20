@@ -8,8 +8,8 @@
 - 개발 참여 인원: 손장미, 황인준, 황하림
 - 개발 기간: 2023-05-30 ~ 2023-06-19
 
-### Architecture 구조
-![아키텍처 구성도](https://github.com/selab-hs/glass-bottle/assets/76032947/afcf112b-4639-483e-ac75-b8d1f7406c82)
+### CI/CD 배포 구성도
+![배포 구성도](https://github.com/selab-hs/glass-bottle/assets/76032947/afcf112b-4639-483e-ac75-b8d1f7406c82)
 
 
 ### ERD
