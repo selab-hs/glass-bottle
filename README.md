@@ -8,21 +8,40 @@
 - 개발 참여 인원: 손장미, 황인준, 황하림
 - 개발 기간: 2023-05-30 ~ 2023-06-19
 
-### 🔗 배포 주소(Back-End Server)
-(링크 첨부 예정)
+### Architecture 구조
+(인준님이 추가 예정)
 
-### 💁🏻 인원 소개
-(사진과 함께 각자 맡은 주요 기능 작성 예정)
+### ERD
+(추가 예정)
+![erd](https://github.com/selab-hs/glass-bottle/assets/76032947/5c5c11a0-ac2d-4a15-bbe1-841cd5934bb5)
 
-## 사용 방법
-(이미지 첨부 예정)
+## 주요 기능
+📑 member 기능
+- 로그인/회원가입
+- mbti 테스트
+- mbti 관련 테스트 참여/ 결과 통계 조회
+- mbti 별 관련 문제 결과 조회
+- mbti 랜덤 편지 발송/답변
+- 특정 편지 공유
+  
+📑 admin 기능
+- mbti 관련 문제 카테고리 생성
+- mbti 관련 문제 생성
+  (wiki 상세 기입)
+## 프로젝트 개발 전략
+### 1. 브런치 관리 전략
+
+***브랜치 관리 전략 참고 문헌***   
+우아한 형제들 기술 블로그(http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
+
+### 2. CI
+### 3. CD
+### 4. 테스트
+
 
 ## 기술 스택
 ### ⚙️ Environment
 <img src="https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/git-F68D2E?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-
-### - Config
-(미정)
 
 ### 💻 Development
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
@@ -36,5 +55,8 @@
 ### 💿 DB
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
 
-## 업데이트 내역
-버전 업데이트 시 추가됩니다.
+##  프로젝트를 진행하면서 생긴 고민 해결
+- spring security를 사용하지 않고 로그인 구현의 이점
+- 대량의 트래픽을 분산하는 방법
+- DB 조회 성능 개선
+- 민감한 데이터 관리 방법
