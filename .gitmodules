@@ -1,3 +1,4 @@
 [submodule "src/main/resources/config"]
 	path = src/main/resources/config
 	url = https://github.com/selab-hs/glass-bottle-secret.git
+	branch = main
