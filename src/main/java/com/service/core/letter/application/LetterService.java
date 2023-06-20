@@ -1,16 +1,20 @@
 package com.service.core.letter.application;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.service.core.common.utis.LocalDateTimeUtil;
-import com.service.core.error.exception.letter.InvalidLetterStateException;
-import com.service.core.error.exception.letter.InvalidReplyLetterRequestException;
-import com.service.core.error.exception.letter.NotExistLetterException;
-import com.service.core.error.exception.letter.NotExistMbtiTargetException;
+import com.service.core.common.utis.MapperUtil;
+import com.service.core.error.exception.letter.*;
 import com.service.core.letter.convert.LetterConvert;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.domain.LetterInvoice;
 import com.service.core.letter.dto.request.ReplyLetterRequest;
 import com.service.core.letter.dto.request.WriteLetterRequest;
 import com.service.core.letter.dto.response.ReplyLetterResponse;
+import com.service.core.letter.dto.response.SharingResponse;
 import com.service.core.letter.dto.response.WriteLetterResponse;
 import com.service.core.letter.infrastructure.LetterInvoiceRepository;
 import com.service.core.letter.infrastructure.LetterRepository;
@@ -22,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -85,7 +91,7 @@ public class LetterService {
         Optional<Letter> targetLetter = letterRepository.findById(letterId);
 
         validateReplyLetterState(targetLetter.get());
-        validateReplyLetterRequest(sender, letterId);
+        validateLetterRequest(sender, letterId);
 
         Long receiverMbtiId = targetLetter.get().getSenderMbtiId();
 
@@ -161,7 +167,7 @@ public class LetterService {
     }
 
     public void startReplyLetter(UserInfo userInfo, Long letterId) {
-        var id = validateReplyLetterRequest(userInfo, letterId);
+        var id = validateLetterRequest(userInfo, letterId);
         var letter = letterRepository.findById(id).get();
 
         letter.updateLetterState(LetterState.RECEIVE_WAITING);
@@ -176,7 +182,7 @@ public class LetterService {
     }
 
     @Transactional(readOnly = true)
-    public Long validateReplyLetterRequest(UserInfo userInfo, Long letterId) {
+    public Long validateLetterRequest(UserInfo userInfo, Long letterId) {
         return letterInvoiceRepository.findByReceiverUserIdAndLetterId(userInfo.getId(), letterId)
                 .map(LetterInvoice::getLetterId)
                 .orElseThrow(InvalidReplyLetterRequestException::new);
@@ -196,5 +202,28 @@ public class LetterService {
             }
         };
         timer.schedule(timerTask, 1000 * 60 * 30);
+    }
+
+    public String sharingLetter(UserInfo userInfo, Long id, Long receiveId){
+        var senderLetter = findLetterById(id);
+        validateLetterRequest(userInfo, id);
+
+        SharingResponse response = new SharingResponse(senderLetter, findLetterById(receiveId));
+        String data = MapperUtil.writeValueAsString(response);
+
+        return convertQRString(data);
+    }
+
+    private String convertQRString(String data) {
+        try{
+            BitMatrix matrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, 200, 200);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(matrix, "PNG", out);
+            return out.toString();
+        } catch (WriterException e) {
+            throw new QRConversionFailedException();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
