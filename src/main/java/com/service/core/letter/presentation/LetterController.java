@@ -66,4 +66,10 @@ public class LetterController {
         letterService.startReplyLetter(userInfo, id);
         return ResponseDto.ok("Reply Timer : 30:00");
     }
+
+    @GetMapping("/sharing/{id}/{receiveId}")
+    public ResponseEntity<String> sharingLetter(@AuthMember UserInfo userInfo, @PathVariable Long id, @PathVariable Long receiveId) {
+        var dataQR = letterService.sharingLetter(userInfo, id, receiveId);
+        return ResponseDto.ok(dataQR);
+    }
 }

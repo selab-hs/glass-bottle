@@ -35,6 +35,7 @@ public enum ErrorMessage {
     INVALID_REPLY_LETTER_REQUEST_ERROR(HttpStatus.BAD_REQUEST, "잘못된 답변 편지 요청입니다."),
     INVALID_LETTER_STATE(HttpStatus.BAD_REQUEST, "잘못된 편지 상태입니다."),
     INVALID_DELETE_REQUEST(HttpStatus.BAD_REQUEST, "해당 편지를 삭제할 수 없습니다."),
+    CONVERSION_FAILED_QR(HttpStatus.INTERNAL_SERVER_ERROR, "QR 변환이 정상적으로 이루어지지 못했습니다. ")
     ;
 
     private final HttpStatus status;
