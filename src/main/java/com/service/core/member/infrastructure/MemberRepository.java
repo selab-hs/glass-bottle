@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
+    Optional<User> findById(Long id);
+
     Optional<User> findByEmailAndPassword(String email, String password);
 
     @Cacheable(value = "targetUsers", key = "#mbtiId")

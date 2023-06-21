@@ -1,4 +1,4 @@
-package com.service.core.mbti.domain.converter;
+package com.service.core.mbti.domain.vo.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,12 +37,24 @@ public class MbtiResultConverter implements AttributeConverter<MbtiQuizHistory.M
             .build();
     }
 
-    public ReadMbtiQuizRoundResultResponse convertToMbtiQuizRoundResultResponse(int i, long mbtiMetadataSum, Long top, int down){
+    public ReadMbtiQuizRoundResultResponse convertToMbtiQuizRoundResultResponse(int roundId, long mbtiMetadataSum, Long top, int down){
         return ReadMbtiQuizRoundResultResponse.builder()
-            .roundId(i)
+            .roundId(roundId)
             .mbtiMetaId(mbtiMetadataSum)
             .result((convertResultAverage(top, down)))
             .build();
+    }
+
+    public ReadMbtiQuizRoundResultResponse convertToMyMbtiQuizRoundResultResponse(List<MbtiQuizHistory> answers, Long roundId, Long userId){
+        Long sum = 0L;
+        for(MbtiQuizHistory answer : answers){
+            sum += answer.getAnswer();
+        }
+       return ReadMbtiQuizRoundResultResponse.builder()
+           .roundId(Math.toIntExact(roundId))
+           .mbtiMetaId(userId)
+           .result(convertResultAverage(sum, answers.size()))
+           .build();
     }
 
     private int convertResultAverage(Long top, int down){

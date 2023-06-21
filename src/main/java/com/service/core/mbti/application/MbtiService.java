@@ -7,7 +7,7 @@ import com.service.core.mbti.domain.MbtiMetadata;
 import com.service.core.mbti.domain.MbtiQuiz;
 import com.service.core.mbti.domain.MbtiQuizHistory;
 import com.service.core.mbti.domain.MbtiQuizRound;
-import com.service.core.mbti.domain.converter.MbtiResultConverter;
+import com.service.core.mbti.domain.vo.converter.MbtiResultConverter;
 import com.service.core.mbti.dto.request.MyMbtiRequest;
 import com.service.core.mbti.dto.request.create.CreateQuizRequest;
 import com.service.core.mbti.dto.request.create.CreateQuizRoundRequest;
@@ -22,7 +22,9 @@ import com.service.core.mbti.infrastructure.MbtiQuizHistoryRepository;
 import com.service.core.mbti.infrastructure.MbtiQuizRepository;
 import com.service.core.mbti.infrastructure.MbtiQuizRoundRepository;
 import com.service.core.mbti.infrastructure.MemberMbtiRepository;
+import com.service.core.member.application.MemberService;
 import com.service.core.member.domain.vo.RoleType;
+import com.service.core.member.dto.request.UpdateMemberMbtiRequest;
 import com.service.core.member.dto.response.UserInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,10 +42,13 @@ public class MbtiService {
     private final MbtiQuizHistoryRepository mbtiQuizHistoryRepository;
     private final MbtiQuizRepository mbtiQuizRepository;
     private final MbtiResultConverter converter;
+    private final MemberService memberService;
 
     @Transactional
     public String mbtiQuizResultSave(UserInfo user, MyMbtiRequest request) {
             String mbtiName = converter.convertToMbtiQuizResult(request.getMbtiRequest());
+            Long mbtiId = mbtiMetadataRepository.findByType(mbtiName).get().getId();
+            memberService.updateMember(user,new UpdateMemberMbtiRequest(mbtiId));
             memberMbtiRepository
                 .save(
                     converter.convertToMemberMbti(
@@ -163,5 +168,11 @@ public class MbtiService {
             }
         }
         return results;
+    }
+
+    @Transactional
+    public ReadMbtiQuizRoundResultResponse getMbtiQuizRoundResult(UserInfo user, Long roundId){
+        List<MbtiQuizHistory> answers = mbtiQuizHistoryRepository.findByUserIdAndRoundId(user.getId(), roundId);
+        return converter.convertToMyMbtiQuizRoundResultResponse(answers, roundId, user.getId());
     }
 }

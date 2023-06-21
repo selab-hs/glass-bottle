@@ -2,7 +2,7 @@ package com.service.core.mbti.application;
 
 import com.service.core.error.dto.ErrorMessage;
 import com.service.core.error.exception.mbti.EmptySearchResultException;
-import com.service.core.mbti.domain.converter.MbtiResultConverter;
+import com.service.core.mbti.domain.vo.converter.MbtiResultConverter;
 import com.service.core.mbti.dto.response.ReadMbtiMetadataIdResponse;
 import com.service.core.mbti.dto.response.ReadMbtiMetadataResponse;
 import com.service.core.mbti.infrastructure.MbtiMetadataRepository;

@@ -10,5 +10,6 @@ public interface MbtiQuizHistoryRepository extends JpaRepository<MbtiQuizHistory
     void deleteByRoundId(Long id);
 
     List<MbtiQuizHistory> findByRoundId(Long roundId);
+    List<MbtiQuizHistory> findByUserIdAndRoundId(Long userId, Long RoundId);
     List<MbtiQuizHistory> findByRoundIdAndMbtiMetadataId(Long roundId, Long mbtiMetadataId);
 }
