@@ -20,6 +20,12 @@ else
   sleep 5
 fi
 
+git submodule update --remote --recursive
+git add .
+git commit -m "update submodules"
+git pull origin main
+
+
 #echo "> 새 어플리케이션 배포"
 #JAR_NAME=$(ls -tr $DEPLOY_PATH | grep *.jar | tail -n 1)
 
