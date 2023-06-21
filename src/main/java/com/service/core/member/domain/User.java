@@ -29,4 +29,8 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+
+    public void update(Long mbtiId){
+        this.mbtiId = mbtiId;
+    }
 }
