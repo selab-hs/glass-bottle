@@ -1,7 +1,6 @@
 package com.service.core.mbti.domain;
 
 import com.service.core.common.domain.BaseEntity;
-import com.service.core.mbti.domain.converter.MbtiResultConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,12 +28,13 @@ public class MbtiQuizHistory extends BaseEntity {
     @Column(name = "round_id")
     private Long roundId;
 
-    @Convert(converter = MbtiResultConverter.class)
-    private MbtiQuizHistory.MbtiResult result;
-
     private Long userId;
 
+    @Column(name = "mbti_metadata_id")
     private Long mbtiMetadataId;
+
+    private Integer seg;
+    private Integer answer;
 
     @Getter
     public static class MbtiResult {

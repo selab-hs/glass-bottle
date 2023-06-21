@@ -1,6 +1,7 @@
 package com.service.core.mbti.domain.vo;
 
 import com.service.core.error.dto.ErrorMessage;
+import com.service.core.error.exception.mbti.AmbiguousResultException;
 import com.service.core.error.exception.mbti.NotEqualRoundSizeException;
 import com.service.core.error.exception.mbti.NotEqualRoundsSizeException;
 import com.service.core.error.exception.mbti.UnacceptableScoreFormException;
@@ -34,9 +35,14 @@ public class MbtiTest {
     private String checkMbtiType(int[][] answer){
         String mbtiResult = "mbti";
         for(int i=0; i<answer.length;i++){
-                int sum = mbtiRoundSum(answer[i]);
+                int result = mbtiRoundSum(answer[i])/mbtiProblemsLengths[i];
+                if(result == 4) {
+                    throw new AmbiguousResultException(ErrorMessage.AMBIGUOUS_REULST_ERROR);
+                }
                 mbtiResult =
-                    (sum / mbtiProblemsLengths[i] > 4) ? mbtiResult+ mbtiTypes[i][0] : mbtiResult+ mbtiTypes[i][1];
+                    result > 4
+                        ? mbtiResult+ mbtiTypes[i][0]
+                        : mbtiResult+ mbtiTypes[i][1];
         }
         return mbtiResult.substring(4);
     }

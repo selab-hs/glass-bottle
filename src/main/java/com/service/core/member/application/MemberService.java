@@ -7,6 +7,8 @@ import com.service.core.error.exception.member.NotEqualsMemberInfoException;
 import com.service.core.member.convert.MemberConvert;
 import com.service.core.member.domain.User;
 import com.service.core.member.dto.request.CreateMemberRequest;
+import com.service.core.member.dto.request.UpdateMemberMbtiRequest;
+import com.service.core.member.dto.response.UserInfo;
 import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
@@ -35,6 +37,15 @@ public class MemberService {
         User admin = MemberConvert.toAdmin();
         memberRepository.save(admin);
         return admin;
+    }
+
+    @Transactional
+    public void updateMember(UserInfo user, UpdateMemberMbtiRequest request){
+        User member = memberRepository.findById(user.getId()).orElseThrow(
+            ()-> new NotEqualsMemberInfoException(ErrorMessage.NOT_EQUALS_MEMBER_INFO_ERROR)
+        );
+        member.update(request.getMbtiId());
+        memberRepository.save(member);
     }
 
     @Transactional

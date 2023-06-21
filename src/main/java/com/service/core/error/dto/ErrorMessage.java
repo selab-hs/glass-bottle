@@ -23,6 +23,7 @@ public enum ErrorMessage {
      * mbti quiz 오류
      */
     NOT_EQUAL_ROUNDS_SIZE_ERROR(HttpStatus.BAD_REQUEST, "quiz의 라운드 수가 맞지 않습니다."),
+    AMBIGUOUS_REULST_ERROR(HttpStatus.BAD_REQUEST, "테스트 결과가 모호합니다."),
     NOT_EQUAL_ROUND_SIZE_ERROR(HttpStatus.BAD_REQUEST, "라운드 내부의 문제 수 가 맞지 않습니다."),
     UNACCEPTABLE_SCORE_FORM_ERROR(HttpStatus.BAD_REQUEST, "잘못된 스코어 형태 입력입니다"),
     EMPTY_SEARCH_RESULT_ERROR(HttpStatus.BAD_REQUEST,"검색결과가 비어있습니다."),

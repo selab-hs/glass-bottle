@@ -113,6 +113,16 @@ public class MbtiController {
         return ResponseDto.toResponseEntity(ResponseMessage.READ_SUCCESS_QIZE_ROUND_RESULT, quizs);
     }
 
+    //개인 라운드 테스트 결과 확인하기
+    @GetMapping("/quizzes/rounds/answers/{roundId}")
+    public ResponseEntity<ResponseDto> getQuizRoundResult(
+        @AuthMember UserInfo user,
+        @PathVariable("roundId") Long roundId
+    ){
+        ReadMbtiQuizRoundResultResponse quizs = mbtiService.getMbtiQuizRoundResult(user, roundId);
+        return ResponseDto.toResponseEntity(ResponseMessage.READ_SUCCESS_QIZE_ROUND_RESULT, quizs);
+    }
+
     //해당 퀴즈 라운드 종류 전부 출력
     @GetMapping("/quizzes/rounds/{roundId}")
     public ResponseEntity<ResponseDto> getSelectQuizRound(@PathVariable Long roundId){
