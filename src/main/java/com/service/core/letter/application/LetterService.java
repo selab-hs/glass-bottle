@@ -91,7 +91,7 @@ public class LetterService {
         Optional<Letter> targetLetter = letterRepository.findById(letterId);
 
         validateReplyLetterState(targetLetter.get());
-        validateLetterRequest(sender, letterId);
+        validateLetterReplyRequest(sender, letterId);
 
         Long receiverMbtiId = targetLetter.get().getSenderMbtiId();
 
@@ -167,7 +167,7 @@ public class LetterService {
     }
 
     public void startReplyLetter(UserInfo userInfo, Long letterId) {
-        var id = validateLetterRequest(userInfo, letterId);
+        var id = validateLetterReplyRequest(userInfo, letterId);
         var letter = letterRepository.findById(id).get();
 
         letter.updateLetterState(LetterState.RECEIVE_WAITING);
@@ -182,10 +182,16 @@ public class LetterService {
     }
 
     @Transactional(readOnly = true)
-    public Long validateLetterRequest(UserInfo userInfo, Long letterId) {
+    public Long validateLetterReplyRequest(UserInfo userInfo, Long letterId) {
         return letterInvoiceRepository.findByReceiverUserIdAndLetterId(userInfo.getId(), letterId)
                 .map(LetterInvoice::getLetterId)
                 .orElseThrow(InvalidReplyLetterRequestException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public void validateLetterSharingRequest(UserInfo userInfo, Long letterId) {
+        letterInvoiceRepository.findBySenderUserIdAndLetterId(userInfo.getId(), letterId)
+                .orElseThrow(InvalidSharingLetterRequestException::new);
     }
 
     private void replyLetterTimeTask(Long letterId) {
@@ -206,7 +212,7 @@ public class LetterService {
 
     public String sharingLetter(UserInfo userInfo, Long id, Long receiveId){
         var senderLetter = findLetterById(id);
-        validateLetterRequest(userInfo, id);
+        validateLetterSharingRequest(userInfo, id);
 
         SharingResponse response = new SharingResponse(senderLetter, findLetterById(receiveId));
         String data = MapperUtil.writeValueAsString(response);
