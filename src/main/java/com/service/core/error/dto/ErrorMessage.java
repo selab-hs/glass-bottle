@@ -34,6 +34,7 @@ public enum ErrorMessage {
     NOT_EXIST_LETTER(HttpStatus.BAD_REQUEST,"편지가 존재하지 않습니다."),
     NOT_EXIST_MBTI_TARGET(HttpStatus.BAD_REQUEST,"해당 MBTI를 가진 회원이 없습니다."),
     INVALID_REPLY_LETTER_REQUEST_ERROR(HttpStatus.BAD_REQUEST, "잘못된 답변 편지 요청입니다."),
+    INVALID_SHARING_LETTER_REQUEST_ERROR(HttpStatus.BAD_REQUEST, "잘못된 공유 편지 요청입니다"),
     INVALID_LETTER_STATE(HttpStatus.BAD_REQUEST, "잘못된 편지 상태입니다."),
     INVALID_DELETE_REQUEST(HttpStatus.BAD_REQUEST, "해당 편지를 삭제할 수 없습니다."),
     CONVERSION_FAILED_QR(HttpStatus.INTERNAL_SERVER_ERROR, "QR 변환이 정상적으로 이루어지지 못했습니다. ")

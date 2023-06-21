@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/letters")
@@ -68,7 +69,9 @@ public class LetterController {
     }
 
     @GetMapping("/sharing/{id}/{receiveId}")
-    public ResponseEntity<String> sharingLetter(@AuthMember UserInfo userInfo, @PathVariable Long id, @PathVariable Long receiveId) {
+    public ResponseEntity<String> sharingLetter(@AuthMember UserInfo userInfo, @PathVariable Map<String, String> pathId) {
+        Long id = Long.valueOf(pathId.get("id"));
+        Long receiveId = Long.valueOf(pathId.get("receiveId"));
         var dataQR = letterService.sharingLetter(userInfo, id, receiveId);
         return ResponseDto.ok(dataQR);
     }
