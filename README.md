@@ -13,7 +13,6 @@
 
 
 ### ERD
-(추가 예정)
 ![erd](https://github.com/selab-hs/glass-bottle/assets/76032947/5c5c11a0-ac2d-4a15-bbe1-841cd5934bb5)
 
 ## 주요 기능
@@ -28,7 +27,9 @@
 📑 admin 기능
 - mbti 관련 문제 카테고리 생성
 - mbti 관련 문제 생성
-  (wiki 상세 기입)
+
+#### - [기능 Wiki 상세 정리](https://github.com/selab-hs/glass-bottle/wiki) 
+
 ## 프로젝트 개발 전략
 ### 1. 브런치 관리 전략
 
@@ -36,7 +37,11 @@
 우아한 형제들 기술 블로그(http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
 
 ### 2. CI
+- 깃 허브를 통하여 형상관리를 진행
+- staging branch PR을 통한 Merge 시 Git Action 실행
 ### 3. CD
+- Git Action을 통하여 staging, main branch push시 jdk 설치, submodule을 체크아웃하여 빌드, AWS 자격증명, S3에 빌드한 프로젝트 zip파일로 업로드, CodeDeploy 요청 진행
+- CodeDeploy가 S3에 저장된 zip 파일을 받아와 최근 배포된 프로젝트 EC2 인스턴스에 배포 진행
 ### 4. 테스트
 
 
@@ -60,4 +65,10 @@
 - spring security를 사용하지 않고 로그인 구현의 이점
 - 대량의 트래픽을 분산하는 방법
 - DB 조회 성능 개선
+- 특정 MBTI/랜덤 편지 발송 구현 방법
+- 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우
+- 프로젝트 배포에 있어 CI/CD 구축 방법
+- EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생
+- 애플리케이션의 상태를 모니터링 하는 방법
 - 민감한 데이터 관리 방법
+- 문서화 방법
