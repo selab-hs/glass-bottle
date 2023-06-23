@@ -28,12 +28,24 @@
 - mbti 관련 문제 카테고리 생성
 - mbti 관련 문제 생성
 
+📑 Slack 모니터링 기능
+- 서버 상태 1시간 마다 Slack 메시지 전달
+- 전일 회원가입 유저, 작성한 편지 Slack 메시지 전달
+- 에러 로그 발생시 Slack으로 메시지 전달
+
 #### - [기능 Wiki 상세 정리](https://github.com/selab-hs/glass-bottle/wiki) 
 
 ## 프로젝트 개발 전략
 ### 1. 브런치 관리 전략
+- Github PR을 이용한 Git Flow 전략
+- main(master) : ec2 서버 release 브랜치
+- staging : 배포 전 PR 통합 브랜치 (deveploy)
+- feature : 기능 구현 브랜치
+- fix : 버그 픽스 브랜치
+- docs : 문서화 구현 브랜치
+- + submodule : 브랜치가 아닌 민감한 yml 정보를 다루는 private한 하위 저장소
 
-***브랜치 관리 전략 참고 문헌***   
+***브랜치 관리 전략 참고 문헌***
 우아한 형제들 기술 블로그(http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
 
 ### 2. CI
