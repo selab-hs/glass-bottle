@@ -13,7 +13,8 @@
 
 
 ### ERD
-![erd](https://github.com/selab-hs/glass-bottle/assets/76032947/5c5c11a0-ac2d-4a15-bbe1-841cd5934bb5)
+![Glass bottle (1)](https://github.com/selab-hs/glass-bottle/assets/76032947/cb0ee4c0-16c2-4126-8b51-6b68e6a47888)
+
 
 ## 주요 기능
 📑 member 기능
