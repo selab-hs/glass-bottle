@@ -85,4 +85,5 @@
 - 애플리케이션의 상태를 모니터링 하는 방법
 - 민감한 데이터 관리 방법
 - 문서화 방법
-####- [이슈 처리 방법](https://github.com/selab-hs/glass-bottle/wiki/Technical-Issue)
+
+#### - [이슈 처리 방법](https://github.com/selab-hs/glass-bottle/wiki/Technical-Issue)
