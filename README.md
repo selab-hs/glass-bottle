@@ -37,14 +37,14 @@
 #### - [기능 Wiki 상세 정리](https://github.com/selab-hs/glass-bottle/wiki) 
 
 ## 프로젝트 개발 전략
-### 1. 브런치 관리 전략
+### 1. 브랜치 관리 전략
 - Github PR을 이용한 Git Flow 전략
 - main(master) : ec2 서버 release 브랜치
 - staging : 배포 전 PR 통합 브랜치 (deveploy)
 - feature : 기능 구현 브랜치
 - fix : 버그 픽스 브랜치
 - docs : 문서화 구현 브랜치
-- + submodule : 브랜치가 아닌 민감한 yml 정보를 다루는 private한 하위 저장소
++ submodule : 브랜치가 아닌 민감한 yml 정보를 다루는 private한 하위 저장소
 
 ***브랜치 관리 전략 참고 문헌***
 우아한 형제들 기술 블로그(http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
@@ -74,7 +74,7 @@
 ### 💿 DB
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
 
-##  프로젝트를 진행하면서 생긴 고민 해결
+##  프로젝트를 진행하면서 생긴 고민
 - spring security를 사용하지 않고 로그인 구현의 이점
 - 대량의 트래픽을 분산하는 방법
 - DB 조회 성능 개선
@@ -85,3 +85,6 @@
 - 애플리케이션의 상태를 모니터링 하는 방법
 - 민감한 데이터 관리 방법
 - 문서화 방법
+
+## 고민 이슈 처리 방법
+### [Technical Issue](https://github.com/selab-hs/glass-bottle/wiki/Technical-Issue)
