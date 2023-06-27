@@ -82,10 +82,11 @@
 - DB 조회 성능 개선
 - 특정 MBTI/랜덤 편지 발송 구현 방법
 - 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우
-- 프로젝트 배포에 있어 CI/CD 구축 방법
-- EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생
-- 애플리케이션의 상태를 모니터링 하는 방법
-- 민감한 데이터 관리 방법
-- 문서화 방법
+- 프로젝트 배포에 있어 CI/CD 구축 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Git/Git-Action.md)
+- EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Error/EC2_Memory_Shortage.md) 
+- 애플리케이션의 상태를 모니터링 하는 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Actuator.md)
+- 애플리케이션 에러 발생시 모니터링 하는 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/SlackAppender.md)
+- 민감한 데이터 관리 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Git/SubModule-RepositorySecrets.md)
+- 문서화 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Swagger.md) 
 
 #### - [이슈 처리 방법](https://github.com/selab-hs/glass-bottle/wiki/Technical-Issue)
