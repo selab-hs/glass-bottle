@@ -75,7 +75,7 @@
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
 
 ##  프로젝트를 진행하면서 생긴 고민
-- 프레임워크 없이 인증 인가 기능 이점 [👉click](https://magnetic-crow-9f1.notion.site/Spring-Security-425aa0dbae8a48fb9396c53eeedbe7e8?pvs=4) 
+- 프레임워크 없이 인증 인가 기능 이점 [👉click](https://magnetic-crow-9f1.notion.site/c8aa5d47effd4e69b71fa06ae2b282f0?pvs=4) 
 - 대량의 트래픽을 분산하는 방법
 - DB 조회 성능 개선
 - 특정 MBTI/랜덤 편지 발송 구현 방법
