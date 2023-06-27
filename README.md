@@ -8,6 +8,9 @@
 - 개발 참여 인원: 손장미, 황인준, 황하림
 - 개발 기간: 2023-05-30 ~ 2023-06-19
 
+### service flow
+![login](https://github.com/selab-hs/glass-bottle/assets/76032947/6f4a70c2-c7aa-45de-b841-446dd5c7b886)
+
 ### CI/CD 배포 구성도
 ![배포 구성도](https://github.com/selab-hs/glass-bottle/assets/76032947/afcf112b-4639-483e-ac75-b8d1f7406c82)
 
