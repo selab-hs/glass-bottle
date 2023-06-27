@@ -41,15 +41,14 @@
 ## 프로젝트 개발 전략
 ### 1. 브랜치 관리 전략
 - Github PR을 이용한 Git Flow 전략
-- main(master) : ec2 서버 release 브랜치
-- staging : 배포 전 PR 통합 브랜치 (deveploy)
-- feature : 기능 구현 브랜치
-- fix : 버그 픽스 브랜치
-- docs : 문서화 구현 브랜치
-+ submodule : 브랜치가 아닌 민감한 yml 정보를 다루는 private한 하위 저장소
+- main(master): ec2 서버 release 브랜치
+- staging: 배포 전 PR 통합 브랜치 (deveploy)
+- feature: 기능 구현 브랜치
+- fix: 버그 픽스 브랜치
+- docs: 문서화 구현 브랜치
+- submodule: 브랜치가 아닌 민감한 yml 정보를 다루는 private한 하위 저장소
 
-***브랜치 관리 전략 참고 문헌***
-우아한 형제들 기술 블로그(http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
+*📌 브랜치 관리 전략 참고 문헌 - [우아한 형제들 기술 블로그](http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)*
 
 ### 2. CI
 - 깃 허브를 통하여 형상관리를 진행
@@ -77,16 +76,16 @@
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
 
 ##  프로젝트를 진행하면서 생긴 고민
-- 프레임워크 없이 인증 인가 기능 이점 [👉click](https://magnetic-crow-9f1.notion.site/c8aa5d47effd4e69b71fa06ae2b282f0?pvs=4) 
+- 프레임워크 없이 인증 인가 기능 이점 [👉 click](https://magnetic-crow-9f1.notion.site/c8aa5d47effd4e69b71fa06ae2b282f0?pvs=4) 
 - 대량의 트래픽을 분산하는 방법
-- DB 조회 성능 개선
+- DB 조회 성능 개선 [👉 click](https://unequaled-peach-7e5.notion.site/DB-08f7d7477a2648bbb8e3cf4887adfccf)
 - 특정 MBTI/랜덤 편지 발송 구현 방법
 - 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우
-- 프로젝트 배포에 있어 CI/CD 구축 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Git/Git-Action.md)
-- EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Error/EC2_Memory_Shortage.md) 
-- 애플리케이션의 상태를 모니터링 하는 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Actuator.md)
-- 애플리케이션 에러 발생시 모니터링 하는 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/SlackAppender.md)
-- 민감한 데이터 관리 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Git/SubModule-RepositorySecrets.md)
-- 문서화 방법 [👉click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Swagger.md) 
+- 프로젝트 배포에 있어 CI/CD 구축 방법 [👉 click](https://github.com/InJun2/TIL/blob/main/Stack/Git/Git-Action.md)
+- EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생 [👉 click](https://github.com/InJun2/TIL/blob/main/Stack/Error/EC2_Memory_Shortage.md) 
+- 애플리케이션의 상태를 모니터링 하는 방법 [👉 click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Actuator.md)
+- 애플리케이션 에러 발생시 모니터링 하는 방법 [👉 click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/SlackAppender.md)
+- 민감한 데이터 관리 방법 [👉 click](https://github.com/InJun2/TIL/blob/main/Stack/Git/SubModule-RepositorySecrets.md)
+- 문서화 방법 [👉 click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Swagger.md) 
 
 #### - [이슈 처리 방법](https://github.com/selab-hs/glass-bottle/wiki/Technical-Issue)
