@@ -58,10 +58,7 @@ jobs:
 
       # Docker 이미지 확인
       - name: docker image check
-        run: docker images
-
-      - name: docker info
-        run: docker info
+        run: docker save -o glass-bottle.tar glass-bottle-img
 
 #      # DockerHub Login (3)
 #      - name: docker login
@@ -77,15 +74,15 @@ jobs:
 #        run: zip -r ./$GITHUB_SHA.zip .
 #        shell: bash
 #
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws-region: ${{ env.AWS_REGION }}
-#
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 https://index.docker.io/v1/glass-bottle.tar s3://$S3_BUCKET_NAME/glass-bottle.tar
+        run: aws s3 cp --region ap-northeast-2 glass-bottle-img.tar s3://$S3_BUCKET_NAME/glass-bottle-img.tar
 #
 #      - name: Code Deploy
 #        run: aws deploy create-deployment --application-name glass-bottle-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name glass-bottle-group --s3-location bucket=glaas-bottle-s3-bucket,bundleType=zip,key=$GITHUB_SHA.zip
