@@ -54,7 +54,7 @@ jobs:
 
       # Docker 이미지 Build (2)
       - name: docker image build
-        run: docker build -t $GITHUB_SHA .
+        run: docker build -t glass-bottle .
 
       # Docker 이미지 확인
       - name: docker image check
@@ -82,7 +82,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} s3://$S3_BUCKET_NAME/${{ env.IMAGE_NAME }}
+        run: aws s3 cp --region ap-northeast-2 /var/lib/docker/glass-bottle.tar s3://$S3_BUCKET_NAME/glass-bottle.tar
 #
 #      - name: Code Deploy
 #        run: aws deploy create-deployment --application-name glass-bottle-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name glass-bottle-group --s3-location bucket=glaas-bottle-s3-bucket,bundleType=zip,key=$GITHUB_SHA.zip
