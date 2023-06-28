@@ -84,8 +84,8 @@ jobs:
 #          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 #          aws-region: ${{ env.AWS_REGION }}
 #
-#      - name: Upload to S3
-#        run: aws s3 cp --region ap-northeast-2 /var/lib/docker/glass-bottle.tar s3://$S3_BUCKET_NAME/glass-bottle.tar
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 https://index.docker.io/v1/glass-bottle.tar s3://$S3_BUCKET_NAME/glass-bottle.tar
 #
 #      - name: Code Deploy
 #        run: aws deploy create-deployment --application-name glass-bottle-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name glass-bottle-group --s3-location bucket=glaas-bottle-s3-bucket,bundleType=zip,key=$GITHUB_SHA.zip
