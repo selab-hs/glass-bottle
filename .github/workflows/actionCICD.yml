@@ -52,7 +52,7 @@ jobs:
 
       # Docker 이미지 Build (2)
       - name: docker image build
-        run: docker build -t glass-bottle ./Dockerfile
+        run: docker build -t glass-bottle .
 
 #      # DockerHub Login (3)
 #      - name: docker login
