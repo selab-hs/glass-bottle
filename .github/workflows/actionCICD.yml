@@ -85,4 +85,4 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./glass-bottle.tar s3://$S3_BUCKET_NAME/$GITHUB_SHA.tar
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name glass-bottle-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name glass-bottle-group --s3-location bucket=glaas-bottle-s3-bucket,bundleType=zip,key=$GITHUB_SHA.tar
+        run: aws deploy create-deployment --application-name glass-bottle-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name glass-bottle-group --s3-location bucket=glaas-bottle-s3-bucket,bundleType=tar,key=$GITHUB_SHA.tar
