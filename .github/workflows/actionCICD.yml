@@ -52,17 +52,14 @@ jobs:
 
       # Docker 이미지 Build (2)
       - name: docker image build
-        run: docker build -t glass-bottle:ver_1 .
-          
-      # DockerHub Login (3)
-      - name: docker login
-        uses: docker/login-action@v2
-        with:
-         username: ${{ secrets.DOCKERHUB_USERNAME }}
-         password: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: docker build -t ./ ./Dockerfile
 
-      - name: docker Hub push
-        run: docker push glass-bottle:ver_1
+#      # DockerHub Login (3)
+#      - name: docker login
+#        uses: docker/login-action@v2
+#        with:
+#         username: ${{ secrets.DOCKERHUB_USERNAME }}
+#         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
 #      - name: Run a one-line script
 #        run: echo ${{ github.job }}
