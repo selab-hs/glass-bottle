@@ -52,7 +52,7 @@ jobs:
 
       # Docker 이미지 Build (2)
       - name: docker image build
-        run: docker build -t $GITHUB_SHA .
+        run: docker build -t ./$GITHUB_SHA .
 
       # Docker 이미지 확인
       - name: docker image check
