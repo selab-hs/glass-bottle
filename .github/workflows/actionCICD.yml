@@ -58,7 +58,7 @@ jobs:
 
       # Docker 이미지 확인
       - name: docker image check
-        run: docker save -o glass-bottle.tar glass-bottle-img
+        run: docker save -o glass-bottle.tar glass-bottle
 
 #      # DockerHub Login (3)
 #      - name: docker login
