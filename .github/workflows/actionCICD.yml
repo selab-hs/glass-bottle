@@ -53,15 +53,17 @@ jobs:
         shell: bash
 
 
+      # Docker 이미지 Build
+      - name: docker image build
+        run: docker build -t glass-bottle .
+
+      # Docker 이미지 파일로 저장
+      - name: docker image save
+        run: docker save -o glass-bottle.tar glass-bottle
+
+      # tar 압축
       - name: archive glass-bottle
-        run: tar cvfz ./glass-bottle.tar.gz *
-#      # Docker 이미지 Build
-#      - name: docker image build
-#        run: docker build -t glass-bottle .
-#
-#      # Docker 이미지 파일로 저장
-#      - name: docker image check
-#        run: docker save -o glass-bottle.tar glass-bottle
+        run: tar cvfz ./glass-bottle.tar.gz ./glass-bottle.tar
 
 #      # DockerHub Login (3)
 #      - name: docker login
