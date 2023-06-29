@@ -63,7 +63,7 @@ jobs:
 
       # tar 압축
       - name: archive glass-bottle
-        run: tar cvfz ./glass-bottle.tar.gz ./glass-bottle.tar ./appspec.yml
+        run: tar cvfz ./glass-bottle.tar.gz ./glass-bottle.tar ./appspec.yml ./scripts/deploy.sh
 
 #      # DockerHub Login (3)
 #      - name: docker login
