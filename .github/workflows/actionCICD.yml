@@ -52,13 +52,16 @@ jobs:
         run: ./gradlew clean build
         shell: bash
 
-      # Docker 이미지 Build
-      - name: docker image build
-        run: docker build -t glass-bottle .
 
-      # Docker 이미지 파일로 저장
-      - name: docker image check
-        run: docker save -o glass-bottle.tar glass-bottle
+      - name: archive glass-bottle
+        run: tar cvfz ./glass-bottle.tar.gz *
+#      # Docker 이미지 Build
+#      - name: docker image build
+#        run: docker build -t glass-bottle .
+#
+#      # Docker 이미지 파일로 저장
+#      - name: docker image check
+#        run: docker save -o glass-bottle.tar glass-bottle
 
 #      # DockerHub Login (3)
 #      - name: docker login
@@ -82,7 +85,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./glass-bottle.tar s3://$S3_BUCKET_NAME/$GITHUB_SHA.tar
+        run: aws s3 cp --region ap-northeast-2 ./glass-bottle.tar.gz s3://$S3_BUCKET_NAME/$GITHUB_SHA.tar.gz
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name glass-bottle-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name glass-bottle-group --s3-location bucket=glaas-bottle-s3-bucket,bundleType=tar,key=$GITHUB_SHA.tar
+        run: aws deploy create-deployment --application-name glass-bottle-app --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name glass-bottle-group --s3-location bucket=glaas-bottle-s3-bucket,bundleType=tgz,key=$GITHUB_SHA.tar.gz
