@@ -5,7 +5,6 @@ env:
   S3_BUCKET_NAME: glaas-bottle-s3-bucket
   AWS_REGION: ap-northeast-2
 
-
 on:
   push:
     branches:

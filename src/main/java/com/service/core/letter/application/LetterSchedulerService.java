@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -27,7 +28,8 @@ public class LetterSchedulerService {
         validateExpirationLetterState();
     }
 
-    private void validateExpirationLetterState(){
+    @Transactional
+    public void validateExpirationLetterState(){
         letterService.findLetterState(LetterState.ACTIVE)
                 .stream()
                 .filter(letter -> LocalDateTimeUtil.getNow().isAfter(letter.getCreatedAt().plusDays(1)))
