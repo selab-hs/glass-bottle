@@ -28,7 +28,6 @@ public class LetterSchedulerService {
         validateExpirationLetterState();
     }
 
-    @Transactional
     public void validateExpirationLetterState(){
         letterService.findLetterState(LetterState.ACTIVE)
                 .stream()
