@@ -9,6 +9,7 @@ import com.service.core.member.dto.request.JoinRequest;
 import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,11 +18,13 @@ public class AuthUserService {
     private final TokenProvider tokenProvider;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public UserDetail loadUserByUsername(String username){
         return UserDetail.create(
             memberRepository.findById((long) Integer.parseInt(username)).get());
     }
 
+    @Transactional
     public String userLogin(JoinRequest joinRequest){
         User member = memberRepository.findByEmailAndPassword(
             joinRequest.getEmail(),

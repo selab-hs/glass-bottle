@@ -51,7 +51,8 @@ public class LetterService {
         appointAllUsers(response, senderUser);
     }
 
-    private WriteLetterResponse getWriteLetterResponse(WriteLetterRequest request, UserInfo senderUser) {
+    @Transactional
+    public WriteLetterResponse getWriteLetterResponse(WriteLetterRequest request, UserInfo senderUser) {
         Letter letter = LetterConvert.toLetterEntity(request, senderUser);
         saveLetter(letter);
 
@@ -70,7 +71,8 @@ public class LetterService {
         saveTargetsToLetterInvoice(response, senderUser, targets);
     }
 
-    private void saveTargetsToLetterInvoice(WriteLetterResponse response, UserInfo senderUser, Set<User> targets) {
+    @Transactional
+    public void saveTargetsToLetterInvoice(WriteLetterResponse response, UserInfo senderUser, Set<User> targets) {
         for (User target : targets) {
             if (targets.size() == 1 && validateOneself(senderUser, target)) {
                 throw new NotExistMbtiTargetException();
@@ -118,7 +120,7 @@ public class LetterService {
         return criterion.equals(target);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<WriteLetterResponse> findAllLetters() {
         return letterRepository.findAll()
                 .stream()
@@ -166,6 +168,7 @@ public class LetterService {
         return message.toString();
     }
 
+    @Transactional
     public void startReplyLetter(UserInfo userInfo, Long letterId) {
         var id = validateLetterReplyRequest(userInfo, letterId);
         var letter = letterRepository.findById(id).get();
