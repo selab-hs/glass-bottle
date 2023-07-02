@@ -18,15 +18,15 @@ public class LetterSchedulerService {
     private final LetterService letterService;
     private final LetterRepository letterRepository;
 
-    @Scheduled(cron = "0 0 0 * * *")
-    private void autoDeleteLetters() {
-        letterRepository.deleteAllInBatchByCreatedAtLessThanEqual(LocalDateTime.now().minusDays(30));
-    }
-
-    @Scheduled(cron = "0 */1 * * * *")
-    private void schedulerYesterdayLetter() {
-        validateExpirationLetterState();
-    }
+//    @Scheduled(cron = "0 0 0 * * *")
+//    private void autoDeleteLetters() {
+//        letterRepository.deleteAllInBatchByCreatedAtLessThanEqual(LocalDateTime.now().minusDays(30));
+//    }
+//
+//    @Scheduled(cron = "0 */1 * * * *")
+//    private void schedulerYesterdayLetter() {
+//        validateExpirationLetterState();
+//    }
 
     public void validateExpirationLetterState(){
         letterService.findLetterState(LetterState.ACTIVE)
