@@ -49,7 +49,6 @@ public class RandomSend {
         return result;
     }
 
-    @Transactional(readOnly = true)
     public List<User> findUsers(Long targetMbti) {
         log.info("대상 MBTI 유저 목록 조회");
         return memberRepository.findByMbtiId(targetMbti);
