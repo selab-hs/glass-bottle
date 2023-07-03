@@ -1,51 +1,28 @@
 /*
 package com.service.core.letter.application;
 
-import com.service.core.letter.infrastructure.LetterRepository;
-import com.service.core.member.convert.MemberConvert;
-import com.service.core.member.domain.User;
-import com.service.core.member.dto.request.CreateMemberRequest;
-import com.service.core.member.infrastructure.MemberRepository;
+import com.navercorp.fixturemonkey.FixtureMonkey;
+import com.service.core.letter.domain.Letter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 @SpringBootTest
 @Transactional
 @Slf4j
 class SendLetterServiceTest {
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    LetterRepository letterRepository;
-    private static final int MAX_SEND_SIZE = 10;
-
     @Test
-    public void senderIdMappingTest() {
-        CreateMemberRequest createMemberRequest = new CreateMemberRequest();
-        createMemberRequest.setEmail("test@naver.com");
-        createMemberRequest.setPassword("password");
-        createMemberRequest.setMbti(1L);
-        User user = memberRepository.save(memberRepository.save(MemberConvert.toEntity(createMemberRequest)));
-    }
+    public void 편지_작성_테스트() {
+        //given
+        FixtureMonkey sut = FixtureMonkey.create();
 
-    @Test
-    public void randomize() {
+        //when
+        var letter = sut.giveMeOne(Letter.class);
 
-        List<Integer> randomNumbers = new ArrayList<>();
-        Random random = new Random(System.currentTimeMillis());
+        System.out.println(letter.getTitle());
 
-        while (randomNumbers.size() < MAX_SEND_SIZE) {
-            randomNumbers.add(random.nextInt(4));
-        }
-        log.info("randomNumbers: " + randomNumbers);
-
+        //then
+        //Assertions.assertThat(letter.build()).isNotNull();
     }
 }*/

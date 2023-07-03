@@ -5,6 +5,7 @@ import com.service.core.member.domain.User;
 import com.service.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,12 +50,15 @@ public class RandomSend {
         return result;
     }
 
+    @Transactional(readOnly = true)
+    @Cacheable(value = "targetUsers", key = "#mbtiId")
     public List<User> findUsers(Long targetMbti) {
         log.info("대상 MBTI 유저 목록 조회");
         return memberRepository.findByMbtiId(targetMbti);
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "allUsers", key = "'SimpleKey'")
     public List<User> findUsers() {
         log.info("전체 유저 목록 조회");
         return memberRepository.findAll();
