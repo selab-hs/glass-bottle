@@ -37,7 +37,7 @@
             <appender-ref ref="CONSOLE" />
         </root>
 
-        <logger name="com.service.core" level="ALL">
+        <logger>
             <appender-ref ref="ASYNC_SLACK" />
         </logger>
 
