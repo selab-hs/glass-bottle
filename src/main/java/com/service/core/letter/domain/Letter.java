@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -24,23 +25,17 @@ public class Letter extends BaseEntity {
     private Long receiverMbtiId;
 
     @NotNull
+    @Size(max=100, message = "제목은 100자 이내로 입력 가능합니다.")
     private String title;
 
     @NotNull
+    @Size(max=1000, message = "내용은 1000자 이내로 입력 가능합니다.")
     private String content;
 
     @Enumerated(EnumType.STRING)
     private LetterState state;
 
     public void updateLetterState(LetterState state) {
-        this.state = state;
-    }
-
-    public Letter(Long senderMbtiId, Long receiverMbtiId, String title, String content, LetterState state) {
-        this.senderMbtiId = senderMbtiId;
-        this.receiverMbtiId = receiverMbtiId;
-        this.title = title;
-        this.content = content;
         this.state = state;
     }
 }

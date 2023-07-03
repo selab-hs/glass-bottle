@@ -6,11 +6,12 @@ plugins {
 }
 
 jacoco {
-    toolVersion = '0.8.5'
+    toolVersion = '0.8.7'
 }
 
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
 }
 
 group = 'com.glassbottle'
@@ -43,8 +44,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-webflux"
     implementation "org.springframework.boot:spring-boot-starter-data-redis"
-    implementation 'org.springframework.boot:spring-boot-starter-parent:2.7.2'
-    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.springframework.boot:spring-boot-starter-parent:3.0.4'
+    implementation 'org.projectlombok:lombok:1.18.26'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // metadata config
@@ -81,7 +82,8 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:0.5.0")
+    testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:0.5.2'
+    testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-javax-validation:0.5.2'
     runtimeOnly('io.netty:netty-resolver-dns-native-macos:4.1.93.Final:osx-aarch_64')
 }
 
