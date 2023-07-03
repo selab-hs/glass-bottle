@@ -4,6 +4,7 @@ echo "swap memory 할당" >> $DEPLOY_LOG
 sudo dd if=/dev/zero of=/swapfile bs=128M count=16
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
+sudo swapon -s >> $DEPLOY_LOG
 
 BUILD_JAR=$(ls /home/ec2-user/glass-bottle/build/libs/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
