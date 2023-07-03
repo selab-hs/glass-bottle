@@ -39,7 +39,6 @@ public class MemberService {
         return admin;
     }
 
-    @Transactional
     public void updateMember(UserInfo user, UpdateMemberMbtiRequest request){
         User member = memberRepository.findById(user.getId()).orElseThrow(
             ()-> new NotEqualsMemberInfoException(ErrorMessage.NOT_EQUALS_MEMBER_INFO_ERROR)
