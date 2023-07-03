@@ -1,4 +1,5 @@
 #!/bin/bash
+DEPLOY_LOG=/home/ec2-user/action/deploy.log
 echo "swap memory 할당" >> $DEPLOY_LOG
 sudo dd if=/dev/zero of=/swapfile bs=128M count=16
 sudo chmod 600 /swapfile
@@ -6,7 +7,6 @@ sudo mkswap /swapfile
 
 BUILD_JAR=$(ls /home/ec2-user/glass-bottle/build/libs/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
-DEPLOY_LOG=/home/ec2-user/action/deploy.log
 echo "> build 파일명: $JAR_NAME" >> $DEPLOY_LOG
 
 echo "> build 파일 복사" >> $DEPLOY_LOG
