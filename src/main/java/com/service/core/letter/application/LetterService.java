@@ -51,7 +51,6 @@ public class LetterService {
         appointAllUsers(response, senderUser);
     }
 
-    @Transactional
     public WriteLetterResponse getWriteLetterResponse(WriteLetterRequest request, UserInfo senderUser) {
         Letter letter = LetterConvert.toLetterEntity(request, senderUser);
         saveLetter(letter);
@@ -59,19 +58,16 @@ public class LetterService {
         return LetterConvert.toWriteLetterResponse(letter);
     }
 
-    @Transactional
     public void appointTargetMbti(WriteLetterRequest request, WriteLetterResponse response, UserInfo senderUser) {
         Set<User> targets = randomSend.randomizeTarget(request.getReceiverMbtiId());
         saveTargetsToLetterInvoice(response, senderUser, targets);
     }
 
-    @Transactional
     public void appointAllUsers(WriteLetterResponse response, UserInfo senderUser) {
         Set<User> targets = randomSend.randomizeTarget();
         saveTargetsToLetterInvoice(response, senderUser, targets);
     }
 
-    @Transactional
     public void saveTargetsToLetterInvoice(WriteLetterResponse response, UserInfo senderUser, Set<User> targets) {
         for (User target : targets) {
             if (targets.size() == 1 && validateOneself(senderUser, target)) {
@@ -184,7 +180,6 @@ public class LetterService {
         }
     }
 
-    @Transactional(readOnly = true)
     public Long validateLetterReplyRequest(UserInfo userInfo, Long letterId) {
         return letterInvoiceRepository.findByReceiverUserIdAndLetterId(userInfo.getId(), letterId)
                 .map(LetterInvoice::getLetterId)
