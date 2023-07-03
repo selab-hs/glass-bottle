@@ -23,7 +23,7 @@ public class LetterSchedulerService {
         letterRepository.deleteAllInBatchByCreatedAtLessThanEqual(LocalDateTime.now().minusDays(30));
     }
 
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     private void schedulerYesterdayLetter() {
         validateExpirationLetterState();
     }
