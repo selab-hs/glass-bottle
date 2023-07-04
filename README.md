@@ -40,9 +40,11 @@
 
 ## 프로젝트 개발 전략
 ### 1. 브랜치 관리 전략
+![Git Flow 전략](https://github.com/selab-hs/glass-bottle/assets/50690859/af13bbe7-de23-4b8e-80df-6b94dbcc500a)
+
 - Github PR을 이용한 Git Flow 전략
 - main(master): ec2 서버 release 브랜치
-- staging: 배포 전 PR 통합 브랜치 (deveploy)
+- staging: 이후 배포하기 위한 통합 브랜치 (develop)
 - feature: 기능 구현 브랜치
 - fix: 버그 픽스 브랜치
 - docs: 문서화 구현 브랜치
@@ -80,12 +82,10 @@
 - 대량의 트래픽을 분산하는 방법
 - DB 조회 성능 개선 👉 [click](https://unequaled-peach-7e5.notion.site/DB-08f7d7477a2648bbb8e3cf4887adfccf)
 - 특정 MBTI 대상, 전체 유저 대상 랜덤 편지 발송 구현 방법 👉 [click](https://unequaled-peach-7e5.notion.site/2c06da792281474ca75c99fe05d8c6f1?pvs=4)
-- 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우
+- 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우 👉 [click](https://github.com/InJun2/TIL/blob/main/ETC/Glass-Bottle-Reply-Letter-Check.md)
 - 프로젝트 배포에 있어 CI/CD 구축 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Git/Git-Action.md)
 - EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Error/EC2_Memory_Shortage.md) 
 - 애플리케이션의 상태를 모니터링 하는 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Actuator.md)
 - 애플리케이션 에러 발생시 모니터링 하는 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/SlackAppender.md)
 - 민감한 데이터 관리 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Git/SubModule-RepositorySecrets.md)
 - 문서화 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Swagger.md) 
-
-#### - [이슈 처리 방법](https://github.com/selab-hs/glass-bottle/wiki/Technical-Issue)
