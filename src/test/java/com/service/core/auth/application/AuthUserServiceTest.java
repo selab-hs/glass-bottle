@@ -6,7 +6,6 @@ import com.service.core.member.domain.User;
 import com.service.core.member.domain.vo.RoleType;
 import com.service.core.member.infrastructure.MemberRepository;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,17 +25,20 @@ class AuthUserServiceTest {
 
     @Test
     void loadUserByUsername_인증_인가(){
-      User user =  User.builder()
+        //given
+        User user =  User.builder()
             .roleType(RoleType.USER)
             .mbtiId(1L)
             .password("1234")
             .email("test@naver.com")
             .build();
 
+        //when
         when(memberRepository.findById(any())).thenReturn(Optional.of(user));
 
         UserDetail userDetail = authUserService.loadUserByUsername(String.valueOf(1L));
 
+        //then
         assertEquals(user.getEmail(), userDetail.getEmail());
 
     }
