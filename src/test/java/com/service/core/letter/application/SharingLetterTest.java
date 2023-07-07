@@ -1,6 +1,7 @@
 package com.service.core.letter.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.core.common.utis.MapperUtil;
 import com.service.core.letter.domain.Letter;
 import com.service.core.letter.dto.response.SharingResponse;
 import com.service.core.letter.dto.response.WriteLetterResponse;
@@ -90,7 +91,8 @@ public class SharingLetterTest {
                 .build();
 
         //when
-        String sharingLetterToJson = new ObjectMapper().writeValueAsString(new SharingResponse(senderLetter, receiveLetter));
+        String sharingLetterToJson;
+        sharingLetterToJson = MapperUtil.writeValueAsString(new SharingResponse(senderLetter, receiveLetter));
         String data = letterservice.convertQRString(sharingLetterToJson);
 
         //then
