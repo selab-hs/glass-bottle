@@ -1,10 +1,7 @@
 package com.service.core.letter.dto.request;
 
 import com.service.core.letter.vo.LetterState;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class WriteLetterRequest {
