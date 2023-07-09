@@ -218,7 +218,7 @@ public class LetterService {
         return convertQRString(data);
     }
 
-    private String convertQRString(String data) {
+    public String convertQRString(String data) {
         try{
             BitMatrix matrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, 200, 200);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
