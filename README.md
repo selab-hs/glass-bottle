@@ -21,6 +21,7 @@
 ### 주요기능 시퀀스 다이어그램
 ![mbti test 기능 시퀀스-mbti 테스트 시퀀스 다이어그램 drawio](https://github.com/selab-hs/glass-bottle/assets/76032947/22419028-3257-4d21-a67a-037962875f57)
 ![mbti test 기능 시퀀스-mbti round quiz 시퀀스 다이어 그램 drawio](https://github.com/selab-hs/glass-bottle/assets/76032947/5bfd2058-9fd9-4693-83a9-48ebe4b86b22)
+![letter 기능 시퀀스 다이어 그램 drawio](https://github.com/selab-hs/glass-bottle/assets/71416769/dc8603db-cd7b-477e-9224-12949bdf539c)
 
 
 ## 주요 기능
