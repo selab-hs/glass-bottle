@@ -87,7 +87,7 @@
 - 프레임워크 없이 인증 인가 기능 이점 👉 [click](https://magnetic-crow-9f1.notion.site/c8aa5d47effd4e69b71fa06ae2b282f0?pvs=4) 
 - 대량의 트래픽을 분산하고, DB 조회 성능을 개선하는 방법 👉 [click](https://unequaled-peach-7e5.notion.site/DB-08f7d7477a2648bbb8e3cf4887adfccf)
 - 특정 MBTI 대상, 전체 유저 대상 랜덤 편지 발송 구현 방법 👉 [click](https://unequaled-peach-7e5.notion.site/2c06da792281474ca75c99fe05d8c6f1?pvs=4)
-- 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우 👉 [click](https://github.com/InJun2/TIL/blob/main/ETC/Glass-Bottle-Reply-Letter-Check.md)
+- 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우 👉 [click](https://github.com/InJun2/TIL/blob/main/Project/glass-bottle/Glass-Bottle-Reply-Letter-Check.md)
 - 프로젝트 배포에 있어 CI/CD 구축 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Git/Git-Action.md)
 - EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Error/EC2_Memory_Shortage.md) 
 - 애플리케이션의 상태를 모니터링 하는 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Actuator.md)
