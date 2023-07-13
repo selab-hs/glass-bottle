@@ -88,4 +88,10 @@
 - 애플리케이션의 상태를 모니터링 하는 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Actuator.md)
 - 애플리케이션 에러 발생시 모니터링 하는 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/SlackAppender.md)
 - 민감한 데이터 관리 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Git/SubModule-RepositorySecrets.md)
-- 문서화 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Swagger.md) 
+- 문서화 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Swagger.md)
+
+
+##  회고록 모음
+손장미   
+황인준   
+황하림 : 👉 [click] (https://magnetic-crow-9f1.notion.site/glass-bottle-b5e0010c28614819a00ed49520bb0d95?pvs=4)
