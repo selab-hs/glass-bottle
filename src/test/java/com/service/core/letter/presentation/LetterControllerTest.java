@@ -1,9 +1,9 @@
 package com.service.core.letter.presentation;
 
 import com.google.gson.Gson;
-import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.service.core.letter.application.LetterService;
 import com.service.core.letter.dto.request.WriteLetterRequest;
+import com.service.core.letter.vo.LetterState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,14 +36,19 @@ class LetterControllerTest {
     @Test
     void 편지_전송_테스트() throws Exception {
         //given
-        FixtureMonkey sut = FixtureMonkey.create();
-        var letter = sut.giveMeOne(WriteLetterRequest.class);
+        var request = WriteLetterRequest.builder()
+                .title("test title")
+                .content("test content")
+                .senderMbtiId(1L)
+                .receiverMbtiId(2L)
+                .state(LetterState.ACTIVE)
+                .build();
 
         //when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/v1/letters")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new Gson().toJson(letter)));
+                        .content(new Gson().toJson(request)));
 
         //then
         resultActions.andExpect(status().isCreated());
