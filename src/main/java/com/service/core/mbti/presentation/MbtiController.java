@@ -107,19 +107,21 @@ public class MbtiController {
     }
 
     //라운드 별 mbti 결과 출력
-    @GetMapping("/quizzes/rounds/answers")
-    public ResponseEntity<ResponseDto> getQuizRoundResult(){
-        List<ReadMbtiQuizRoundResultResponse> quizs = mbtiService.getAllMbtiQuizRoundResult();
+    @GetMapping("/quizzes/rounds/answers/{roundId}")
+    public ResponseEntity<ResponseDto> getQuizRoundResult(
+        @PathVariable("roundId") Long id
+    ){
+        List<ReadMbtiQuizRoundResultResponse> quizs = mbtiService.getAllMbtiQuizRoundResult(id);
         return ResponseDto.toResponseEntity(ResponseMessage.READ_SUCCESS_QIZE_ROUND_RESULT, quizs);
     }
 
     //개인 라운드 테스트 결과 확인하기
-    @GetMapping("/quizzes/rounds/answers/{roundId}")
+    @GetMapping("/quizzes/rounds/answers/me/{roundId}")
     public ResponseEntity<ResponseDto> getQuizRoundResult(
         @AuthMember UserInfo user,
         @PathVariable("roundId") Long roundId
     ){
-        ReadMbtiQuizRoundResultResponse quizs = mbtiService.getMbtiQuizRoundResult(user, roundId);
+        ReadMbtiQuizRoundResultResponse quizs = mbtiService.getMbtiQuizMyRoundResult(user, roundId);
         return ResponseDto.toResponseEntity(ResponseMessage.READ_SUCCESS_QIZE_ROUND_RESULT, quizs);
     }
 

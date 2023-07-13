@@ -35,8 +35,8 @@ public class MbtiTest {
     private String checkMbtiType(int[][] answer){
         String mbtiResult = "mbti";
         for(int i=0; i<answer.length;i++){
-                int result = mbtiRoundSum(answer[i])/mbtiProblemsLengths[i];
-                if(result == 4) {
+                double result = (double)mbtiRoundSum(answer[i])/mbtiProblemsLengths[i];
+                if(result == 4.0) {
                     throw new AmbiguousResultException(ErrorMessage.AMBIGUOUS_REULST_ERROR);
                 }
                 mbtiResult =

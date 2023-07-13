@@ -7,6 +7,7 @@ import com.service.core.mbti.domain.MbtiMetadata;
 import com.service.core.mbti.domain.MbtiQuiz;
 import com.service.core.mbti.domain.MbtiQuizHistory;
 import com.service.core.mbti.domain.MbtiQuizRound;
+import com.service.core.mbti.domain.vo.MbtiRoundResult;
 import com.service.core.mbti.domain.vo.converter.MbtiResultConverter;
 import com.service.core.mbti.dto.request.MyMbtiRequest;
 import com.service.core.mbti.dto.request.create.CreateQuizRequest;
@@ -27,11 +28,10 @@ import com.service.core.member.domain.vo.RoleType;
 import com.service.core.member.dto.request.UpdateMemberMbtiRequest;
 import com.service.core.member.dto.response.UserInfo;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -137,41 +137,33 @@ public class MbtiService {
     }
 
     //라운드 종류 전체 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ReadMbtiQuizRoundResponse> getQuizRound(){
         return converter.convertToMbtiQuizRound(mbtiQuizRoundRepository.findAll());
     }
 
-    @Transactional
-    public List<ReadMbtiQuizRoundResultResponse> getAllMbtiQuizRoundResult(){
-        List<MbtiQuizRound> rang = mbtiQuizRoundRepository.findAll();
-        HashMap<Long, Integer> result = new HashMap<>();
+    //mbti 별로 모든 답변의 확률을 %로 볼 수 있다.
+    @Transactional(readOnly = true)
+    public List<ReadMbtiQuizRoundResultResponse> getAllMbtiQuizRoundResult(Long roundId){
+        List<MbtiMetadata> mbtis = mbtiMetadataRepository.findAll();
+        MbtiRoundResult mbtisResult = new MbtiRoundResult(mbtiQuizHistoryRepository.findByRoundId(roundId), mbtis);
         List<ReadMbtiQuizRoundResultResponse> results = new ArrayList<>();
 
-        for (MbtiMetadata mbti : mbtiMetadataRepository.findAll()) {
-            result.put(mbti.getId(), result.getOrDefault(mbti.getId(),0));
+        for(Long mbtiMetadataSum : mbtisResult.getResult().keySet()){
+            results.add(converter.convertToMbtiQuizRoundResultResponse(
+                Math.toIntExact(roundId),
+                mbtiMetadataSum,
+                mbtisResult.getResult().get(mbtiMetadataSum).longValue(),
+                mbtiQuizHistoryRepository.findByRoundIdAndMbtiMetadataId(roundId, mbtiMetadataSum).size()
+                ));
         }
 
-        for(int i =5;i<=rang.size(); i++){
-            List<MbtiQuizHistory> answers = mbtiQuizHistoryRepository.findByRoundId((long) i);
-            for(MbtiQuizHistory answer : answers){
-                result.put(answer.getMbtiMetadataId(), result.getOrDefault(answer.getMbtiMetadataId(),0)+answer.getAnswer());
-            }
-            for(Long mbtiMetadataSum : result.keySet()){
-               results.add(
-                   converter.convertToMbtiQuizRoundResultResponse(
-                       i,
-                       mbtiMetadataSum,
-                       result.get(mbtiMetadataSum).longValue(),
-                       mbtiQuizHistoryRepository.findByRoundIdAndMbtiMetadataId((long) i,mbtiMetadataSum).size())
-               );
-            }
-        }
         return results;
     }
 
-    @Transactional
-    public ReadMbtiQuizRoundResultResponse getMbtiQuizRoundResult(UserInfo user, Long roundId){
+    // 자신의 quiz round 결과를 조회하는 기능
+    @Transactional(readOnly = true)
+    public ReadMbtiQuizRoundResultResponse getMbtiQuizMyRoundResult(UserInfo user, Long roundId){
         List<MbtiQuizHistory> answers = mbtiQuizHistoryRepository.findByUserIdAndRoundId(user.getId(), roundId);
         return converter.convertToMyMbtiQuizRoundResultResponse(answers, roundId, user.getId());
     }
