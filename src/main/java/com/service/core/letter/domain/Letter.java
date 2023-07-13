@@ -25,11 +25,11 @@ public class Letter extends BaseEntity {
     private Long receiverMbtiId;
 
     @NotNull
-    @Size(max=100, message = "제목은 100자 이내로 입력 가능합니다.")
+    @Size(min = 1, max = 100, message = "제목은 100자 이내로 입력 가능합니다.")
     private String title;
 
     @NotNull
-    @Size(max=1000, message = "내용은 1000자 이내로 입력 가능합니다.")
+    @Size(min = 1, max = 1000, message = "내용은 1000자 이내로 입력 가능합니다.")
     private String content;
 
     @Enumerated(EnumType.STRING)
