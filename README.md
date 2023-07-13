@@ -94,4 +94,4 @@
 ##  회고록 모음
 손장미   
 황인준   
-황하림 : 👉 [click] (https://magnetic-crow-9f1.notion.site/glass-bottle-b5e0010c28614819a00ed49520bb0d95?pvs=4)
+황하림 : 👉 [click](https://magnetic-crow-9f1.notion.site/glass-bottle-b5e0010c28614819a00ed49520bb0d95?pvs=4)
