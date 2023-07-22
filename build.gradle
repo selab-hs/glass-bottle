@@ -50,6 +50,7 @@ dependencies {
 
     // http client
     implementation 'org.apache.httpcomponents:httpclient'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // metadata config
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
@@ -85,8 +86,11 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:0.5.2'
     testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-javax-validation:0.5.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.21.0'
     runtimeOnly('io.netty:netty-resolver-dns-native-macos:4.1.93.Final:osx-aarch_64')
 }
 
