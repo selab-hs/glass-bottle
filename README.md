@@ -92,6 +92,6 @@
 
 
 ##  회고록 모음
-손장미   
-황인준 : 👉 [click](https://github.com/InJun2/TIL/blob/main/Project/glass-bottle/Issue.md)
-황하림 : 👉 [click](https://magnetic-crow-9f1.notion.site/glass-bottle-b5e0010c28614819a00ed49520bb0d95?pvs=4)
+🌹 손장미 👉 [click](https://unequaled-peach-7e5.notion.site/Glass-Bottle-1529ed9b16094e218a4a2f9ec3fb7735?pvs=4)  
+🍻 황인준 👉 [click](https://github.com/InJun2/TIL/blob/main/Project/glass-bottle/Issue.md)  
+🍗 황하림 👉 [click](https://magnetic-crow-9f1.notion.site/glass-bottle-b5e0010c28614819a00ed49520bb0d95?pvs=4)
