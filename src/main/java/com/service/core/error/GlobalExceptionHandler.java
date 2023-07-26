@@ -4,6 +4,7 @@ package com.service.core.error;
 import com.service.core.error.dto.ErrorMessage;
 import com.service.core.error.dto.ErrorResponseDto;
 import com.service.core.error.exception.BusinessException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException e) {
         var errorMessage = e.getErrorMessage();

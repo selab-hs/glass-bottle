@@ -1,18 +1,25 @@
--- mbti metadata
+insert into mbti_metadata (type, name, description)
+values
+    ('ISTJ','세상의 소금형','한번 시작한 일은 끝까지 해내는 사람들'),
+    ('ISFJ','임금님 뒷편의 권력형','성실하고 온화하며 협조를 잘하는 사람들'),
+    ('INFJ','예언자형','사람과 관련된 뛰어난 통찰력을 하지고 있는 사람들'),
+    ('INTJ','과학자형','전체적인 부분을 조합하여 비전을 제시하는 사람들'),
+    ('ISTP','백과사전형','논리적이고 뛰어난 상황 적응력을 가지고 있는 사람들'),
+    ('ISFP','성인군자형','따뜻한 감성을 가지고 있는 겸손한 사람들'),
+    ('INFP','잔다르크형','이상적인 세상을 만들어 가는 사람들'),
+    ('INTP','아이디어 뱅크형','비평적인 과점을 가지고 있는 뛰어난 전략가들'),
+    ('ESTP','수완좋은 활동가형','친구,운동, 음식 등 다양한 활동을 선호하는 사람들'),
+    ('ESFP','사교적인 유형','분위기를 고조시키는 우호적 사람들'),
+    ('ENFP','스파크형','열정적으로 새로운 관계를 만드는 사람들'),
+    ('ENTP','발명가형','풍부한 상상력을 가지고 새로운 것에 도전하는 사람들'),
+    ('ESTJ','사업가형','사무적,실용적,현실적으로 일을 많이하는 사람들'),
+    ('ESFJ','친선도모형','친절과 현실감을 바탕으로 타인에게 봉사하는 사람들'),
+    ('ENFJ','언변능숙형','타인의 성장을 도모하고 협동하는 사람들'),
+    ('ENTJ','지도자형','비전을 가지고 사람들을 활력적으로 이끌어가는 사람들');
 
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (1,'ISTJ','지시',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (2,'ISTP','사나움',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (3,'ISFJ','독특함',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (4,'ISFP','발견',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (5,'INTJ','지식',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (6,'INTP','지능',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (7,'INFJ','동정심',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (8,'INFP','궁금함',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (9,'ESTJ','지휘',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (10,'ESTP','반항',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (11,'ESFJ','주목',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (12,'ESFP','자연스러움',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (13,'ENTJ','지배',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (14,'ENTP','발명',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (15,'ENFJ','카리스마',NULL,NULL);
-INSERT INTO `mbti_metadata` (`id`,`name`,`description`,`created_at`,`modified_at`) VALUES (16,'ENFP','호기심',NULL,NULL);
+insert into mbti_round (round, description)
+values
+    ('E_I_ROUND', 'E는 Extraversion 외향형, I는 Introversion 내향형'),
+    ('S_T_ROUND', 'S는 sensing 감각형, N는 iNtuition 직관형'),
+    ('T_F_ROUND','T는 thinking 생각형, F는 feeling 감정형'),
+    ('J_P_ROUND','j는 judging 판단형, p는 perceiving 인식형');

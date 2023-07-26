@@ -1,60 +1,102 @@
-# 🌊 glass-bottle 🍶
+# 🌊 Glass Bottle Project 🍶
 
-> mbti를 기반으로 한 유리병 편지 전송 서비스
->
-> 나의 고민을 유리병에 적어 원하는 mbti의 사용자에게 조언을 구하자!
+### 우리 프로젝트는❓
+> mbti를 기반으로 한 유리병 편지 전송 서비스입니다.  
+> 나의 고민을 유리병 편지에 적어 원하는 mbti의 사용자에게 조언을 구할 수 있습니다.
 
-# 일정
-~ 6월 15일
+## Glass Bottle Web Application v1.0
+- 개발 참여 인원: 손장미, 황인준, 황하림
+- 개발 기간: 2023-05-30 ~ 2023-06-19
 
-# 요구사항
+### CI/CD 배포 구성도
+![배포 구성도](https://github.com/selab-hs/glass-bottle/assets/76032947/afcf112b-4639-483e-ac75-b8d1f7406c82)
 
-> 아래의 요구사항을 구현한다.
 
-### Branch 규칙
+### ERD
+![Glass bottle (1)](https://github.com/selab-hs/glass-bottle/assets/76032947/cb0ee4c0-16c2-4126-8b51-6b68e6a47888)
 
-- main : 실제 서버 배포
-- staging : 개발용 브랜치
-- feature... 여기는 각자 알아서.. fix, refac 등등 알아서 브랜치 정하기
+### service flow
+![login](https://github.com/selab-hs/glass-bottle/assets/76032947/6f4a70c2-c7aa-45de-b841-446dd5c7b886)
 
-### 사용자 도매인 - 황하림
+### 주요기능 시퀀스 다이어그램
+![mbti test 기능 시퀀스-mbti 테스트 시퀀스 다이어그램 drawio](https://github.com/selab-hs/glass-bottle/assets/76032947/22419028-3257-4d21-a67a-037962875f57)
+![mbti test 기능 시퀀스-mbti round quiz 시퀀스 다이어 그램 drawio](https://github.com/selab-hs/glass-bottle/assets/76032947/5bfd2058-9fd9-4693-83a9-48ebe4b86b22)
+![letter 기능 시퀀스 다이어 그램 drawio](https://github.com/selab-hs/glass-bottle/assets/71416769/dc8603db-cd7b-477e-9224-12949bdf539c)
 
-- ID(이메일)로 인증 후 로그인(V2)
-- 사용자는 로그인을 할 수 있다.
-- 사용자는 회원가입을 할 수 있다.
-- 사용자는 로그아웃을 할 수 있다.
-- 사용자는 회원 정보를 조회할 수 있다.
-- 사용자는 회원 정보를 수정할 수 있다.
 
-### mbti - 김동건
+## 주요 기능
+📑 member 기능
+- 로그인/회원가입
+- mbti 테스트
+- mbti 관련 테스트 참여/ 결과 통계 조회
+- mbti 별 관련 문제 결과 조회
+- mbti 랜덤 편지 발송/답변
+- 특정 편지 공유
+  
+📑 admin 기능
+- mbti 관련 문제 카테고리 생성
+- mbti 관련 문제 생성
 
-- user는 mbti를 갖고 있다.
-- mbti를 파악할 수 있다.
+📑 Slack 모니터링 기능
+- 서버 상태 1시간 마다 Slack 메시지 전달
+- 전일 회원가입 유저, 작성한 편지 Slack 메시지 전달
+- 에러 로그 발생시 Slack으로 메시지 전달
 
-### noti - 손장미
+#### - [기능 Wiki 상세 정리](https://github.com/selab-hs/glass-bottle/wiki) 
 
-- 특정 mbti를 가진 사람들에게 mbti 편지를 보낼 수 있다.
-- 편지, 답장 조회 가능
-- 편지의 답장 기간이 있다.
-- mbti 설정 후 해당 mbti user 전체로 발송 할 수 있다.
-- mbti 설정 없이 전체 user 한테 발송 할 수 있다.
-- 선택한 답장을 url로 공유 할 수 있다.(단일 공유)
+## 프로젝트 개발 전략
+### 1. 브랜치 관리 전략
+![Git Flow 전략](https://github.com/selab-hs/glass-bottle/assets/50690859/af13bbe7-de23-4b8e-80df-6b94dbcc500a)
 
-### Slack - 황인준
+- Github PR을 이용한 Git Flow 전략
+- main(master): ec2 서버 release 브랜치
+- staging: 이후 배포하기 위한 통합 브랜치 (develop)
+- feature: 기능 구현 브랜치
+- fix: 버그 픽스 브랜치
+- docs: 문서화 구현 브랜치
+- submodule: 브랜치가 아닌 민감한 yml 정보를 다루는 private한 하위 저장소
 
-- mbti 편지 발송 히스토리 기록에 대해 전일 정보를 제공한다.
-- mbti 문제 풀이를 진행한 기록에 대해 매일 오전 8시마다 전일 정보를 제공한다.
-- 사용자 회원가입 정보에 대해 전일 정보를 제공한다.
+*📌 브랜치 관리 전략 참고 문헌 - [우아한 형제들 기술 블로그](http://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)*
 
-### admin - 황인준
+### 2. CI
+- 깃 허브를 통하여 형상관리를 진행
+- staging branch PR을 통한 Merge 시 Git Action 실행
+### 3. CD
+- Git Action을 통하여 staging, main branch push시 jdk 설치, submodule을 체크아웃하여 빌드, AWS 자격증명, S3에 빌드한 프로젝트 zip파일로 업로드, CodeDeploy 요청 진행
+- CodeDeploy가 S3에 저장된 zip 파일을 받아와 최근 배포된 프로젝트 EC2 인스턴스에 배포 진행
+### 4. 테스트
 
-- admin이 공통 문제를 작성 할 수 있다.
-- 공통 문제의 USER 답변을 MBTI 별로 확인 할 수 있다. 
-- mbti 문제를 생성할 수 있다.
-- mbti 문제를 수정, 삭제, 조회할 수 있다.
 
-### DevOps - 손장미
+## 기술 스택
+### ⚙️ Environment
+<img src="https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/git-F68D2E?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 
-- Github Action CI/CD
-- docker
-- EC2, RDS, Redis(elastic cache)
+### 💻 Development
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+
+### 💬 Communication
+<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+
+### 🛜 Server
+<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
+
+### 💿 DB
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
+
+##  프로젝트를 진행하면서 생긴 고민
+- 프레임워크 없이 인증 인가 기능 이점 👉 [click](https://magnetic-crow-9f1.notion.site/c8aa5d47effd4e69b71fa06ae2b282f0?pvs=4) 
+- 대량의 트래픽을 분산하고, DB 조회 성능을 개선하는 방법 👉 [click](https://unequaled-peach-7e5.notion.site/DB-08f7d7477a2648bbb8e3cf4887adfccf)
+- 특정 MBTI 대상, 전체 유저 대상 랜덤 편지 발송 구현 방법 👉 [click](https://unequaled-peach-7e5.notion.site/2c06da792281474ca75c99fe05d8c6f1?pvs=4)
+- 유효시간 1일 중 답변자가 끝나기 직전에 편지를 쓸 경우 👉 [click](https://github.com/InJun2/TIL/blob/main/Project/glass-bottle/Glass-Bottle-Reply-Letter-Check.md)
+- 프로젝트 배포에 있어 CI/CD 구축 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Git/Git-Action.md)
+- EC2 메모리 부족으로 Java Compiler 멈춤 현상 발생 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Error/EC2_Memory_Shortage.md) 
+- 애플리케이션의 상태를 모니터링 하는 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Actuator.md)
+- 애플리케이션 에러 발생시 모니터링 하는 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/SlackAppender.md)
+- 민감한 데이터 관리 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Git/SubModule-RepositorySecrets.md)
+- 문서화 방법 👉 [click](https://github.com/InJun2/TIL/blob/main/Stack/Spring/Swagger.md)
+
+
+##  회고록 모음
+🌹 손장미 👉 [click](https://unequaled-peach-7e5.notion.site/Glass-Bottle-1529ed9b16094e218a4a2f9ec3fb7735?pvs=4)  
+🍻 황인준 👉 [click](https://github.com/InJun2/TIL/blob/main/Project/glass-bottle/Issue.md)  
+🍗 황하림 👉 [click](https://magnetic-crow-9f1.notion.site/glass-bottle-b5e0010c28614819a00ed49520bb0d95?pvs=4)

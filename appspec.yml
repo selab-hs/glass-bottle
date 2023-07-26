@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ec2-user/glass-bottle
+permissions:
+  - object: /home/ec2-user/glass-bottle
+    mode: 755
+
+hooks:
+  AfterInstall:
+    - location: scripts/deploy.sh
+      timeout: 120
+      runas: root
